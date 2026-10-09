@@ -47,10 +47,10 @@ relevant part and hide tokens, passwords and personal data.
 `pytest -q -m lab1` on `933eede` (before the fix): 1 failed, 2 passed.
 
 ![lab1 and infra passing after the fix](images/lab-01-lab1-pass.png)
-`pytest -q -m "infra or lab1"` on `2711c3a`: 13 passed.
+`pytest -q -m "infra or lab1"` on Oscar's machine with the fix applied (Windows 11): 13 passed, 35 deselected.
 
 ![PR #1 checks](images/lab-01-pr-checks.png)
-GitHub Actions "Week 1 checks" on PR #1, commit `6206c52` (run #4): success.
+GitHub Actions "Week 1 checks" run #3, triggered by opening PR #1 on `lab-01-workflow` (commit `2711c3a`): job `infrastructure` success. Run #4 on `6206c52` also passed (see next image).
 
-![CI on main after merge](images/lab-01-main-ci.png)
-GitHub Actions on `main`, commit `e2b07dd` (run #5): success.
+![CI history](images/lab-01-main-ci.png)
+GitHub Actions history, runs #1 to #5: `933eede` and `70ae8e9` on `main` failed (lab1 not yet fixed), `2711c3a` and `6206c52` on PR #1 passed, merge `e2b07dd` on `main` passed (run #5).
