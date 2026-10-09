@@ -1,8 +1,9 @@
-"""Fault B (team design): a well-formed date that does not exist in the calendar.
+"""Fault B (team design): a normalised value just above the inclusive upper bound.
 
-2011 is not a leap year, so `2011-02-29` matches the YYYY-MM-DD format but is not a
-real day. A format-only check would accept it; the contract requires parseable dates.
-Leap days in 2012 are real and appear in the canonical CSV, so they must stay valid.
+`temp = 1.0000001` parses as a valid float, so `load_data` accepts it and only the
+range rule in `check_domains` can reject it. `temp = 1.0` is the exact upper bound:
+it is valid and occurs in the canonical CSV (instant 13164), so a strict `< 1` check
+would wrongly reject real data while a loose or rounded check would let the fault in.
 """
 
 from pathlib import Path
@@ -14,20 +15,20 @@ from bike_demand.validate import load_data
 
 pytestmark = pytest.mark.exercise
 FIXTURES = Path(__file__).parents[1] / "fixtures"
-FAULT_B = FIXTURES / "feb-29-non-leap-year.csv"
+FAULT_B = FIXTURES / "temp-just-above-one.csv"
 
 
-def test_fault_b_rejects_feb_29_in_non_leap_year():
+def test_fault_b_rejects_temp_just_above_one():
     before = FAULT_B.read_bytes()
-    with pytest.raises(ValueError, match="dteday: invalid date values"):
+    with pytest.raises(ValueError, match=r"temp: require finite normalised values"):
         load_data(FAULT_B)
     assert FAULT_B.read_bytes() == before
 
 
-@pytest.mark.parametrize("valid_day", ["2011-02-28", "2012-02-29"])
-def test_fault_b_controls_real_days_are_accepted(tmp_path, valid_day):
+@pytest.mark.parametrize("bound", ["1.0", "0.0"])
+def test_fault_b_controls_inclusive_bounds_are_accepted(tmp_path, bound):
     frame = pd.read_csv(FAULT_B, dtype=str)
-    frame.loc[frame["instant"] == "2", "dteday"] = valid_day
+    frame.loc[frame["instant"] == "2", "temp"] = bound
     path = tmp_path / "control.csv"
     frame.to_csv(path, index=False)
     assert len(load_data(path)) == 6
