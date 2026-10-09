@@ -28,7 +28,8 @@ Run by Gautier on Windows 11 Famille 10.0.26200 (64-bit), Python 3.12.15, uv 0.1
 | `uv run --locked ruff format --check .` | 11 files already formatted |
 | `uv run --locked pytest -q` | 51 passed, 1 warning (SQLAlchemy deprecation raised inside MLflow) |
 
-CI on the pushed PR revision: _(to record from the PR checks once pushed)_.
+CI (GitHub Actions "Week 1 checks": preflight, ruff, `infra`, `lab1`) passed on the latest PR #4 revision
+`b04e428` before merge. CI does not run the `exercise` tests or `train`; those are the local results above.
 
 ## Data identity, validator checks and added test
 
@@ -102,6 +103,7 @@ because it recorded `working_tree_dirty: true`; it gave the same MAEs and the sa
 - Response: Fault B replaced with `temp = 1.0000001` (rejected only by `check_domains`), with inclusive-bound
   controls; checked that the new test fails on the starter `validate.py`. PR numbers corrected (#3 = Lab 1
   worksheet update, #4 = Lab 2).
+- Outcome: CI green on `b04e428`; PR #4 merged into `main` by Oscar as `63922b8`.
 
 ## Contribution and assistance/recovery acknowledgement
 
@@ -116,7 +118,7 @@ because it recorded `working_tree_dirty: true`; it gave the same MAEs and the sa
 - Blocker found and fixed: the first training run was marked dirty because a shell redirect created an
   untracked output file before the run; outputs removed and training rerun on a clean tree.
 - Local clock was about 10 h behind; corrected before the recorded run.
-- Next: Oscar re-reviews PR #4; merge after approval and green CI on the latest commit; tag `m1`.
+- Done: PR #4 merged as `63922b8`. Next: annotated tag `m1` on `main`; agree the Lab 3 lead (Simon has not led a lab yet).
 
 ## Screenshots
 
