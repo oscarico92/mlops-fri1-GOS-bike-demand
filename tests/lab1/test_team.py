@@ -20,5 +20,6 @@ def test_rejects_blank_names():
 
 def test_mixed_whitespace_and_case_collapse_to_one_slug():
     assert normalize_team_slug("\n SPARROWS \t\n  North ") == "sparrows-north"
+    assert normalize_team_slug("Sparrows") == "sparrows"
     with pytest.raises(ValueError, match="non-whitespace"):
         normalize_team_slug("\t\n")
