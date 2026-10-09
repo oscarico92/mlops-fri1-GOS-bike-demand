@@ -5,7 +5,7 @@ not an individual's graded Week 1 report.
 
 ## Team and setup
 
-- Team/repository: `mlops-fri1-GOS-bike-demand` (https://github.com/oscarico92/mlops-fri1-GOS-bike-demand). TODO: rename to lowercase `mlops-fri1-gos-bike-demand` as required by the naming rule.
+- Team/repository: `mlops-fri1-GOS-bike-demand` (https://github.com/oscarico92/mlops-fri1-GOS-bike-demand). Uppercase `GOS` kept: the instructor confirmed a rename is not needed.
 - Week/date: Week 1, Lab 1, 2026-10-09
 - Members and temporary roles: Oscar Schwartz (`oscarico92`), lead author, pair-programming with Simon Gallais (`Urazikk`); Gautier Deplanque (`gautierdpl`), reviewer; Simon Gallais (`Urazikk`).
 - Repository/authentication access checks: private repository created by `oscarico92`; collaborators invited: `gautierdpl`, `Urazikk`, instructor `minhtc-uca` (invitation accepted). Push over HTTPS checked by pushing `933eede` and `lab-01-workflow`.
@@ -31,7 +31,7 @@ not an individual's graded Week 1 report.
 ## Lab 2 handover
 
 - Next driver/reviewer: Gautier Deplanque (`gautierdpl`) / Oscar Schwartz (`oscarico92`)
-- Readiness and remaining blockers: setup works on Windows (Oscar). Open items: rename the repository to lowercase; commit `70ae8e9` ("Create dd", file `dd`) was pushed directly to `main` without a PR and should be removed through a PR; preflight not yet recorded for Simon.
+- Readiness and remaining blockers: setup works on Windows (Oscar). Open items: commit `70ae8e9` ("Create dd", file `dd`) was pushed directly to `main` without a PR (CI run #2 failed); the file was removed through the `lab-01-report` PR (commit `87b6514`), and the working agreement now forbids direct pushes to `main`; preflight not yet recorded for Simon.
 - One bounded next action and owner: Gautier (`gautierdpl`) implements `check_domains` in `validate.py` on a task branch, starting from the failing `exercise` tests.
 - Own-contribution links retained for each student's Week 1 report: Oscar: commits `2711c3a`, `6206c52`, PR #1. Gautier: review on PR #1. Simon: pair-programmed the helper fix and added test with Oscar on PR #1 (commits authored from Oscar's machine, `2711c3a`, `6206c52`).
 

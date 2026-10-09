@@ -1,6 +1,6 @@
 # Team working agreement
 
-- Team and repository (`mlops-<session>-<team-name>-bike-demand`): GOS, `mlops-fri1-GOS-bike-demand` (to be renamed `mlops-fri1-gos-bike-demand`)
+- Team and repository (`mlops-<session>-<team-name>-bike-demand`): GOS, `mlops-fri1-GOS-bike-demand`
 - Members: Oscar Schwartz (`oscarico92`), Gautier Deplanque (`gautierdpl`), Simon Gallais (`Urazikk`)
 - Current driver / reviewer / evidence recorder: Lab 1: Oscar / Gautier / Oscar. Lab 2: Gautier / Oscar / Simon
 - Fourth member's temporary responsibility, if applicable: n/a, team of 3
