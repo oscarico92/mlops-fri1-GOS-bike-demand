@@ -9,11 +9,28 @@ WINDOWS = {
 }
 
 
+SORT_KEY = ["dteday", "hr", "instant"]
+
+
 def split_data(frame: pd.DataFrame) -> dict[str, pd.DataFrame]:
-    raise NotImplementedError(
-        "TODO(Week 1, Lab 2): assign sorted, nonempty, disjoint and "
-        "complete partitions. See README 'Expected failures'."
-    )
+    ordered = frame.sort_values(SORT_KEY, kind="mergesort")
+    membership = pd.Series(0, index=ordered.index)
+    partitions = {}
+    for name, (start, end) in WINDOWS.items():
+        # Inclusive intervals: a row dated `end` belongs to this partition.
+        mask = ordered["dteday"].between(pd.Timestamp(start), pd.Timestamp(end))
+        if not mask.any():
+            raise ValueError(f"split: {name} partition must be nonempty")
+        partitions[name] = ordered.loc[mask].copy()
+        membership += mask.astype(int)
+    if (membership > 1).any():
+        raise ValueError("split: partitions must be disjoint")
+    if (membership == 0).any():
+        unassigned = ordered.loc[membership == 0, "instant"].tolist()
+        raise ValueError(
+            f"split: partitions must be complete; unassigned instant(s) {unassigned}"
+        )
+    return partitions
 
 
 def partition_summary(partitions: dict[str, pd.DataFrame]) -> dict:

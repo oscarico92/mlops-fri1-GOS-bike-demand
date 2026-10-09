@@ -6,6 +6,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from bike_demand.split import WINDOWS
+
 FEATURES = (
     "season",
     "yr",
@@ -35,11 +37,30 @@ NORMALISED = ("temp", "atemp", "hum", "windspeed")
 COUNTS = ("cnt", "casual", "registered")
 
 
+def _is_integer(values: pd.Series) -> pd.Series:
+    return np.isfinite(values) & (values % 1 == 0)
+
+
 def check_domains(frame: pd.DataFrame) -> None:
-    raise NotImplementedError(
-        "TODO(Week 1, Lab 2): validate domains, finite ranges and date "
-        "windows. See README 'Expected failures'."
-    )
+    for field, (low, high) in DOMAINS.items():
+        values = frame[field]
+        if not (_is_integer(values) & values.between(low, high)).all():
+            raise ValueError(f"{field}: require integer categories in [{low}, {high}]")
+    for field in NORMALISED:
+        values = frame[field]
+        if not (np.isfinite(values) & values.between(0, 1)).all():
+            raise ValueError(f"{field}: require finite normalised values in [0, 1]")
+    for field in COUNTS:
+        values = frame[field]
+        if not (_is_integer(values) & (values >= 0)).all():
+            raise ValueError(f"{field}: require nonnegative integer counts")
+    first = pd.Timestamp(min(start for start, _ in WINDOWS.values()))
+    last = pd.Timestamp(max(end for _, end in WINDOWS.values()))
+    if not frame["dteday"].between(first, last).all():
+        raise ValueError(
+            f"dteday: require dates in [{first.date()}, {last.date()}]; "
+            "rows outside the course windows are rejected, not dropped"
+        )
 
 
 def load_data(path: Path | str) -> pd.DataFrame:
