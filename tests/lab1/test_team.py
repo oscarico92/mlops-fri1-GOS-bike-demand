@@ -16,3 +16,9 @@ def test_joins_whitespace_with_hyphens():
 def test_rejects_blank_names():
     with pytest.raises(ValueError, match="non-whitespace"):
         normalize_team_slug("   ")
+
+
+def test_mixed_whitespace_and_case_collapse_to_one_slug():
+    assert normalize_team_slug("\n SPARROWS \t\n  North ") == "sparrows-north"
+    with pytest.raises(ValueError, match="non-whitespace"):
+        normalize_team_slug("\t\n")
