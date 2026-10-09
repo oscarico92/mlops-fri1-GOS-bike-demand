@@ -105,4 +105,17 @@ _(Oscar's review observation on PR #3 and Gautier's response, once posted.)_
 
 ## Screenshots
 
-_(pytest, validator output and MLflow runs: to add in `reports/images/`.)_
+![pytest on 85d3d32: 51 passed](images/lab-02-pytest.png)
+
+Full suite on `85d3d32` (Gautier's machine): 51 passed, 1 MLflow-internal warning.
+
+![Validator: canonical CSV, Fault A, Fault B](images/lab-02-validate.png)
+
+Canonical CSV accepted (17,379 rows); Fault A (`missing-temp.csv`) and Fault B
+(`feb-29-non-leap-year.csv`) rejected with the field named.
+
+![MLflow runs in experiment bike-demand-baseline](images/lab-02-mlflow-runs.png)
+
+Experiment `bike-demand-baseline`, `validation_mae` column. The two runs created "12 minutes ago" are the
+recorded runs on `85d3d32` (`fdeed962…` random_forest 86.85, `978122b6…` naive_train_mean 154.23). The two
+"10 hours ago" runs are the discarded dirty run, timestamped while the local clock was about 10 h behind.
