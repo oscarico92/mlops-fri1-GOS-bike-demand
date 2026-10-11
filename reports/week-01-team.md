@@ -103,7 +103,8 @@ because it recorded `working_tree_dirty: true`; it gave the same MAEs and the sa
 - Response: Fault B replaced with `temp = 1.0000001` (rejected only by `check_domains`), with inclusive-bound
   controls; checked that the new test fails on the starter `validate.py`. PR numbers corrected (#3 = Lab 1
   worksheet update, #4 = Lab 2).
-- Outcome: CI green on `b04e428`; PR #4 merged into `main` by Oscar as `63922b8`.
+- Outcome: CI green on `b04e428`; PR #4 merged into `main` by Oscar (reviewer) as `63922b8`, after approval.
+  This is an exception to the working agreement, which says the author merges; the rule is kept for later labs.
 
 ## Contribution and assistance/recovery acknowledgement
 
@@ -113,15 +114,16 @@ because it recorded `working_tree_dirty: true`; it gave the same MAEs and the sa
 - Starter code, tests, tracking helpers and fixtures supplied by the course.
 - Claude (AI assistant): Lab 1 diagnosis and suggestions (see [lab-01.md](lab-01.md)); used by Simon to check the
   repository state at the end of Week 1 and to draft the closing updates to this worksheet and the working agreement.
-  Other members: add any other assistance used in Lab 2.
+  Oscar used Claude to prepare the PR #4 and PR #6 reviews (reading the diff, suggesting the Fault B observation and
+  the check commands); Oscar reran every check himself on his machine before posting.
 
 ## Blockers and next action
 
 - Blocker found and fixed: the first training run was marked dirty because a shell redirect created an
   untracked output file before the run; outputs removed and training rerun on a clean tree.
 - Local clock was about 10 h behind; corrected before the recorded run.
-- Done: PR #4 merged as `63922b8`. Next: annotated tag `m1` on `main`; Lab 3 lead proposed: Simon (has not led a lab yet), Gautier reviewer,
-  Oscar evidence recorder.
+- Done: PR #4 merged as `63922b8`; annotated tag `m1` created by Simon on `7e29d67` ("Week 1 complete: Labs 1-2
+  merged"). Next: Lab 3 led by Simon (has not led a lab yet), Gautier reviewer, Oscar evidence recorder.
 
 ## Screenshots
 

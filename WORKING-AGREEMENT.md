@@ -15,6 +15,7 @@
 - Rotate substantive work; acknowledge supplied code and other assistance.
 - No direct pushes to `main`: every change, including docs, goes through a PR.
 - Merge only after the reviewer approves and CI is green on the latest commit; the author merges after approval.
+- Branch, commit, check and review conventions: [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Support and handover
 
