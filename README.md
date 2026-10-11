@@ -1,4 +1,33 @@
-# Bike Demand: Week 1 starter
+# Bike Demand (team GOS)
+
+Team repository of Oscar Schwartz, Gautier Deplanque and Simon Gallais for the ECE
+MLOps course (session `fri1`). How we work together: [CONTRIBUTING.md](CONTRIBUTING.md)
+and [WORKING-AGREEMENT.md](WORKING-AGREEMENT.md). Lab evidence: [reports/](reports/).
+
+## Project scope
+
+- **User:** someone planning bike availability who needs an estimate of total hourly
+  rentals for a given hour.
+- **Goal:** estimate total hourly rentals (`cnt`) from calendar fields and supplied
+  weather conditions, served later as a prediction API that also returns the loaded
+  model version.
+- **Inputs:** the 12 contract features (`season`, `yr`, `mnth`, `hr`, `holiday`,
+  `weekday`, `workingday`, `weathersit`, `temp`, `atemp`, `hum`, `windspeed`) from the
+  frozen UCI snapshot `data/raw/hour.csv`.
+- **Output:** estimated rentals per hour, with the identity of the model that produced it.
+- **Non-goals:** forecasting future weather, station-level demand, using `casual` or
+  `registered` (labels) as predictors, computing test metrics before the final release.
+- **How success is checked:** validation MAE (rentals/hour) on January to June 2012,
+  always compared with the training-mean baseline on the same rows; the data contract,
+  split and quality checks pass locally and in CI on the revision being merged.
+  July to December 2012 rows are held out until the final evaluation of the release
+  candidate.
+
+---
+
+The rest of this file is the course starter README, kept unchanged.
+
+## Week 1 starter
 
 Teams of 3–4 use one private GitHub repository throughout the course. Lab 1 is
 repository setup, Git workflow and quality checks. Lab 2 adds validated data,
