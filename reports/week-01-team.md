@@ -111,14 +111,17 @@ because it recorded `working_tree_dirty: true`; it gave the same MAEs and the sa
 - Oscar: review of PR #4 (independent rerun, Fault B observation).
 - Simon: evidence recording.
 - Starter code, tests, tracking helpers and fixtures supplied by the course.
-- _(Other assistance: to complete by the team.)_
+- Claude (AI assistant): Lab 1 diagnosis and suggestions (see [lab-01.md](lab-01.md)); used by Simon to check the
+  repository state at the end of Week 1 and to draft the closing updates to this worksheet and the working agreement.
+  Other members: add any other assistance used in Lab 2.
 
 ## Blockers and next action
 
 - Blocker found and fixed: the first training run was marked dirty because a shell redirect created an
   untracked output file before the run; outputs removed and training rerun on a clean tree.
 - Local clock was about 10 h behind; corrected before the recorded run.
-- Done: PR #4 merged as `63922b8`. Next: annotated tag `m1` on `main`; agree the Lab 3 lead (Simon has not led a lab yet).
+- Done: PR #4 merged as `63922b8`. Next: annotated tag `m1` on `main`; Lab 3 lead proposed: Simon (has not led a lab yet), Gautier reviewer,
+  Oscar evidence recorder.
 
 ## Screenshots
 

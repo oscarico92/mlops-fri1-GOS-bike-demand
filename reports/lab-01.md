@@ -9,8 +9,8 @@ not an individual's graded Week 1 report.
 - Week/date: Week 1, Lab 1, 2026-10-09
 - Members and temporary roles: Oscar Schwartz (`oscarico92`), lead author, pair-programming with Simon Gallais (`Urazikk`); Gautier Deplanque (`gautierdpl`), reviewer; Simon Gallais (`Urazikk`).
 - Repository/authentication access checks: private repository created by `oscarico92`; collaborators invited: `gautierdpl`, `Urazikk`, instructor `minhtc-uca` (invitation accepted). Push over HTTPS checked by pushing `933eede` and `lab-01-workflow`.
-- OS version/architecture, Python and uv versions: Oscar: Windows 11, x86_64; Python 3.12 (installed by `uv python install 3.12`); uv 0.12.24 (updated from 0.12.5, which `uv sync --locked` rejected: required `>=0.12.19,<0.13`). Gautier: Windows 11 Home 10.0.26200, 64-bit; Python 3.12.15; uv 0.12.23. Simon: macOS, versions to be recorded by Simon.
-- Environment/preflight command and actual outcome: `uv run --locked python -m bike_demand.preflight` -> "Preflight passed: imports, frozen snapshot and writable outputs." (Oscar, Windows). Gautier (Windows 11 Home, 64-bit): `uv sync --locked` -> resolved 98 packages, 97 already installed, lock unchanged; preflight -> "Preflight passed: imports, frozen snapshot and writable outputs." Simon: not yet recorded.
+- OS version/architecture, Python and uv versions: Oscar: Windows 11, x86_64; Python 3.12 (installed by `uv python install 3.12`); uv 0.12.24 (updated from 0.12.5, which `uv sync --locked` rejected: required `>=0.12.19,<0.13`). Gautier: Windows 11 Home 10.0.26200, 64-bit; Python 3.12.15; uv 0.12.23. Simon: macOS 27.0.1, arm64; Python 3.12.15; uv 0.12.24.
+- Environment/preflight command and actual outcome: `uv run --locked python -m bike_demand.preflight` -> "Preflight passed: imports, frozen snapshot and writable outputs." (Oscar, Windows). Gautier (Windows 11 Home, 64-bit): `uv sync --locked` -> resolved 98 packages, 97 already installed, lock unchanged; preflight -> "Preflight passed: imports, frozen snapshot and writable outputs." Simon (macOS 27.0.1): preflight -> "Preflight passed: imports, frozen snapshot and writable outputs."; `pytest -q` -> 51 passed, 1 warning.
 - Working agreement and backlog links: [WORKING-AGREEMENT.md](../WORKING-AGREEMENT.md), [BACKLOG.md](../BACKLOG.md)
 - Ignored outputs and secret-protection checks: `.venv/`, `artifacts/` and `tracking/` are ignored by `.gitignore`; `git status --short` checked before each commit (only `team.py` and `test_team.py` staged for PR #1); HTTPS credentials handled by Git Credential Manager, no token in commands, commits or screenshots.
 
@@ -31,7 +31,7 @@ not an individual's graded Week 1 report.
 ## Lab 2 handover
 
 - Next driver/reviewer: Gautier Deplanque (`gautierdpl`) / Oscar Schwartz (`oscarico92`)
-- Readiness and remaining blockers: setup works on Windows (Oscar). Open items: commit `70ae8e9` ("Create dd", file `dd`) was pushed directly to `main` without a PR (CI run #2 failed); the file was removed through the `lab-01-report` PR (commit `87b6514`), and the working agreement now forbids direct pushes to `main`; preflight not yet recorded for Simon.
+- Readiness and remaining blockers: setup works on Windows (Oscar). Open items: commit `70ae8e9` ("Create dd", file `dd`) was pushed directly to `main` without a PR (CI run #2 failed); the file was removed through the `lab-01-report` PR (commit `87b6514`), and the working agreement now forbids direct pushes to `main`; preflight recorded for Simon (macOS).
 - One bounded next action and owner: Gautier (`gautierdpl`) implements `check_domains` in `validate.py` on a task branch, starting from the failing `exercise` tests.
 - Own-contribution links retained for each student's Week 1 report: Oscar: commits `2711c3a`, `6206c52`, PR #1. Gautier: review on PR #1. Simon: pair-programmed the helper fix and added test with Oscar on PR #1 (commits authored from Oscar's machine, `2711c3a`, `6206c52`).
 
