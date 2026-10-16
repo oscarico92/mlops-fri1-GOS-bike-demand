@@ -28,7 +28,8 @@ a repair. The lock is never regenerated to get a green result.
 
 ## Evidence on my machine
 
-Windows 11 Famille 10.0.26200, uv 0.12.23, commit `deab08d`, clean tree. Raw log:
+Windows 11 Famille 10.0.26200, uv 0.12.23, commit `296a14d`, clean tree; same results on `deab08d` and on
+Simon's macOS rerun (`dc231f1`). Raw log:
 [`logs/lab-03/lock-demo.txt`](../logs/lab-03/lock-demo.txt).
 
 | Case | Command | Exit | Message |
