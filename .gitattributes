@@ -4,3 +4,6 @@
 data/raw/hour.csv -text
 data/UCI-original-Readme.txt -text
 tests/fixtures/*.csv -text
+
+# Dependency lock: byte-identical on every OS and in the image, so its checksum identifies the build.
+uv.lock -text

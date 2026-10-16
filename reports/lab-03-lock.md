@@ -13,6 +13,10 @@ a repair. The lock is never regenerated to get a green result.
 
 - CI: new first step `uv lock --check`, named so a stale or missing lock shows up as its own failed check
   instead of a generic sync error.
+- `.gitattributes`: `uv.lock -text`. Before this, Git on Windows (`core.autocrlf`) rewrote the lock with CRLF
+  line endings, so the same committed lock (blob `8478e0e`) had SHA-256 `8d841200…` on Windows and
+  `8598f1f2…` on Linux. uv accepted both, but the checksum could not identify the build. The lock is now
+  byte-identical on every OS and in the image.
 - `scripts/lock_check_demo.py`: reruns the demonstration on throwaway copies of the committed tree
   (`git archive HEAD`); the repository and its `uv.lock` are never modified. Any teammate can rerun it:
   `uv run --locked python scripts/lock_check_demo.py`.
