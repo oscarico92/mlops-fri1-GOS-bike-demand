@@ -22,6 +22,8 @@ jobs:
         with:
           version: "0.12.23"
           python-version: "3.12"
+      - name: uv.lock matches pyproject.toml (fails if stale or missing, never regenerates)
+        run: uv lock --check
       - run: uv sync --locked
       - run: uv run --locked python -m bike_demand.preflight
       - run: uv run --locked ruff check .
