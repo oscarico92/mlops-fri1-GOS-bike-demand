@@ -23,6 +23,84 @@ and [WORKING-AGREEMENT.md](WORKING-AGREEMENT.md). Lab evidence: [reports/](repor
   July to December 2012 rows are held out until the final evaluation of the release
   candidate.
 
+## Reproduce the Lab 2 baseline in Docker (Lab 3)
+
+The image runs the Lab 2 baseline from the committed `uv.lock`, with the same data
+snapshot, config and split as Lab 2. Nothing from your machine is used: no Python,
+uv, `.venv`, caches or earlier outputs.
+
+**Requirement:** Docker Desktop (or Docker Engine) running. Check with
+`docker run --rm hello-world`.
+
+### 1. Start from a clean clone and record the revision
+
+```bash
+git clone https://github.com/oscarico92/mlops-fri1-GOS-bike-demand.git rerun-clean
+cd rerun-clean
+git rev-parse HEAD          # commit that will be packaged
+git hash-object uv.lock     # identity of the lock used by the build
+```
+
+### 2. Build the image
+
+```bash
+docker build -t bike-demand:lab3 . 2>&1 | tee build.log
+docker image inspect bike-demand:lab3 --format '{{.Id}}'
+```
+
+The first build downloads the base image and the locked dependencies (a few
+minutes). `uv sync --locked` stops the build if `uv.lock` is missing or does not
+match `pyproject.toml`; never regenerate the lock to make the build pass (see
+[reports/lab-03-lock.md](reports/lab-03-lock.md) and `scripts/lock_check_demo.py`).
+
+### 3. Check the setup and run the tests
+
+```bash
+docker run --rm bike-demand:lab3 python -m bike_demand.preflight
+docker run --rm bike-demand:lab3 pytest -q
+```
+
+Expected: `Preflight passed: ...` and `51 passed`.
+
+### 4. Run the baseline and copy the outputs out
+
+The default command trains the baseline (`python -m bike_demand.train --config configs/baseline.yaml`).
+Use a named container so its outputs can be copied before it is removed:
+
+```bash
+docker run --name bike-rerun bike-demand:lab3 2>&1 | tee train.log
+docker cp bike-rerun:/app/reports/metrics.json ./metrics-rerun.json
+docker cp bike-rerun:/app/artifacts ./artifacts-rerun
+docker rm bike-rerun
+```
+
+### 5. Compare with Lab 2
+
+| Value | Lab 2 (`reports/metrics.json` on `main`) | Expected in the container |
+| --- | --- | --- |
+| Partitions (train / validation / test rows) | 8,645 / 4,358 / 4,376 | identical |
+| Validation MAE, training-mean comparator | 154.23179306864967 | identical |
+| Validation MAE, random forest | 86.84685685591091 | identical |
+| `readback.reload_mae_delta` | 0.0 | 0.0 |
+
+Known, explained differences:
+
+- `training_commit` is `unavailable` and `working_tree_dirty` is `null`, because `.git`
+  is excluded from the image. Record the revision from step 1 alongside the logs.
+- The image ID and `model_sha256` change between machines and architectures
+  (for example arm64 vs amd64): the serialized model is not byte-identical across
+  environments, while its predictions and MAEs are.
+- New MLflow run IDs and `model_version` on every run.
+
+No test-set metric is computed.
+
+### Windows PowerShell
+
+Replace `tee` with `Tee-Object` (for example `... 2>&1 | Tee-Object build.log`) and use
+`--format "{{.Id}}"` with double quotes. Windows PowerShell 5.1 prints Docker's normal
+log lines in red as `NativeCommandError` when stderr is redirected; they are not
+failures. PowerShell 7 (`pwsh`) does not do this.
+
 ---
 
 The rest of this file is the course starter README, kept unchanged.
