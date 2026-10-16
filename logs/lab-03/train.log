@@ -1,7 +1,7 @@
-2026/10/16 14:12:31 INFO mlflow.store.db.utils: Creating initial MLflow database tables...
-2026/10/16 14:12:31 INFO mlflow.store.db.utils: Updating database tables
+2026/10/16 15:26:02 INFO mlflow.store.db.utils: Creating initial MLflow database tables...
+2026/10/16 15:26:02 INFO mlflow.store.db.utils: Updating database tables
 {
-  "timestamp": "2026-10-16T14:12:29.722329+00:00",
+  "timestamp": "2026-10-16T15:26:01.027719+00:00",
   "training_commit": "unavailable",
   "working_tree_dirty": null,
   "data_sha256": "e03de4ee4ef4dc376ac6e04bf829673c6269e8eba5c60fa121640fa2f829504f",
@@ -79,10 +79,10 @@
     "verbose": 0,
     "warm_start": false
   },
-  "model_version": "baseline-821616713ae5",
-  "model_run_id": "57de345b71b0479294aa7214226c77a7",
+  "model_version": "baseline-efebeb5c30e3",
+  "model_run_id": "2bd74dacae2e497088e3c7fa87e60439",
   "model_sha256": "d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07",
-  "naive_run_id": "8a482ff141c545aab7f69c69a998f257",
+  "naive_run_id": "bf99a4bbeeb442e4b2c185033f97cb32",
   "train_mean": 143.79444765760556,
   "validation_mae": {
     "naive_train_mean": 154.23179306864967,
