@@ -44,8 +44,9 @@ git hash-object uv.lock     # identity of the lock used by the build
 ### 2. Build the image
 
 ```bash
-docker build -t bike-demand:lab3 . 2>&1 | tee build.log
+docker build --build-arg GIT_COMMIT=$(git rev-parse HEAD) -t bike-demand:lab3 . 2>&1 | tee build.log
 docker image inspect bike-demand:lab3 --format '{{.Id}}'
+docker image inspect bike-demand:lab3 --format '{{ index .Config.Labels "org.opencontainers.image.revision" }}'
 ```
 
 The first build downloads the base image and the locked dependencies (a few
@@ -88,7 +89,8 @@ docker rm bike-rerun
 Known, explained differences:
 
 - `training_commit` is `unavailable` and `working_tree_dirty` is `null`, because `.git`
-  is excluded from the image. Record the revision from step 1 alongside the logs.
+  is excluded from the image. The commit is carried by the image label
+  `org.opencontainers.image.revision` (step 2); it must match `git rev-parse HEAD` from step 1.
 - The image ID changes between machines. `model_sha256` differs from the native Lab 2
   run (Windows, `fd98ceaf…`) but was identical in the container on arm64 (macOS) and
   amd64 (Windows): `d24c050e…`. The MAEs are identical in all three runs.
