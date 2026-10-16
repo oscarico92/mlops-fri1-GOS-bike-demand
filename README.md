@@ -56,8 +56,8 @@ match `pyproject.toml`; never regenerate the lock to make the build pass (see
 ### 3. Check the setup and run the tests
 
 ```bash
-docker run --rm bike-demand:lab3 python -m bike_demand.preflight
-docker run --rm bike-demand:lab3 pytest -q
+docker run --rm --network none bike-demand:lab3 python -m bike_demand.preflight
+docker run --rm --network none bike-demand:lab3 pytest -q
 ```
 
 Expected: `Preflight passed: ...` and `51 passed`.
@@ -65,10 +65,11 @@ Expected: `Preflight passed: ...` and `51 passed`.
 ### 4. Run the baseline and copy the outputs out
 
 The default command trains the baseline (`python -m bike_demand.train --config configs/baseline.yaml`).
-Use a named container so its outputs can be copied before it is removed:
+Use a named container so its outputs can be copied before it is removed.
+`--network none` shows that nothing is downloaded at run time: everything comes from the image.
 
 ```bash
-docker run --name bike-rerun bike-demand:lab3 2>&1 | tee train.log
+docker run --name bike-rerun --network none bike-demand:lab3 2>&1 | tee train.log
 docker cp bike-rerun:/app/reports/metrics.json ./metrics-rerun.json
 docker cp bike-rerun:/app/artifacts ./artifacts-rerun
 docker rm bike-rerun
@@ -82,14 +83,15 @@ docker rm bike-rerun
 | Validation MAE, training-mean comparator | 154.23179306864967 | identical |
 | Validation MAE, random forest | 86.84685685591091 | identical |
 | `readback.reload_mae_delta` | 0.0 | 0.0 |
+| `model_sha256` | `fd98ceaf…` (native Windows run) | `d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07` |
 
 Known, explained differences:
 
 - `training_commit` is `unavailable` and `working_tree_dirty` is `null`, because `.git`
   is excluded from the image. Record the revision from step 1 alongside the logs.
-- The image ID and `model_sha256` change between machines and architectures
-  (for example arm64 vs amd64): the serialized model is not byte-identical across
-  environments, while its predictions and MAEs are.
+- The image ID changes between machines. `model_sha256` differs from the native Lab 2
+  run (Windows, `fd98ceaf…`) but was identical in the container on arm64 (macOS) and
+  amd64 (Windows): `d24c050e…`. The MAEs are identical in all three runs.
 - New MLflow run IDs and `model_version` on every run.
 
 No test-set metric is computed.
