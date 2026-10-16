@@ -23,7 +23,23 @@ a repair. The lock is never regenerated to get a green result.
 
 ## Evidence on my machine
 
-_(Windows 11 Famille, uv 0.12.23, commit `<sha>`: paste the script output.)_
+Windows 11 Famille 10.0.26200, uv 0.12.23, commit `deab08d`, clean tree. Raw log:
+[`logs/lab-03-lock-demo.txt`](logs/lab-03-lock-demo.txt).
+
+| Case | Command | Exit | Message |
+| --- | --- | --- | --- |
+| committed lock | `uv lock --check` | 0 | — |
+| missing lock | `uv lock --check` | 1 | `Unable to find lockfile at uv.lock, but --check was provided` |
+| missing lock | `uv sync --locked` | 1 | `Unable to find lockfile at uv.lock, but --locked was provided` |
+| stale lock | `uv lock --check` | 1 | `The lockfile at uv.lock needs to be updated, but --check was provided` |
+| stale lock | `uv sync --locked` | 1 | `The lockfile at uv.lock needs to be updated, but --locked was provided` |
+| stale lock | `uv sync --frozen` | **0** | none: the newly declared `httpx` is not installed |
+
+- No copy regenerated a lock; the stale copy's `uv.lock` and the repository's `uv.lock` kept SHA-256
+  `8598f1f2…` (same value on Linux since the `.gitattributes` change).
+- The `--frozen` row is why installs use `--locked`: `--frozen` exits 0 while the environment no longer
+  matches `pyproject.toml`.
+- The stale case adds `httpx==0.28.1` to `dependencies` in a copy of `pyproject.toml` without running `uv lock`.
 
 ## In the container
 

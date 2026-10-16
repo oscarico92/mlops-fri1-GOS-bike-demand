@@ -1,0 +1,19 @@
+# Gautier, Windows 11 Famille 10.0.26200, uv 0.12.23, branch lab-03-lock at deab08d, 2026-10-16
+PS> git status
+On branch lab-03-lock
+nothing to commit, working tree clean
+PS> git rev-parse --short HEAD
+deab08d
+PS> uv run --locked python scripts/lock_check_demo.py
+Committed uv.lock sha256: 8598f1f2f6e3c6e4a3bc3391110d5c2a4fb3233b0045961b4e3048f4ebde0330
+[as expected] committed lock: uv lock --check -> exit 0; (no error)
+[as expected] missing lock: uv lock --check -> exit 1; error: Unable to find lockfile at `uv.lock`, but `--check` was provided. To create a lockfile, run `uv lock` or `uv sync` without the flag.
+[as expected] missing lock: uv sync --locked -> exit 1; error: Unable to find lockfile at `uv.lock`, but `--locked` was provided. To create a lockfile, run `uv lock` or `uv sync` without the flag.
+Missing-lock copy regenerated a lock: False
+[as expected] stale lock: uv lock --check -> exit 1; error: The lockfile at `uv.lock` needs to be updated, but `--check` was provided.
+[as expected] stale lock: uv sync --locked -> exit 1; error: The lockfile at `uv.lock` needs to be updated, but `--locked` was provided.
+[as expected] stale lock, --frozen (no check): uv sync --frozen -> exit 0; (no error)
+--frozen env has the newly declared httpx: False
+Stale-copy uv.lock unchanged after all commands: True
+Repository uv.lock unchanged: True
+All cases as expected.
