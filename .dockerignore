@@ -1,0 +1,20 @@
+# Local environment and caches: rebuilt inside the image
+.venv
+__pycache__
+*.py[cod]
+.pytest_cache
+.ruff_cache
+.DS_Store
+
+# Git history and secrets never enter the image
+.git
+.env
+.env.*
+
+# Outputs of earlier runs and raw logs: the container must produce its own
+artifacts
+tracking
+logs
+reports/metrics.json
+reports/metrics-history.jsonl
+reports/images
