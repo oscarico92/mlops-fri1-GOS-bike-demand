@@ -1,0 +1,79 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.55kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.12.12-slim@sha256:f3fa41d74a768c2fce8016b98c191ae8c1bacd8f1152870a3f9f87d350920b7c
+#2 ...
+
+#3 [internal] load metadata for ghcr.io/astral-sh/uv:0.12.24@sha256:3af4716e991d6956a41e573eab705d0ee08500cd829ed30293eb8472f372c65a
+#3 DONE 1.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.12.12-slim@sha256:f3fa41d74a768c2fce8016b98c191ae8c1bacd8f1152870a3f9f87d350920b7c
+#2 DONE 1.2s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 395B done
+#4 DONE 0.0s
+
+#5 FROM ghcr.io/astral-sh/uv:0.12.24@sha256:3af4716e991d6956a41e573eab705d0ee08500cd829ed30293eb8472f372c65a
+#5 resolve ghcr.io/astral-sh/uv:0.12.24@sha256:3af4716e991d6956a41e573eab705d0ee08500cd829ed30293eb8472f372c65a 0.0s done
+#5 DONE 0.0s
+
+#6 [stage-0  1/14] FROM docker.io/library/python:3.12.12-slim@sha256:f3fa41d74a768c2fce8016b98c191ae8c1bacd8f1152870a3f9f87d350920b7c
+#6 resolve docker.io/library/python:3.12.12-slim@sha256:f3fa41d74a768c2fce8016b98c191ae8c1bacd8f1152870a3f9f87d350920b7c 0.0s done
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 1.41MB 0.0s done
+#7 DONE 0.0s
+
+#8 [stage-0  2/14] COPY --from=ghcr.io/astral-sh/uv:0.12.24@sha256:3af4716e991d6956a41e573eab705d0ee08500cd829ed30293eb8472f372c65a /uv /bin/uv
+#8 CACHED
+
+#9 [stage-0  9/14] COPY configs ./configs
+#9 CACHED
+
+#10 [stage-0  8/14] COPY src ./src
+#10 CACHED
+
+#11 [stage-0 11/14] COPY tests ./tests
+#11 CACHED
+
+#12 [stage-0  7/14] COPY README.md ./
+#12 CACHED
+
+#13 [stage-0 10/14] COPY data ./data
+#13 CACHED
+
+#14 [stage-0  4/14] WORKDIR /app
+#14 CACHED
+
+#15 [stage-0 12/14] COPY reports ./reports
+#15 CACHED
+
+#16 [stage-0 13/14] COPY .github ./.github
+#16 CACHED
+
+#17 [stage-0  3/14] RUN apt-get update     && apt-get install -y --no-install-recommends git     && rm -rf /var/lib/apt/lists/*
+#17 CACHED
+
+#18 [stage-0  5/14] COPY pyproject.toml uv.lock .python-version ./
+#18 CACHED
+
+#19 [stage-0  6/14] RUN uv sync --locked --no-install-project
+#19 CACHED
+
+#20 [stage-0 14/14] RUN uv sync --locked
+#20 CACHED
+
+#21 exporting to image
+#21 exporting layers done
+#21 exporting manifest sha256:38ac7e21e92c0daddf4e0a157031412f6e9b038bedac7172ff17580042a8e5a6 done
+#21 exporting config sha256:58717492e700cdc55e588e3b381a35c579d2d67e7b7f5d1b59f1374fb80414fe done
+#21 exporting attestation manifest sha256:dc29dfdc7f6e03cd4d68079053e7d089c21e5be8b13e68ced334d2ebc37dc418 done
+#21 exporting manifest list sha256:0adc2f05b675fbded9f5be53a217d0cc995cf76f1dbf936ea287ef39a63b77e3 done
+#21 naming to docker.io/library/bike-demand:lab3 done
+#21 unpacking to docker.io/library/bike-demand:lab3 done
+#21 DONE 0.1s

@@ -1,0 +1,8 @@
+...................................................                      [100%]
+=============================== warnings summary ===============================
+tests/exercise/test_baseline.py::test_saved_model_readback_rerun_and_held_test
+  /app/.venv/lib/python3.12/site-packages/mlflow/store/tracking/sqlalchemy_store.py:327: SADeprecationWarning: The ``noload`` loader strategy is deprecated and will be removed in a future release.  This option produces incorrect results by returning ``None`` for related items. (deprecated since: 2.1)
+    sqlalchemy.orm.configure_mappers()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+51 passed, 1 warning in 10.38s
