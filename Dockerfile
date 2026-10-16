@@ -1,8 +1,8 @@
 # Lab 3: run the Lab 2 baseline and its tests in a clean environment.
-FROM python:3.12.12-slim
+FROM python:3.12.12-slim@sha256:f3fa41d74a768c2fce8016b98c191ae8c1bacd8f1152870a3f9f87d350920b7c
 
 # uv version allowed by pyproject.toml (>=0.12.19,<0.13)
-COPY --from=ghcr.io/astral-sh/uv:0.12.24 /uv /bin/uv
+COPY --from=ghcr.io/astral-sh/uv:0.12.24@sha256:3af4716e991d6956a41e573eab705d0ee08500cd829ed30293eb8472f372c65a /uv /bin/uv
 
 # Use the Python of the base image, never download another one
 ENV UV_PYTHON_DOWNLOADS=never \
@@ -30,6 +30,10 @@ COPY tests ./tests
 COPY reports ./reports
 COPY .github ./.github
 RUN uv sync --locked
+
+# Commit packaged in the image (set with --build-arg GIT_COMMIT=$(git rev-parse HEAD))
+ARG GIT_COMMIT=unknown
+LABEL org.opencontainers.image.revision=$GIT_COMMIT
 
 # Default: train the baseline (preflight and tests are run with another command)
 CMD ["python", "-m", "bike_demand.train", "--config", "configs/baseline.yaml"]
