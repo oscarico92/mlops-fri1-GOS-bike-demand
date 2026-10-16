@@ -99,7 +99,9 @@ def main() -> int:
         expect("stale lock", ["sync", "--locked"], stale, STALE)
         expect("stale lock, --frozen (no check)", ["sync", "--frozen"], stale, None)
         code, _ = uv(["run", "--frozen", "python", "-c", "import httpx"], stale)
-        print(f"--frozen env has the newly declared httpx: {code == 0}")
+        stale_env = code != 0
+        failures += not stale_env
+        print(f"--frozen env lacks the newly declared httpx: {stale_env}")
         unchanged = sha256(stale / "uv.lock") == committed
         failures += not unchanged
         print(f"Stale-copy uv.lock unchanged after all commands: {unchanged}")

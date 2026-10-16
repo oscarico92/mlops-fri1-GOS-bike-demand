@@ -17,6 +17,11 @@ a repair. The lock is never regenerated to get a green result.
   line endings, so the same committed lock (blob `8478e0e`) had SHA-256 `8d841200…` on Windows and
   `8598f1f2…` on Linux. uv accepted both, but the checksum could not identify the build. The lock is now
   byte-identical on every OS and in the image.
+  `.gitattributes` only applies when the file is written again: an existing Windows clone keeps its CRLF
+  lock, and after pulling this change `git status` shows `uv.lock` as modified. Fix once per clone, without
+  touching the committed lock: `Remove-Item uv.lock; git checkout -- uv.lock` (macOS/Linux:
+  `rm uv.lock && git checkout -- uv.lock`). `git rm --cached uv.lock && git checkout -- uv.lock` does not work:
+  the checkout fails with "pathspec did not match" and leaves the lock staged for deletion.
 - `scripts/lock_check_demo.py`: reruns the demonstration on throwaway copies of the committed tree
   (`git archive HEAD`); the repository and its `uv.lock` are never modified. Any teammate can rerun it:
   `uv run --locked python scripts/lock_check_demo.py`.
@@ -24,7 +29,7 @@ a repair. The lock is never regenerated to get a green result.
 ## Evidence on my machine
 
 Windows 11 Famille 10.0.26200, uv 0.12.23, commit `deab08d`, clean tree. Raw log:
-[`logs/lab-03-lock-demo.txt`](logs/lab-03-lock-demo.txt).
+[`logs/lab-03/lock-demo.txt`](../logs/lab-03/lock-demo.txt).
 
 | Case | Command | Exit | Message |
 | --- | --- | --- | --- |
@@ -39,9 +44,11 @@ Windows 11 Famille 10.0.26200, uv 0.12.23, commit `deab08d`, clean tree. Raw log
   `8598f1f2…` (same value on Linux since the `.gitattributes` change).
 - The `--frozen` row is why installs use `--locked`: `--frozen` exits 0 while the environment no longer
   matches `pyproject.toml`.
+- The script also fails if the `--frozen` environment unexpectedly contains `httpx`.
 - The stale case adds `httpx==0.28.1` to `dependencies` in a copy of `pyproject.toml` without running `uv lock`.
 
 ## In the container
 
-_(After the Dockerfile PR is merged: the same stale-lock copy must make `docker build` stop at the
-`uv sync --locked` step. Paste the failing step and message.)_
+Recorded by Simon in the Dockerfile PR: on a stale-lock copy, `docker build` stops at the `uv sync --locked`
+step with "The lockfile at `uv.lock` needs to be updated". Log: `logs/lab-03/stale-lock.log` (link to be
+checked once that PR is merged).
