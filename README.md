@@ -161,6 +161,30 @@ Expected: `200` with the model version, `200` with a prediction, then `422` nami
 `-e BIKE_MODEL_DIR=/nowhere`: `/health` and `/predict` answer `503`. The interactive
 contract is at http://localhost:8000/docs. In Windows PowerShell use `curl.exe`.
 
+### Check a running service from outside (Lab 5)
+
+`scripts/check_deployment.py` sends real HTTP requests to a running container and
+compares what it answers with what we expect. It never imports the app.
+
+```bash
+git rev-parse HEAD     # the commit the image must have been built from
+uv run --locked python scripts/check_deployment.py --url http://127.0.0.1:8000
+```
+
+| Claim | Expected | Where the expected value comes from |
+| --- | --- | --- |
+| ready | `/health` answers `200` | |
+| `model_sha256` | `d24c050e…` | `configs/expected-model.json` (Lab 3 and Lab 4 reruns) |
+| `code_revision` | the commit of your checkout | `git rev-parse HEAD`, or `--expected-revision` |
+| valid `/predict` | `200`, finite, non-negative | |
+| same `model_version` | `/predict` answers with the model `/health` reports | |
+| invalid `/predict` (`hr=24`) | `422` | |
+
+Each claim prints `ok` or `FAIL`; one `FAIL` makes the script exit `1`. The image
+must be built with `--build-arg GIT_COMMIT=$(git rev-parse HEAD)`, otherwise
+`code_revision` is `unknown` and the check fails. `/health` reports `code_revision`
+even when it answers `503`, so a broken deployment can still be identified.
+
 ### Run the tests locally
 
 ```bash
