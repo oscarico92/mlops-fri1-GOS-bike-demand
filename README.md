@@ -376,6 +376,33 @@ build without `--build-arg GIT_COMMIT` (the identity step and the check fail).
   valid and one invalid request only; the tests and deploy parts of Lab 6 cover the rest.
 
 
+### Deploy to Cloud Run (Lab 6)
+
+`.github/workflows/deploy.yml` delivers a commit of `main` to the Cloud Run service once
+it has passed every check. One-time project setup and the repository variables it needs:
+[docs/cloud-run-setup.md](docs/cloud-run-setup.md). Until those variables exist, the deploy
+job fails at "Deploy configured?" with an explicit message; it never reports a deploy it did not do.
+
+Steps: check that "Week 1 checks" is green on the same commit, keyless login, build and push
+the image tagged with the commit (label `org.opencontainers.image.revision` set as in Lab 5),
+`gcloud run deploy` with `--port 8000`, then the Lab 5 check against the live URL with the
+commit as expected revision. If the check fails, traffic goes back to the previous revision.
+The run keeps `live-check.txt` (commit, image, revision, URL, check output) as an artifact.
+
+| Question | Our choice | Rejected option and why |
+| --- | --- | --- |
+| **Gate:** which branch and checks gate a deploy? | Only commits pushed to `main` (that is, merged pull requests), and only when both "Container checks" and "Week 1 checks" are green on that commit. The identity provider also accepts tokens from `main` only. | Deploying from pull requests or on every push: an unreviewed change could reach the live service. |
+| **Identity:** how does it log in with no stored key? | Workload Identity Federation: GitHub issues a short-lived OIDC token (`id-token: write`), Google exchanges it for a short-lived token of the deploy service account, trusted for this repository's `main` only. | A service-account JSON key in GitHub secrets: a long-lived secret that can leak and must be rotated by hand. |
+| **Proof:** what shows the new revision is live? | The Lab 5 check run against the Cloud Run URL: `/health` answers `200` with model `d24c050e…` and `code_revision` equal to the deployed commit, a valid and an invalid `/predict` behave as expected. The output, with the revision name and URL, is kept as `live-check.txt`. | "The deploy command succeeded" or "the revision is Ready": both are true for a revision that serves the wrong model or code. |
+| **Undo:** what do you do if the live check fails? | The workflow sends 100 % of the traffic back to the revision that was serving before the deploy and fails, so the bad commit is visible. On the very first deploy there is no previous revision: the service is deleted or redeployed from the last good commit by hand. | Leaving the failed revision live and fixing forward: users would be served the bad revision until the fix lands. |
+
+Public access is a deliberate exception for this course (`--allow-unauthenticated`, as in the
+instructor's walkthrough): the Lab 5 check sends no token. Rejected for a retained service:
+requiring authentication would be safer but needs an identity token in the check. Exposure is
+limited with `--max-instances 1`, `--min-instances 0` and by deleting the service after the lab
+(see the setup page). The check on Cloud Run cannot compare the image label (no `--container`):
+the commit is compared through `code_revision`, which comes from the image built by this workflow.
+
 ---
 
 The rest of this file is the course starter README, kept unchanged.
