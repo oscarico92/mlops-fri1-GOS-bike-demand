@@ -1,0 +1,9 @@
+service http://127.0.0.1:8000
+ready (/health)           ok    expected 200  observed 200
+model_sha256              ok    expected d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07  observed d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07
+code_revision             FAIL  expected 1111111111111111111111111111111111111111  observed 2f9b97ad630973b80c1708afe0e8165992fdfb3d
+valid /predict            ok    expected 200, finite >= 0  observed 200, 519.4906075228514
+same model_version        ok    expected baseline-ed32c9ad598f  observed baseline-ed32c9ad598f
+invalid /predict (hr=24)  ok    expected 422  observed 422
+image label revision      FAIL  expected 1111111111111111111111111111111111111111  observed 2f9b97ad630973b80c1708afe0e8165992fdfb3d
+check FAILED: code_revision, image label revision

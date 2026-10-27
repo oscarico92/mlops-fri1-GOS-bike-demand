@@ -31,3 +31,4 @@ jobs:
       - run: uv run --locked pytest -q -m infra
       - run: uv run --locked pytest -q -m lab1
       - run: uv run --locked pytest -q -m api
+      - run: uv run --locked pytest -q -m deploy

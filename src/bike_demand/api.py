@@ -33,6 +33,8 @@ SAFE_REQUEST_ID = re.compile(r"[A-Za-z0-9._-]{1,64}")
 # Directory holding model.joblib and model-metadata.json written by train.
 MODEL_DIR_ENV = "BIKE_MODEL_DIR"
 DEFAULT_MODEL_DIR = "artifacts"
+# Commit the image was built from (Dockerfile: ENV GIT_COMMIT from the build arg).
+CODE_REVISION_ENV = "GIT_COMMIT"
 
 NormalisedValue = Field(ge=0, le=1, allow_inf_nan=False)
 
@@ -209,12 +211,20 @@ def require_model() -> dict:
 
 
 @app.get("/health")
-def health() -> dict:
-    loaded = require_model()
+def health():
+    revision = os.environ.get(CODE_REVISION_ENV, "unknown")
+    if state["loaded"] is None:
+        # Still say which code is running, so a broken deployment can be identified.
+        return JSONResponse(
+            status_code=503,
+            content={"detail": state["error"] or "no model", "code_revision": revision},
+        )
+    loaded = state["loaded"]
     return {
         "status": "ok",
         "model_version": loaded["model_version"],
         "model_sha256": loaded["model_sha256"],
+        "code_revision": revision,
     }
 
 
