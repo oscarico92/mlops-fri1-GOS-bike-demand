@@ -222,6 +222,62 @@ The API tests build a tiny model in a temporary folder, so they do not need a tr
 missing and extra fields, `NaN`/`Infinity` inputs, the startup log line, a missing
 model and a tampered model file.
 
+## Deploy (Lab 5)
+
+**"Deployed" means:** a container started from an image built from a known commit of `main`,
+answering on `127.0.0.1:8000`, for which `scripts/check_deployment.py --container bike-api`
+exits `0` when run from a checkout of that same commit. The final check is run by a team
+member who did not write the change being deployed, using only this section.
+
+### Start, check, read the logs
+
+```bash
+git rev-parse HEAD
+docker build --build-arg GIT_COMMIT=$(git rev-parse HEAD) -t bike-demand:lab5 .
+docker image inspect bike-demand:lab5 --format '{{.Id}}'
+docker run -d --name bike-api -p 127.0.0.1:8000:8000 bike-demand:lab5
+curl -s localhost:8000/health                      # repeat until it answers 200
+uv run --locked python scripts/check_deployment.py --url http://127.0.0.1:8000 --container bike-api
+docker logs bike-api                               # one startup line, then one JSON line per request
+docker rm -f bike-api
+```
+
+Windows PowerShell: build with `--build-arg GIT_COMMIT=$(git rev-parse HEAD)` as above (it works in
+PowerShell), use `--format "{{.Id}}"` and `curl.exe` instead of `curl`.
+
+### Design answers
+
+| Question | Our choice | Rejected option and why |
+| --- | --- | --- |
+| **Settings:** what changes between laptop and container? | Only two values, passed at run time or build time: `BIKE_MODEL_DIR` (`-e`, default `artifacts`) and the commit (`--build-arg GIT_COMMIT`). Port fixed at 8000 in the image, published on `127.0.0.1` only. | A config file mounted from the laptop: the container would depend on host files and a stranger could not reproduce it. |
+| **Model:** where does it come from at start-up? | From the image: the Dockerfile trains the Lab 2 model once at build time with the frozen data and config; the service only loads `artifacts/model.joblib` and checks its SHA-256 against the metadata. | Mounting a model with `-v`: the image would no longer say which model it serves. |
+| **Ready:** when is the service "ready"? | When `GET /health` answers `200`, which happens only with a loaded and verified model. | "The port answers" or "the container is running": both are true with no model (`503`). |
+| **Broken:** what does it say if the model is missing? | `/health` and a valid `/predict` answer `503` with the reason and still report `code_revision`; the startup line is `ERROR bike_demand.api model not available`; request lines have `"outcome":"model_unavailable"` and `"model_version":null`. Invalid input still gets `422`. | Exiting at start-up: the container would disappear and the reason would only be in a stopped container's logs. |
+| **Log line:** what must one request tell an operator? | One JSON line per request: time, `request_id` (also in `X-Request-ID`), method, path, status, `outcome`, `duration_ms`, `model_version`, and the names of rejected fields on a `422` (see "Request logs (Lab 5)"). | Uvicorn's access log: it says the status but not which model answered or which field failed, and it adds the client address. |
+| **Secrets:** what must never appear in a log? | The request body and input values, predictions, the client address, environment variables and any credential. Field names are logged, values are not. | Logging the full request for debugging: it would copy user data into logs that many people read. |
+| **Identity:** which id shows which model is running? | `model_sha256` (bytes of the served model), plus the commit as `code_revision` in `/health` and as the image label `org.opencontainers.image.revision`. | `model_version` alone: it is a new random id at every build, so it identifies a build, not the model. `code_revision` alone: `-e GIT_COMMIT=...` can override it, which is why the check also compares the label. |
+| **Expected:** who knows the expected model, and when? | The team, before deploying: `configs/expected-model.json` holds the model SHA-256 recorded in the Lab 3 and Lab 4 reruns; the expected commit is `git rev-parse HEAD` of the checkout used to build. | Reading the expected values from the running service: the check would then compare the service with itself. |
+| **Promise:** what does "deployed" promise to others? | That the service answers with the expected model and code (check exit `0`), validates input (`422`), and leaves one log line per request. It does not promise model quality, load capacity or uptime. | Promising "it runs": a running container can serve the wrong model or none. |
+| **Failure:** break it once, what does it leave behind? | See "Break it once" below. | |
+
+### Break it once
+
+Start the same image without a model:
+
+```bash
+docker run -d --name bike-api -p 127.0.0.1:8000:8000 -e BIKE_MODEL_DIR=/nowhere bike-demand:lab5
+uv run --locked python scripts/check_deployment.py --url http://127.0.0.1:8000 --container bike-api
+docker logs bike-api
+docker rm -f bike-api
+```
+
+Expected: the check exits `1` and names the failing claims (ready, `model_sha256`, valid `/predict`,
+same `model_version`); `code_revision` and the label still match, so the failure points to the model,
+not the code ([`logs/lab-05/check-no-model.txt`](logs/lab-05/check-no-model.txt)). What it leaves
+behind: a running container that answers `503` (not a crash), its startup `ERROR` line and one
+`model_unavailable` line per request in `docker logs`; nothing is written to the image or the host.
+The container must be removed with `docker rm -f`.
+
 ---
 
 The rest of this file is the course starter README, kept unchanged.
