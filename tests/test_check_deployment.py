@@ -66,3 +66,4 @@ def test_service_without_model_fails(tmp_path, monkeypatch):
         rows = check.run_checks(client_fetch(client), REVISION, "0" * 64)
     assert "ready (/health)" in failed(rows)
     assert "valid /predict" in failed(rows)
+    assert "code_revision" not in failed(rows)  # still reported with a 503
