@@ -1,20 +1,20 @@
 $ curl.exe -s localhost:8000/health
-{"status":"ok","model_version":"baseline-646b7ff857f9","model_sha256":"d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07"} [200]
+{"status":"ok","model_version":"baseline-4e73328951c8","model_sha256":"d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07","code_revision":"79a81a992510447c00fbc1ce61dfd7ea27644b45"} [200]
 $ curl.exe -s -i -H "X-Request-ID: trace-42" localhost:8000/health
 HTTP/1.1 200 OK
-date: Tue, 27 Oct 2026 18:09:24 GMT
+date: Tue, 27 Oct 2026 18:30:20 GMT
 server: uvicorn
-content-length: 137
+content-length: 196
 content-type: application/json
 x-request-id: trace-42
 
-{"status":"ok","model_version":"baseline-646b7ff857f9","model_sha256":"d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07"}
+{"status":"ok","model_version":"baseline-4e73328951c8","model_sha256":"d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07","code_revision":"79a81a992510447c00fbc1ce61dfd7ea27644b45"}
 $ curl.exe -s -X POST localhost:8000/predict -H "Content-Type: application/json" -d "{bad json"
 {"detail":[{"type":"json_invalid","loc":["body",1],"msg":"JSON decode error","input":{},"ctx":{"error":"Expecting property name enclosed in double quotes"}}]} [422]
 $ curl.exe -s localhost:8000/nope
 {"detail":"Not Found"} [404]
 $ curl.exe -s -X POST localhost:8000/predict -H "Content-Type: application/json" --data-binary @examples/predict-valid.json
-{"prediction":519.4906075228514,"model_version":"baseline-646b7ff857f9"} [200]
+{"prediction":519.4906075228514,"model_version":"baseline-4e73328951c8"} [200]
 $ curl.exe -s -X POST localhost:8000/predict -H "Content-Type: application/json" --data-binary @examples/predict-bad-hr.json
 {"detail":[{"type":"less_than_equal","loc":["body","hr"],"msg":"Input should be less than or equal to 23","input":24,"ctx":{"le":23}}]} [422]
 $ curl.exe -s -X POST localhost:8000/predict -H "Content-Type: application/json" --data-binary @examples/predict-nan-temp.json

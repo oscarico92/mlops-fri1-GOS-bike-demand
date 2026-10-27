@@ -1,5 +1,5 @@
 $ curl.exe -s localhost:8001/health
-{"detail":"model not available: [Errno 2] No such file or directory: '/nowhere/model-metadata.json'"} [503]
+{"detail":"model not available: [Errno 2] No such file or directory: '/nowhere/model-metadata.json'","code_revision":"79a81a992510447c00fbc1ce61dfd7ea27644b45"} [503]
 $ curl.exe -s -X POST localhost:8001/predict -H "Content-Type: application/json" --data-binary @examples/predict-valid.json
 {"detail":"model not available: [Errno 2] No such file or directory: '/nowhere/model-metadata.json'"} [503]
 $ curl.exe -s -X POST localhost:8001/predict -H "Content-Type: application/json" --data-binary @examples/predict-nan-temp.json

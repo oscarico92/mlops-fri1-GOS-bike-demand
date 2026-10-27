@@ -1,18 +1,14 @@
 #0 building with "desktop-linux" instance using docker driver
 
 #1 [internal] load build definition from Dockerfile
-#1 transferring dockerfile:
-#1 transferring dockerfile: 2.13kB 0.3s done
-#1 DONE 0.4s
+#1 transferring dockerfile: 2.33kB 0.0s done
+#1 DONE 0.1s
 
-#2 [internal] load metadata for docker.io/library/python:3.12.12-slim@sha256:f3fa41d74a768c2fce8016b98c191ae8c1bacd8f1152870a3f9f87d350920b7c
-#2 ...
+#2 [internal] load metadata for ghcr.io/astral-sh/uv:0.12.24@sha256:3af4716e991d6956a41e573eab705d0ee08500cd829ed30293eb8472f372c65a
+#2 DONE 1.7s
 
-#3 [internal] load metadata for ghcr.io/astral-sh/uv:0.12.24@sha256:3af4716e991d6956a41e573eab705d0ee08500cd829ed30293eb8472f372c65a
-#3 DONE 3.1s
-
-#2 [internal] load metadata for docker.io/library/python:3.12.12-slim@sha256:f3fa41d74a768c2fce8016b98c191ae8c1bacd8f1152870a3f9f87d350920b7c
-#2 DONE 3.2s
+#3 [internal] load metadata for docker.io/library/python:3.12.12-slim@sha256:f3fa41d74a768c2fce8016b98c191ae8c1bacd8f1152870a3f9f87d350920b7c
+#3 DONE 1.7s
 
 #4 [internal] load .dockerignore
 #4 transferring context: 415B 0.0s done
@@ -21,84 +17,83 @@
 #5 [internal] load build context
 #5 DONE 0.0s
 
-#6 [stage-0  1/15] FROM docker.io/library/python:3.12.12-slim@sha256:f3fa41d74a768c2fce8016b98c191ae8c1bacd8f1152870a3f9f87d350920b7c
-#6 resolve docker.io/library/python:3.12.12-slim@sha256:f3fa41d74a768c2fce8016b98c191ae8c1bacd8f1152870a3f9f87d350920b7c
-#6 ...
+#6 [stage-0  1/16] FROM docker.io/library/python:3.12.12-slim@sha256:f3fa41d74a768c2fce8016b98c191ae8c1bacd8f1152870a3f9f87d350920b7c
+#6 resolve docker.io/library/python:3.12.12-slim@sha256:f3fa41d74a768c2fce8016b98c191ae8c1bacd8f1152870a3f9f87d350920b7c 0.1s done
+#6 DONE 0.1s
 
 #7 FROM ghcr.io/astral-sh/uv:0.12.24@sha256:3af4716e991d6956a41e573eab705d0ee08500cd829ed30293eb8472f372c65a
-#7 resolve ghcr.io/astral-sh/uv:0.12.24@sha256:3af4716e991d6956a41e573eab705d0ee08500cd829ed30293eb8472f372c65a 0.2s done
-#7 DONE 0.2s
-
-#6 [stage-0  1/15] FROM docker.io/library/python:3.12.12-slim@sha256:f3fa41d74a768c2fce8016b98c191ae8c1bacd8f1152870a3f9f87d350920b7c
-#6 resolve docker.io/library/python:3.12.12-slim@sha256:f3fa41d74a768c2fce8016b98c191ae8c1bacd8f1152870a3f9f87d350920b7c 0.2s done
-#6 DONE 0.2s
+#7 resolve ghcr.io/astral-sh/uv:0.12.24@sha256:3af4716e991d6956a41e573eab705d0ee08500cd829ed30293eb8472f372c65a
+#7 resolve ghcr.io/astral-sh/uv:0.12.24@sha256:3af4716e991d6956a41e573eab705d0ee08500cd829ed30293eb8472f372c65a 0.1s done
+#7 DONE 0.1s
 
 #5 [internal] load build context
-#5 transferring context: 43.08kB 0.0s done
+#5 transferring context: 13.45kB 0.1s done
 #5 DONE 0.1s
 
-#8 [stage-0  5/15] COPY pyproject.toml uv.lock .python-version ./
+#8 [stage-0  6/16] RUN uv sync --locked --no-install-project
 #8 CACHED
 
-#9 [stage-0  2/15] COPY --from=ghcr.io/astral-sh/uv:0.12.24@sha256:3af4716e991d6956a41e573eab705d0ee08500cd829ed30293eb8472f372c65a /uv /bin/uv
+#9 [stage-0 10/16] COPY data ./data
 #9 CACHED
 
-#10 [stage-0  3/15] RUN apt-get update     && apt-get install -y --no-install-recommends git     && rm -rf /var/lib/apt/lists/*
+#10 [stage-0  2/16] COPY --from=ghcr.io/astral-sh/uv:0.12.24@sha256:3af4716e991d6956a41e573eab705d0ee08500cd829ed30293eb8472f372c65a /uv /bin/uv
 #10 CACHED
 
-#11 [stage-0  4/15] WORKDIR /app
+#11 [stage-0  3/16] RUN apt-get update     && apt-get install -y --no-install-recommends git     && rm -rf /var/lib/apt/lists/*
 #11 CACHED
 
-#12 [stage-0  6/15] RUN uv sync --locked --no-install-project
+#12 [stage-0  5/16] COPY pyproject.toml uv.lock .python-version ./
 #12 CACHED
 
-#13 [stage-0  7/15] COPY README.md ./
-#13 DONE 0.1s
+#13 [stage-0  8/16] COPY src ./src
+#13 CACHED
 
-#14 [stage-0  8/15] COPY src ./src
-#14 DONE 0.1s
+#14 [stage-0  7/16] COPY README.md ./
+#14 CACHED
 
-#15 [stage-0  9/15] COPY configs ./configs
-#15 DONE 0.1s
+#15 [stage-0  9/16] COPY configs ./configs
+#15 CACHED
 
-#16 [stage-0 10/15] COPY data ./data
-#16 DONE 0.1s
+#16 [stage-0  4/16] WORKDIR /app
+#16 CACHED
 
-#17 [stage-0 11/15] COPY tests ./tests
-#17 DONE 0.2s
+#17 [stage-0 11/16] COPY tests ./tests
+#17 CACHED
 
-#18 [stage-0 12/15] COPY reports ./reports
-#18 DONE 0.2s
+#18 [stage-0 12/16] COPY scripts ./scripts
+#18 DONE 0.1s
 
-#19 [stage-0 13/15] COPY .github ./.github
+#19 [stage-0 13/16] COPY reports ./reports
 #19 DONE 0.2s
 
-#20 [stage-0 14/15] RUN uv sync --locked
-#20 1.697 Resolved 100 packages in 58ms
-#20 1.936    Building bike-demand @ file:///app
-#20 4.510       Built bike-demand @ file:///app
-#20 4.524 Prepared 1 package in 2.60s
-#20 4.539 Installed 1 package in 15ms
-#20 4.539  + bike-demand==0.1.0 (from file:///app)
-#20 DONE 4.6s
+#20 [stage-0 14/16] COPY .github ./.github
+#20 DONE 0.2s
 
-#21 [stage-0 15/15] RUN python -m bike_demand.train --config configs/baseline.yaml > /dev/null
-#21 24.60 2026/10/27 18:08:20 INFO mlflow.store.db.utils: Creating initial MLflow database tables...
-#21 24.68 2026/10/27 18:08:20 INFO mlflow.store.db.utils: Updating database tables
-#21 DONE 31.5s
+#21 [stage-0 15/16] RUN uv sync --locked
+#21 1.714 Resolved 100 packages in 33ms
+#21 1.918    Building bike-demand @ file:///app
+#21 3.872       Built bike-demand @ file:///app
+#21 3.881 Prepared 1 package in 2.01s
+#21 3.887 Installed 1 package in 5ms
+#21 3.887  + bike-demand==0.1.0 (from file:///app)
+#21 DONE 4.0s
 
-#22 exporting to image
-#22 exporting layers
-#22 exporting layers 7.0s done
-#22 exporting manifest sha256:581d3e0a6290de672a436a8115212de8f130122a12f8ca3842c4d9a370982963 0.0s done
-#22 exporting config sha256:af13e93e8977cb8e593edb86702df72c6c5b59cbcde3a36301df1132a78f0354 0.0s done
-#22 exporting attestation manifest sha256:84e23ed383dd635e4ac18b007909e17165a2f4c086c7608a9749edd661cfab2d
-#22 exporting attestation manifest sha256:84e23ed383dd635e4ac18b007909e17165a2f4c086c7608a9749edd661cfab2d 0.1s done
-#22 exporting manifest list sha256:b42ee16c5927297779f680fa1d0d346a60a5d7f0471709b3505463d9b1132fba 0.0s done
-#22 naming to docker.io/library/bike-demand:lab5-logging
-#22 naming to docker.io/library/bike-demand:lab5-logging done
-#22 unpacking to docker.io/library/bike-demand:lab5-logging
-#22 unpacking to docker.io/library/bike-demand:lab5-logging 2.7s done
-#22 DONE 10.1s
+#22 [stage-0 16/16] RUN python -m bike_demand.train --config configs/baseline.yaml > /dev/null
+#22 26.85 2026/10/27 18:28:32 INFO mlflow.store.db.utils: Creating initial MLflow database tables...
+#22 26.96 2026/10/27 18:28:32 INFO mlflow.store.db.utils: Updating database tables
+#22 DONE 37.6s
 
-View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/6yr7i3uzn4fah6imv7ixpdxil
+#23 exporting to image
+#23 exporting layers
+#23 exporting layers 11.0s done
+#23 exporting manifest sha256:2b763f90c4a9fd3d00998cdb5f922a596a28d1762d1f9089f49a530ff629cb67 0.1s done
+#23 exporting config sha256:c7b41d98f005b05f4768eb0086a996680a2b8cabeaa4b00848424989447272b7 0.1s done
+#23 exporting attestation manifest sha256:6bd160024bceddd5c705a6edc42b12a3e95dced6c028a8e03f64924131f9c78f 0.1s done
+#23 exporting manifest list sha256:7e5106aa0cbea7007daad7c0d68c8bda97d4837e770ecbe77e9d52e3b85796da
+#23 exporting manifest list sha256:7e5106aa0cbea7007daad7c0d68c8bda97d4837e770ecbe77e9d52e3b85796da 0.1s done
+#23 naming to docker.io/library/bike-demand:lab5-logging 0.0s done
+#23 unpacking to docker.io/library/bike-demand:lab5-logging
+#23 unpacking to docker.io/library/bike-demand:lab5-logging 4.1s done
+#23 DONE 15.6s
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/j9huu0k9o9929zx43cpnbd5go
