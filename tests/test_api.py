@@ -1,6 +1,7 @@
 """Prediction API: normal, invalid-input and missing-model behaviour."""
 
 import json
+import logging
 
 import joblib
 import pandas as pd
@@ -156,3 +157,97 @@ def test_tampered_model_is_not_served(tmp_path, client_for):
     with client_for(directory) as client:
         assert client.get("/health").status_code == 503
         assert client.post("/predict", json=VALID).status_code == 503
+
+
+@pytest.fixture
+def access_lines():
+    """Collect the JSON access lines (the access logger does not propagate to caplog)."""
+    lines = []
+
+    class Collect(logging.Handler):
+        def emit(self, record):
+            lines.append(record.getMessage())
+
+    handler = Collect()
+    access = logging.getLogger("bike_demand.access")
+    access.addHandler(handler)
+    yield lines
+    access.removeHandler(handler)
+
+
+def test_one_json_line_per_request(tmp_path, client_for, access_lines, monkeypatch):
+    monkeypatch.setenv(api.CODE_REVISION_ENV, "abc1234")
+    with client_for(write_model(tmp_path / "model", "baseline-log0002")) as client:
+        response = client.post("/predict", json=VALID)
+        assert response.status_code == 200
+        client.get("/health")
+    assert len(access_lines) == 2
+    line = json.loads(access_lines[0])
+    assert line["event"] == "request"
+    assert (line["method"], line["path"], line["status"]) == ("POST", "/predict", 200)
+    assert line["outcome"] == "ok"
+    assert line["model_version"] == "baseline-log0002"
+    assert line["code_revision"] == "abc1234"
+    assert isinstance(line["duration_ms"], float) and line["duration_ms"] >= 0
+    assert line["request_id"] == response.headers["X-Request-ID"]
+    assert json.loads(access_lines[1])["path"] == "/health"
+
+
+def test_invalid_request_logs_field_names_not_values(
+    tmp_path, client_for, access_lines
+):
+    body = json.dumps({**VALID, "hum": 0.123456}).replace('"temp": 0.7', '"temp": NaN')
+    with client_for(write_model(tmp_path / "model")) as client:
+        response = client.post(
+            "/predict", content=body, headers={"Content-Type": "application/json"}
+        )
+        assert response.status_code == 422
+    (raw,) = access_lines
+    line = json.loads(raw)
+    assert (line["status"], line["outcome"]) == (422, "invalid_input")
+    assert line["invalid_fields"] == ["temp"]
+    for value in ("NaN", "nan", "0.123456", "0.65"):
+        assert value not in raw
+
+
+def test_missing_model_request_is_logged_as_unavailable(
+    tmp_path, client_for, access_lines
+):
+    with client_for(tmp_path / "empty") as client:
+        assert client.post("/predict", json=VALID).status_code == 503
+    line = json.loads(access_lines[0])
+    assert (line["status"], line["outcome"], line["model_version"]) == (
+        503,
+        "model_unavailable",
+        None,
+    )
+    assert (
+        "code_revision" in line
+    )  # still says which code runs when the model is missing
+
+
+@pytest.mark.parametrize(
+    ("given", "kept"),
+    [("trace-42", True), ("bad id with spaces", False), ("x" * 65, False)],
+)
+def test_request_id_header(tmp_path, client_for, access_lines, given, kept):
+    with client_for(write_model(tmp_path / "model")) as client:
+        response = client.get("/health", headers={"X-Request-ID": given})
+    returned = response.headers["X-Request-ID"]
+    assert (returned == given) is kept
+    assert json.loads(access_lines[0])["request_id"] == returned
+
+
+def test_unhandled_error_is_logged_as_500(
+    tmp_path, client_for, access_lines, monkeypatch
+):
+    with client_for(write_model(tmp_path / "model")):
+        broken = {
+            **api.state["loaded"],
+            "model": None,
+        }  # .predict raises AttributeError
+        monkeypatch.setitem(api.state, "loaded", broken)
+        client_no_raise = TestClient(api.app, raise_server_exceptions=False)
+        assert client_no_raise.post("/predict", json=VALID).status_code == 500
+    line = json.loads(access_lines[-1])
+    assert (line["status"], line["outcome"]) == (500, "server_error")

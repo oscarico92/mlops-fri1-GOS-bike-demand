@@ -28,7 +28,7 @@ COPY src ./src
 COPY configs ./configs
 COPY data ./data
 COPY tests ./tests
-# The deployment-check tests (Lab 5) load scripts/check_deployment.py
+# tests/test_check_deployment.py loads the deployment check script (Lab 5)
 COPY scripts ./scripts
 COPY reports ./reports
 COPY .github ./.github
@@ -48,4 +48,5 @@ ENV GIT_COMMIT=$GIT_COMMIT
 # Default: serve the API on port 8000 (preflight, tests and train run with
 # another command, see README)
 EXPOSE 8000
-CMD ["uvicorn", "bike_demand.api:app", "--host", "0.0.0.0", "--port", "8000"]
+# --no-access-log: the app writes one JSON line per request (without the client address)
+CMD ["uvicorn", "bike_demand.api:app", "--host", "0.0.0.0", "--port", "8000", "--no-access-log"]
