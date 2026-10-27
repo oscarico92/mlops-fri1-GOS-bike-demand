@@ -106,6 +106,37 @@ def test_missing_field_is_rejected(tmp_path, client_for, field):
         assert client.post("/predict", json=payload).status_code == 422
 
 
+@pytest.mark.parametrize("raw", ["NaN", "Infinity", "-Infinity"])
+@pytest.mark.parametrize("with_model", [True, False], ids=["model", "no-model"])
+def test_non_finite_json_number_is_422_not_500(tmp_path, client_for, raw, with_model):
+    """Python clients send NaN/Infinity by default (json.dumps allow_nan=True)."""
+    directory = write_model(tmp_path / "model") if with_model else tmp_path / "empty"
+    body = json.dumps(VALID).replace('"temp": 0.7', f'"temp": {raw}')
+    assert raw in body
+    with client_for(directory) as client:
+        response = client.post(
+            "/predict", content=body, headers={"Content-Type": "application/json"}
+        )
+        assert response.status_code == 422
+        detail = response.json()["detail"]
+        assert detail[0]["loc"] == ["body", "temp"]
+
+
+def test_startup_logs_the_loaded_model(tmp_path, client_for, caplog):
+    caplog.set_level("INFO", logger="bike_demand.api")
+    with client_for(write_model(tmp_path / "model", "baseline-log0001")):
+        pass
+    assert "model loaded: version=baseline-log0001 sha256=" in caplog.text
+
+
+def test_startup_logs_a_missing_model_as_error(tmp_path, client_for, caplog):
+    caplog.set_level("INFO", logger="bike_demand.api")
+    with client_for(tmp_path / "empty"):
+        pass
+    errors = [r for r in caplog.records if r.levelname == "ERROR"]
+    assert errors and "model not available" in errors[0].getMessage()
+
+
 def test_missing_model_gives_503(tmp_path, client_for):
     with client_for(tmp_path / "empty") as client:
         assert client.get("/health").status_code == 503
