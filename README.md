@@ -312,6 +312,70 @@ seven claims `ok`; without the model, check exit `1` on the four model claims wh
 and the image label stay `ok`; the container was still `Up` after the check
 ([`left-behind.txt`](logs/lab-05/deploy-oscar/left-behind.txt)).
 
+## CI (Lab 6)
+
+Two workflows run on every pull request into `main`, on every push to `main`, and on
+demand (`workflow_dispatch`). Both run on a clean GitHub-hosted runner (`ubuntu-24.04`)
+with read-only permissions, no secrets and a time limit.
+
+| Workflow | File | What it runs |
+| --- | --- | --- |
+| Week 1 checks | `.github/workflows/ci.yml` | `uv lock --check`, locked install, preflight, ruff, pytest by marker on the runner |
+| Container checks | `.github/workflows/container.yml` | build the image, check its revision label, `pytest` inside the image without network, start the service, `scripts/check_deployment.py` against it |
+
+### Container job: what it adds
+
+The first workflow tests the code on the runner; it cannot see what is missing from the
+image. The container job checks the artifact we actually ship:
+
+1. **Build** from `uv.lock` with `--build-arg GIT_COMMIT=${{ github.sha }}`. A stale lock
+   stops the build at `uv sync --locked`.
+2. **Identity**: the image label `org.opencontainers.image.revision` must equal the commit
+   checked out by the runner.
+3. **Tests in the image** with `--network none`: everything the tests need must be in the
+   image.
+4. **Service**: start the container, wait until `/health` answers (30 s at most).
+5. **Check from outside** (Lab 5): model `d24c050e…`, code revision, image label, a valid
+   and an invalid `/predict`. One mismatch fails the job.
+6. **Service logs** are printed even when a step fails.
+
+### Reproduce a container-job failure locally
+
+Run the same commands as the job, from a clean clone:
+
+```bash
+REVISION=$(git rev-parse HEAD)
+docker build --build-arg GIT_COMMIT="$REVISION" -t bike-demand:ci .
+docker run --rm --network none bike-demand:ci pytest -q
+docker run -d --name bike-api -p 127.0.0.1:8000:8000 bike-demand:ci
+sleep 10
+python3 scripts/check_deployment.py --container bike-api --expected-revision "$REVISION"
+docker rm -f bike-api
+```
+
+To see the job fail on purpose, change one thing and rerun, for example remove
+`COPY scripts ./scripts` from the Dockerfile (the tests in the image fail at collection) or
+build without `--build-arg GIT_COMMIT` (the identity step and the check fail).
+
+### Questions about the container job
+
+- **Machine.** A clean runner has no `.venv`, no `artifacts/`, no MLflow runs and no model
+  from our laptops; the image must produce and carry everything. Rejected: caching a model
+  between runs, which would hide a broken build.
+- **Trigger.** Pull requests into `main` and pushes to `main`, like the first workflow, so
+  nothing reaches `main` without both. Rejected: running it only on `main`, which would
+  report a broken image after the merge instead of before.
+- **Order.** Build, then identity, then tests in the image, then the running service: each
+  step needs the previous one, and the cheapest failure is reported first. The fast checks
+  of `ci.yml` run in parallel in their own workflow.
+- **Evidence.** The container job can claim that this commit builds from the lock, that its
+  tests pass inside the image and that the service built from it answers with model
+  `d24c050e…` and this commit. It cannot claim anything about our laptops' MLflow runs or
+  about the deployed Cloud Run service.
+- **Coverage gaps.** The job does not deploy, does not test performance, and checks one
+  valid and one invalid request only; the tests and deploy parts of Lab 6 cover the rest.
+
+
 ---
 
 The rest of this file is the course starter README, kept unchanged.

@@ -1,0 +1,68 @@
+name: Container checks
+
+# Lab 6, container job: build the image on a clean runner, run the tests inside it,
+# start the service and check from outside which model and code answer (Lab 5 script).
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# A newer push to the same PR or branch cancels the older, now useless run.
+concurrency:
+  group: container-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  container:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      IMAGE: bike-demand:ci
+      # The commit checked out on the runner; for a pull request it is the merge commit.
+      REVISION: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Build the image from the lock (stops if uv.lock is stale)
+        run: |
+          docker build --progress=plain --build-arg GIT_COMMIT="$REVISION" -t "$IMAGE" . 2>&1 | tee build.log
+          test "${PIPESTATUS[0]}" -eq 0
+
+      - name: Image identity (ID and revision label)
+        run: |
+          docker image inspect "$IMAGE" --format '{{.Id}}'
+          label=$(docker image inspect "$IMAGE" --format '{{ index .Config.Labels "org.opencontainers.image.revision" }}')
+          echo "label=$label expected=$REVISION"
+          test "$label" = "$REVISION"
+
+      - name: Tests inside the image, without network
+        run: docker run --rm --network none "$IMAGE" pytest -q
+
+      - name: Start the service
+        run: |
+          docker run -d --name bike-api -p 127.0.0.1:8000:8000 "$IMAGE"
+          for attempt in $(seq 1 30); do
+            if curl -fs localhost:8000/health > /dev/null; then exit 0; fi
+            sleep 1
+          done
+          echo "service not ready after 30 s"
+          docker logs bike-api
+          exit 1
+
+      - name: Check model and code from outside the container
+        run: >
+          python3 scripts/check_deployment.py
+          --url http://127.0.0.1:8000
+          --container bike-api
+          --expected-revision "$REVISION"
+
+      - name: Service logs
+        if: always()
+        run: docker logs bike-api 2>&1 || true
