@@ -1,0 +1,4 @@
+branch lab-05-readme-deploy
+commit b9bfdb256ea959f9333efe6ac9074b918d22c599
+host Windows 10.0.26200.0 AMD64
+Docker version 29.7.2, build a7dcaa6

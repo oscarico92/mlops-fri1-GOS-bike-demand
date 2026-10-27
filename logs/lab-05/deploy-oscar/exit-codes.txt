@@ -1,0 +1,2 @@
+check normal exit=0
+check no-model exit=1

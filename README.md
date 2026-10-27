@@ -280,7 +280,7 @@ PowerShell), use `--format "{{.Id}}"` and `curl.exe` instead of `curl`.
 | **Model:** where does it come from at start-up? | From the image: the Dockerfile trains the Lab 2 model once at build time with the frozen data and config; the service only loads `artifacts/model.joblib` and checks its SHA-256 against the metadata. | Mounting a model with `-v`: the image would no longer say which model it serves. |
 | **Ready:** when is the service "ready"? | When `GET /health` answers `200`, which happens only with a loaded and verified model. | "The port answers" or "the container is running": both are true with no model (`503`). |
 | **Broken:** what does it say if the model is missing? | `/health` and a valid `/predict` answer `503` with the reason and still report `code_revision`; the startup line is `ERROR bike_demand.api model not available`; request lines have `"outcome":"model_unavailable"` and `"model_version":null`. Invalid input still gets `422`. | Exiting at start-up: the container would disappear and the reason would only be in a stopped container's logs. |
-| **Log line:** what must one request tell an operator? | One JSON line per request: time, `request_id` (also in `X-Request-ID`), method, path, status, `outcome`, `duration_ms`, `model_version`, and the names of rejected fields on a `422` (see "Request logs (Lab 5)"). | Uvicorn's access log: it says the status but not which model answered or which field failed, and it adds the client address. |
+| **Log line:** what must one request tell an operator? | One JSON line per request: time, `request_id` (also in `X-Request-ID`), method, path, status, `outcome`, `duration_ms`, `model_version`, `code_revision`, and the names of rejected fields on a `422` (see "Request logs (Lab 5)"). | Uvicorn's access log: it says the status but not which model answered or which field failed, and it adds the client address. |
 | **Secrets:** what must never appear in a log? | The request body and input values, predictions, the client address, environment variables and any credential. Field names are logged, values are not. | Logging the full request for debugging: it would copy user data into logs that many people read. |
 | **Identity:** which id shows which model is running? | `model_sha256` (bytes of the served model), plus the commit as `code_revision` in `/health` and as the image label `org.opencontainers.image.revision`. | `model_version` alone: it is a new random id at every build, so it identifies a build, not the model. `code_revision` alone: `-e GIT_COMMIT=...` can override it, which is why the check also compares the label. |
 | **Expected:** who knows the expected model, and when? | The team, before deploying: `configs/expected-model.json` holds the model SHA-256 recorded in the Lab 3 and Lab 4 reruns; the expected commit is `git rev-parse HEAD` of the checkout used to build. | Reading the expected values from the running service: the check would then compare the service with itself. |
@@ -300,10 +300,17 @@ docker rm -f bike-api
 
 Expected: the check exits `1` and names the failing claims (ready, `model_sha256`, valid `/predict`,
 same `model_version`); `code_revision` and the label still match, so the failure points to the model,
-not the code ([`logs/lab-05/check-no-model.txt`](logs/lab-05/check-no-model.txt)). What it leaves
+not the code ([`logs/lab-05/deploy-oscar/check-no-model.txt`](logs/lab-05/deploy-oscar/check-no-model.txt),
+[`service-no-model.log`](logs/lab-05/deploy-oscar/service-no-model.log)). What it leaves
 behind: a running container that answers `503` (not a crash), its startup `ERROR` line and one
 `model_unavailable` line per request in `docker logs`; nothing is written to the image or the host.
 The container must be removed with `docker rm -f`.
+
+Observed on Windows 11 AMD64 at `b9bfdb2` (image `sha256:e5dd254a…`), following only this section
+([`logs/lab-05/deploy-oscar/`](logs/lab-05/deploy-oscar/)): normal start, check exit `0` with all
+seven claims `ok`; without the model, check exit `1` on the four model claims while `code_revision`
+and the image label stay `ok`; the container was still `Up` after the check
+([`left-behind.txt`](logs/lab-05/deploy-oscar/left-behind.txt)).
 
 ---
 
