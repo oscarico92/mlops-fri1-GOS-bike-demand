@@ -1,0 +1,9 @@
+INFO:     Started server process [1]
+INFO:     Waiting for application startup.
+2026-10-27 18:30:28,590 ERROR bike_demand.api model not available: [Errno 2] No such file or directory: '/nowhere/model-metadata.json'
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+{"ts":"2026-10-27T18:30:29.371+00:00","event":"request","request_id":"5d931236f8ae48f0","method":"GET","path":"/openapi.json","status":200,"outcome":"ok","duration_ms":28.6,"model_version":null,"code_revision":"79a81a992510447c00fbc1ce61dfd7ea27644b45"}
+{"ts":"2026-10-27T18:30:29.692+00:00","event":"request","request_id":"d0d1478ac017440e","method":"GET","path":"/health","status":503,"outcome":"model_unavailable","duration_ms":3.8,"model_version":null,"code_revision":"79a81a992510447c00fbc1ce61dfd7ea27644b45"}
+{"ts":"2026-10-27T18:30:29.999+00:00","event":"request","request_id":"ee93d8cd0eb04ecd","method":"POST","path":"/predict","status":503,"outcome":"model_unavailable","duration_ms":2.1,"model_version":null,"code_revision":"79a81a992510447c00fbc1ce61dfd7ea27644b45"}
+{"ts":"2026-10-27T18:30:30.292+00:00","event":"request","request_id":"4e541a2236844bce","method":"POST","path":"/predict","status":422,"outcome":"invalid_input","duration_ms":1.0,"model_version":null,"code_revision":"79a81a992510447c00fbc1ce61dfd7ea27644b45","invalid_fields":["temp"]}

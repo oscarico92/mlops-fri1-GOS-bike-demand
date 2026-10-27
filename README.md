@@ -210,6 +210,33 @@ override without rebuilding; the image label cannot be changed that way, which i
 `--container` compares it as well. `/health` reports `code_revision`
 even when it answers `503`, so a broken deployment can still be identified.
 
+### Request logs (Lab 5)
+
+Every request writes exactly one JSON line to the container output (`docker logs bike-api`):
+
+```json
+{"ts":"2026-10-27T18:05:29.588+00:00","event":"request","request_id":"d2c36f3c2f184a98","method":"POST","path":"/predict","status":422,"outcome":"invalid_input","duration_ms":1.0,"model_version":"baseline-ddf084f62845","code_revision":"<commit>","invalid_fields":["temp"]}
+```
+
+| Field | Meaning |
+| --- | --- |
+| `request_id` | Also returned in the `X-Request-ID` response header. A client may send its own (letters, digits, `.`, `_`, `-`, at most 64 characters); anything else is replaced. |
+| `status`, `outcome` | `ok`, `invalid_input` (422), `model_unavailable` (503), `client_error` (other 4xx), `server_error` (5xx). |
+| `duration_ms` | Time spent in the service, in milliseconds. |
+| `model_version` | Model that answered; `null` when no model is loaded. |
+| `code_revision` | Commit the image was built from (`GIT_COMMIT`, same value as `/health`), so `docker logs` alone tells which code and which model answered. Same limit as above: `docker run -e GIT_COMMIT=...` can change it; the image label cannot. |
+| `invalid_fields` | Names of the rejected fields on a 422 (`body` when the JSON itself is invalid). |
+
+Never logged: the request body, input values, predictions and the client address. Uvicorn's own
+access log is turned off (`--no-access-log` in the Dockerfile) because it repeats each request and
+adds the client address.
+
+Start-up writes one plain-text line, not JSON: `... INFO bike_demand.api model loaded: version=...
+sha256=... dir=...` or `... ERROR bike_demand.api model not available: ...`. Only request lines are
+JSON; Uvicorn's own start-up lines (`INFO:     Started server process ...`) are plain text too. To read
+only the request lines: `docker logs bike-api 2>&1 | grep '"event":"request"'` (PowerShell:
+`docker logs bike-api 2>&1 | Select-String '"event":"request"'`).
+
 ### Run the tests locally
 
 ```bash
