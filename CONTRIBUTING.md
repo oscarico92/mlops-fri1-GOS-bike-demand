@@ -6,6 +6,10 @@ Rules the team agreed for every change to this repository. Roles and support rou
 ## Branches and commits
 
 - Never push directly to `main`; every change, including docs, goes through a pull request.
+- Never rewrite the history of `main` (no `git push --force`, no rebase or amend of merged
+  commits). It breaks every clone and open branch, and orphans the commits that logs, labels and
+  reviews point to. A mistake on `main` is fixed by a new commit through a pull request.
+  (Added after the rewrite of 27 October, recorded in `reports/week-02-team.md`.)
 - One branch per task, named `lab-<NN>-<short-topic>` (for example `lab-02-data-baseline`)
   or `<topic>-<short-description>` for work outside a lab.
 - Small commits with an imperative message describing the behavior change

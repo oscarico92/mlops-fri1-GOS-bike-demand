@@ -1,0 +1,9 @@
+INFO:     Started server process [1]
+INFO:     Waiting for application startup.
+2026-10-27 18:38:07,809 INFO bike_demand.api model loaded: version=baseline-9e793f48c4a9 sha256=d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07 dir=artifacts
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+{"ts":"2026-10-27T18:38:08.411+00:00","event":"request","request_id":"5d40a7f0fe434f6d","method":"GET","path":"/health","status":200,"outcome":"ok","duration_ms":1.9,"model_version":"baseline-9e793f48c4a9","code_revision":"b9bfdb256ea959f9333efe6ac9074b918d22c599"}
+{"ts":"2026-10-27T18:38:08.687+00:00","event":"request","request_id":"5dbe1a4f14b34550","method":"GET","path":"/health","status":200,"outcome":"ok","duration_ms":0.6,"model_version":"baseline-9e793f48c4a9","code_revision":"b9bfdb256ea959f9333efe6ac9074b918d22c599"}
+{"ts":"2026-10-27T18:38:08.701+00:00","event":"request","request_id":"7257a9627dc94a02","method":"POST","path":"/predict","status":200,"outcome":"ok","duration_ms":10.8,"model_version":"baseline-9e793f48c4a9","code_revision":"b9bfdb256ea959f9333efe6ac9074b918d22c599"}
+{"ts":"2026-10-27T18:38:08.704+00:00","event":"request","request_id":"19bcda2d319240b8","method":"POST","path":"/predict","status":422,"outcome":"invalid_input","duration_ms":0.6,"model_version":"baseline-9e793f48c4a9","code_revision":"b9bfdb256ea959f9333efe6ac9074b918d22c599","invalid_fields":["hr"]}
