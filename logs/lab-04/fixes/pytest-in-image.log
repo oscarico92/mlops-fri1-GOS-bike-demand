@@ -10,4 +10,4 @@ tests/exercise/test_baseline.py::test_saved_model_readback_rerun_and_held_test
     sqlalchemy.orm.configure_mappers()
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-87 passed, 2 warnings in 32.51s
+87 passed, 2 warnings in 36.92s
