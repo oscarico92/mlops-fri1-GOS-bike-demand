@@ -20,6 +20,8 @@ logger = logging.getLogger("bike_demand.api")
 # Directory holding model.joblib and model-metadata.json written by train.
 MODEL_DIR_ENV = "BIKE_MODEL_DIR"
 DEFAULT_MODEL_DIR = "artifacts"
+# Commit the image was built from (Dockerfile: ENV GIT_COMMIT from the build arg).
+CODE_REVISION_ENV = "GIT_COMMIT"
 
 NormalisedValue = Field(ge=0, le=1, allow_inf_nan=False)
 
@@ -100,6 +102,7 @@ def health() -> dict:
         "status": "ok",
         "model_version": loaded["model_version"],
         "model_sha256": loaded["model_sha256"],
+        "code_revision": os.environ.get(CODE_REVISION_ENV, "unknown"),
     }
 
 

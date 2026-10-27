@@ -1,0 +1,4 @@
+{
+  "model_sha256": "d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07",
+  "source": "Lab 3 container rerun (logs/lab-03/metrics-container.json) and Lab 4 /health (logs/lab-04/http.txt), identical on macOS arm64 and Windows x86_64"
+}
