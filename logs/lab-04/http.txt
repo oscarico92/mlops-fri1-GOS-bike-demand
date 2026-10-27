@@ -1,0 +1,6 @@
+$ curl /health
+{"status":"ok","model_version":"baseline-0f688045396d","model_sha256":"d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07"} [200]
+$ curl /predict (valid)
+{"prediction":519.4906075228514,"model_version":"baseline-0f688045396d"} [200]
+$ curl /predict (hr=24)
+{"detail":[{"type":"less_than_equal","loc":["body","hr"],"msg":"Input should be less than or equal to 23","input":24,"ctx":{"le":23}}]} [422]

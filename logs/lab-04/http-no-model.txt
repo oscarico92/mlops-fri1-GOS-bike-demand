@@ -1,0 +1,4 @@
+$ curl /health (no model)
+{"detail":"model not available: [Errno 2] No such file or directory: '/nowhere/model-metadata.json'"} [503]
+$ curl /predict (valid, no model)
+{"detail":"model not available: [Errno 2] No such file or directory: '/nowhere/model-metadata.json'"} [503]
