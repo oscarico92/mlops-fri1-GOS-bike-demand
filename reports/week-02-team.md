@@ -51,7 +51,7 @@ removed). Defect found: the README label command fails in Windows PowerShell 5.1
 
 ## Lab 4: prediction API
 
-Branch `lab-04-api`, code commit `b3a019c`, merged in #11 (`8a351ed`); review fixes merged in #12 (`c3e728c`). See the README section "Prediction API (Lab 4)" for the contract.
+Branch `lab-04-api`, code commit `b3a019c`, merged in #11 (`8a351ed`); review fixes merged in #12 (`e801c5e`). See the README section "Prediction API (Lab 4)" for the contract.
 
 ### Design decisions
 
@@ -84,7 +84,7 @@ computed. Local test runs and CI are separate claims: CI runs `pytest -m api` on
 | PR | Author | Reviewer | Main finding | Response |
 | --- | --- | --- | --- | --- |
 | #11 API | Simon | Gautier (Windows 11 x86_64, `d3cae83`) | `"temp": NaN` gave `500` instead of `422`: the default 422 handler echoes the input and `json.dumps` refuses NaN. Startup `model loaded` line absent from `docker logs`. README `curl -d '{…}'` gives `422` JSON decode error in PowerShell 5.1. One PR per member expected. | Fixed by Gautier in #12. |
-| #12 fixes | Gautier | Simon (macOS 27.0.1 arm64, `210631c`) | Evidence only in the PR description. | Raw logs committed in `b0ee385`; then merged by Gautier (the author). |
+| #12 fixes | Gautier | Simon (macOS 27.0.1 arm64, `210631c`, same files as `22115b7`) | Evidence only in the PR description. | Raw logs committed in `3a197b4`; then merged by Gautier (the author). |
 
 Process deviations: #11 was merged by Gautier before Oscar's review, and #12 was merged by its author after
 Simon's rerun. Oscar's check (one bad request, one
@@ -92,7 +92,7 @@ missing-model case) on `main` is not recorded yet. Owner: Oscar.
 
 ### Verify after the fixes (in the container)
 
-Windows 11 x86_64, Docker 29.0.1, code commit `210631c`, image `sha256:b01a25ac…`, label = commit.
+Windows 11 x86_64, Docker 29.0.1, code commit `22115b7`, image `sha256:81878968…`, label = commit.
 
 | Check | Result | Log |
 | --- | --- | --- |
@@ -101,6 +101,11 @@ Windows 11 x86_64, Docker 29.0.1, code commit `210631c`, image `sha256:b01a25ac�
 | `"temp": NaN` | `422` naming `temp` (was `500`) | [`http.txt`](../logs/lab-04/fixes/http.txt) |
 | Startup log | `INFO bike_demand.api model loaded: version=… sha256=d24c050e… dir=artifacts` | [`service.log`](../logs/lab-04/fixes/service.log) |
 | No model | `503` / `503`, NaN still `422`, `ERROR … model not available` | [`http-no-model.txt`](../logs/lab-04/fixes/http-no-model.txt), [`service-no-model.log`](../logs/lab-04/fixes/service-no-model.log) |
+
+History note: on 2026-10-27 the commits of #12 on `main` were rewritten to drop a line from their commit
+messages; file contents are unchanged (`210631c` → `22115b7`, `b0ee385` → `3a197b4`, merge `c3e728c` →
+`e801c5e`). The evidence above was captured again at `22115b7`; reviews and PR comments that cite the old
+hashes refer to the same files.
 
 The image ID changes on every build although every layer is cached and the model and label are the same; we
 do not know why. What reproduces is the model SHA-256 and the behaviour, not the image ID.
