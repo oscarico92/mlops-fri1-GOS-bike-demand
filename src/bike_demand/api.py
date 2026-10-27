@@ -9,7 +9,9 @@ from pathlib import Path
 
 import joblib
 import pandas as pd
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.encoders import jsonable_encoder
+from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -17,6 +19,7 @@ from bike_demand.preflight import sha256
 from bike_demand.validate import FEATURES
 
 logger = logging.getLogger("bike_demand.api")
+LOG_FORMAT = "%(asctime)s %(levelname)s %(name)s %(message)s"
 
 # Directory holding model.joblib and model-metadata.json written by train.
 MODEL_DIR_ENV = "BIKE_MODEL_DIR"
@@ -74,12 +77,27 @@ def load_model(directory: Path) -> dict:
 state: dict = {"loaded": None, "error": None}
 
 
+def configure_logging() -> None:
+    """Uvicorn only configures its own loggers; give ours a handler with level and time.
+
+    basicConfig does nothing if the root logger already has handlers (e.g. under pytest).
+    """
+    logging.basicConfig(level=logging.INFO, format=LOG_FORMAT)
+    logger.setLevel(logging.INFO)
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    configure_logging()
     directory = Path(os.environ.get(MODEL_DIR_ENV, DEFAULT_MODEL_DIR))
     try:
         state["loaded"], state["error"] = load_model(directory), None
-        logger.info("model loaded: %s", state["loaded"]["model_version"])
+        logger.info(
+            "model loaded: version=%s sha256=%s dir=%s",
+            state["loaded"]["model_version"],
+            state["loaded"]["model_sha256"],
+            directory,
+        )
     except (OSError, ValueError, KeyError) as error:
         state["loaded"], state["error"] = None, f"model not available: {error}"
         logger.error(state["error"])
@@ -88,6 +106,28 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title="Bike demand prediction", lifespan=lifespan)
+
+
+def json_safe(value):
+    """Replace NaN/Infinity, which JSON cannot carry, by their text form."""
+    if isinstance(value, float) and not math.isfinite(value):
+        return str(value)
+    if isinstance(value, dict):
+        return {key: json_safe(item) for key, item in value.items()}
+    if isinstance(value, list | tuple):
+        return [json_safe(item) for item in value]
+    return value
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_error(request: Request, error: RequestValidationError):
+    """Same 422 body as FastAPI's default, but it cannot crash on NaN/Infinity input.
+
+    The default handler echoes the rejected input; json.dumps refuses NaN, so a
+    request with "temp": NaN turned into a 500 instead of a 422.
+    """
+    detail = json_safe(jsonable_encoder(error.errors()))
+    return JSONResponse(status_code=422, content={"detail": detail})
 
 
 def require_model() -> dict:

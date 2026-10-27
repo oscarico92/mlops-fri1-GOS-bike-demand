@@ -102,7 +102,15 @@ No test-set metric is computed.
 ### Windows PowerShell
 
 Replace `tee` with `Tee-Object` (for example `... 2>&1 | Tee-Object build.log`) and use
-`--format "{{.Id}}"` with double quotes. Windows PowerShell 5.1 prints Docker's normal
+`--format "{{.Id}}"` with double quotes. The label command above does not work in
+Windows PowerShell 5.1: it drops the inner double quotes and Docker answers
+`function "org" not defined`. Read the labels as JSON instead:
+
+```powershell
+(docker image inspect bike-demand:lab3 --format "{{json .Config.Labels}}" | ConvertFrom-Json).'org.opencontainers.image.revision'
+```
+
+Windows PowerShell 5.1 prints Docker's normal
 log lines in red as `NativeCommandError` when stderr is redirected; they are not
 failures. PowerShell 7 (`pwsh`) does not do this.
 
@@ -150,16 +158,25 @@ In a second terminal:
 
 ```bash
 curl -s localhost:8000/health
-curl -s -X POST localhost:8000/predict -H "Content-Type: application/json" \
-  -d '{"season":3,"yr":1,"mnth":7,"hr":17,"holiday":0,"weekday":3,"workingday":1,"weathersit":1,"temp":0.7,"atemp":0.65,"hum":0.5,"windspeed":0.2}'
-curl -s -X POST localhost:8000/predict -H "Content-Type: application/json" \
-  -d '{"season":3,"yr":1,"mnth":7,"hr":24,"holiday":0,"weekday":3,"workingday":1,"weathersit":1,"temp":0.7,"atemp":0.65,"hum":0.5,"windspeed":0.2}'
+curl -s -X POST localhost:8000/predict -H "Content-Type: application/json" --data-binary @examples/predict-valid.json
+curl -s -X POST localhost:8000/predict -H "Content-Type: application/json" --data-binary @examples/predict-bad-hr.json
+curl -s -X POST localhost:8000/predict -H "Content-Type: application/json" --data-binary @examples/predict-nan-temp.json
+docker logs bike-api
 ```
 
 Expected: `200` with the model version, `200` with a prediction, then `422` naming
-`hr`. To see the missing-model case, start the container with
-`-e BIKE_MODEL_DIR=/nowhere`: `/health` and `/predict` answer `503`. The interactive
-contract is at http://localhost:8000/docs. In Windows PowerShell use `curl.exe`.
+`hr`, then `422` naming `temp` (`NaN` is not a valid number here; it used to crash the
+error handler and give `500`). `docker logs` shows one startup line
+`... INFO bike_demand.api model loaded: version=... sha256=... dir=artifacts`.
+To see the missing-model case, start the container with
+`-e BIKE_MODEL_DIR=/nowhere`: `/health` and `/predict` answer `503` and the startup
+line is `... ERROR bike_demand.api model not available: ...`. The interactive
+contract is at http://localhost:8000/docs.
+
+In Windows PowerShell type `curl.exe` (plain `curl` is an alias of
+`Invoke-WebRequest`) and keep the body in a file as above: PowerShell 5.1 strips the
+double quotes of an inline `-d '{"season":3,...}'` and the API answers `422`
+`JSON decode error`. The same commands work with `curl.exe` and no other change.
 
 ### Check a running service from outside (Lab 5)
 
@@ -194,7 +211,8 @@ uv run --locked pytest -q -m api
 
 The API tests build a tiny model in a temporary folder, so they do not need a trained
 `artifacts/` directory. They cover a valid request, out-of-range values, wrong types,
-missing and extra fields, a missing model and a tampered model file.
+missing and extra fields, `NaN`/`Infinity` inputs, the startup log line, a missing
+model and a tampered model file.
 
 ---
 

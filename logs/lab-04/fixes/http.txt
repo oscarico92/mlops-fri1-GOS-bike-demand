@@ -1,0 +1,8 @@
+$ curl.exe -s localhost:8000/health
+{"status":"ok","model_version":"baseline-816625cec80f","model_sha256":"d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07"} [200]
+$ curl.exe -s -X POST localhost:8000/predict -H "Content-Type: application/json" --data-binary @examples/predict-valid.json
+{"prediction":519.4906075228514,"model_version":"baseline-816625cec80f"} [200]
+$ curl.exe -s -X POST localhost:8000/predict -H "Content-Type: application/json" --data-binary @examples/predict-bad-hr.json
+{"detail":[{"type":"less_than_equal","loc":["body","hr"],"msg":"Input should be less than or equal to 23","input":24,"ctx":{"le":23}}]} [422]
+$ curl.exe -s -X POST localhost:8000/predict -H "Content-Type: application/json" --data-binary @examples/predict-nan-temp.json
+{"detail":[{"type":"finite_number","loc":["body","temp"],"msg":"Input should be a finite number","input":"nan"}]} [422]
