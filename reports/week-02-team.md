@@ -1,7 +1,8 @@
 # Week 2, Labs 3–4: team record
 
 Team GOS: Oscar Schwartz (`oscarico92`), Gautier Deplanque (`gautierdpl`), Simon Gallais (`Urazikk`).
-Lab 3 lead: Simon. Raw logs: [`logs/lab-03/`](../logs/lab-03/), [`logs/lab-04/`](../logs/lab-04/).
+Lab 3 lead: Simon. Raw logs: [`logs/lab-03/`](../logs/lab-03/), [`logs/lab-04/`](../logs/lab-04/),
+[`logs/lab-04/fixes/`](../logs/lab-04/fixes/).
 
 ## Lab 3: same code, clean environment
 
@@ -40,7 +41,15 @@ Explained differences: `training_commit` is `unavailable` because `.git` is not 
 carries the commit); the model bytes differ from native Windows but are identical in the container on two
 hosts and two architectures; run IDs and `model_version` are new on every run.
 
-### Final rerun from `main` by a non-author (Oscar, README only)
+**Final rerun from `main` by a non-author** (Gautier, not an author of the Dockerfile or README): Windows 11
+x86_64, fresh clone of `main` at `236773e` (after #8, #10, #9), README steps 1–5 run as a script. Image
+`sha256:70183190…`, label = commit; preflight passed, 51 passed; partitions 8645 / 4358 / 4376; MAE 154.23 /
+86.85, identical to Lab 2; reload delta 0.0; `model_sha256` `d24c050e…`, same as the two container runs above
+([`transcript.txt`](../logs/lab-03/final-rerun/transcript.txt), Windows header with machine and user names
+removed). Defect found: the README label command fails in Windows PowerShell 5.1
+(`function "org" not defined`); a PowerShell form was added in #12.
+
+### Second rerun from a later `main` (Oscar, non-author, README only)
 
 Fresh clone of `main` at `e801c5e`, Windows 11 (10.0.26200) AMD64, Docker 29.7.2, following only the README
 steps 1–4 (Windows PowerShell variants). Raw logs: [`logs/lab-03/rerun-oscar/`](../logs/lab-03/rerun-oscar/).
@@ -61,7 +70,7 @@ Fixed in the README in the same pull request as this record.
 
 ## Lab 4: prediction API
 
-Branch `lab-04-api`, code commit `b3a019c`. See the README section "Prediction API (Lab 4)" for the contract.
+Branch `lab-04-api`, code commit `b3a019c`, merged in #11 (`8a351ed`); review fixes merged in #12 (`e801c5e`). See the README section "Prediction API (Lab 4)" for the contract.
 
 ### Design decisions
 
@@ -89,7 +98,38 @@ macOS 27.0.1 arm64, fresh clone of `lab-04-api` at `b3a019c`, image `sha256:df6f
 The model served has the same SHA-256 as the Lab 3 container rerun (`d24c050e…`). No test-set metric is
 computed. Local test runs and CI are separate claims: CI runs `pytest -m api` on the PR, not in the image.
 
-Pending: review of the Lab 4 PR (one bad request and one missing-model case by each reviewer), merge, tag `m2`.
+### Reviews and fixes
+
+| PR | Author | Reviewer | Main finding | Response |
+| --- | --- | --- | --- | --- |
+| #11 API | Simon | Gautier (Windows 11 x86_64, `d3cae83`) | `"temp": NaN` gave `500` instead of `422`: the default 422 handler echoes the input and `json.dumps` refuses NaN. Startup `model loaded` line absent from `docker logs`. README `curl -d '{…}'` gives `422` JSON decode error in PowerShell 5.1. One PR per member expected. | Fixed by Gautier in #12. |
+| #12 fixes | Gautier | Simon (macOS 27.0.1 arm64, `210631c`, same files as `22115b7`) | Evidence only in the PR description. | Raw logs committed in `3a197b4`; then merged by Gautier (the author). |
+
+Process deviations: #11 was merged by Gautier before Oscar's review, and #12 was merged by its author after
+Simon's rerun. Oscar's check (one bad request, one
+missing-model case) was done after the merge, on `main`; see "Post-merge review by Oscar" below.
+
+### Verify after the fixes (in the container)
+
+Windows 11 x86_64, Docker 29.0.1, code commit `22115b7`, image `sha256:81878968…`, label = commit.
+
+| Check | Result | Log |
+| --- | --- | --- |
+| Tests in the image (`--network none`) | 87 passed | [`pytest-in-image.log`](../logs/lab-04/fixes/pytest-in-image.log) |
+| `GET /health`, valid `/predict`, `hr=24` | `200`, `200` (519.49), `422` naming `hr` | [`http.txt`](../logs/lab-04/fixes/http.txt) |
+| `"temp": NaN` | `422` naming `temp` (was `500`) | [`http.txt`](../logs/lab-04/fixes/http.txt) |
+| Startup log | `INFO bike_demand.api model loaded: version=… sha256=d24c050e… dir=artifacts` | [`service.log`](../logs/lab-04/fixes/service.log) |
+| No model | `503` / `503`, NaN still `422`, `ERROR … model not available` | [`http-no-model.txt`](../logs/lab-04/fixes/http-no-model.txt), [`service-no-model.log`](../logs/lab-04/fixes/service-no-model.log) |
+
+History note: on 2026-10-27 the commits of #12 on `main` were rewritten to drop a line from their commit
+messages; file contents are unchanged (`210631c` → `22115b7`, `b0ee385` → `3a197b4`, merge `c3e728c` →
+`e801c5e`). The evidence above was captured again at `22115b7`; reviews and PR comments that cite the old
+hashes refer to the same files.
+
+The image ID changes on every build although every layer is cached and the model and label are the same; we
+do not know why. What reproduces is the model SHA-256 and the behaviour, not the image ID.
+
+Tag `m2` is set on `main`.
 
 ### Post-merge review by Oscar (one bad request, one missing model)
 
@@ -112,4 +152,5 @@ long it took. Tag `m2` is still missing.
 ## Assistance
 
 Course starter code and slides. Claude (AI assistant) was used by Simon to draft the Dockerfile, the API, its
-tests and this record; every result above comes from commands run on our machines.
+tests and this record. Gautier used Claude to write the #12 fix, its tests and the evidence scripts, and to
+draft his parts of this record. Every result above comes from commands run on our machines.

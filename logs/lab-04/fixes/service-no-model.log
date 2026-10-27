@@ -1,9 +1,9 @@
 INFO:     Started server process [1]
 INFO:     Waiting for application startup.
-2026-10-27 17:33:29,562 ERROR bike_demand.api model not available: [Errno 2] No such file or directory: '/nowhere/model-metadata.json'
+2026-10-27 17:51:12,154 ERROR bike_demand.api model not available: [Errno 2] No such file or directory: '/nowhere/model-metadata.json'
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
-INFO:     172.17.0.1:44586 - "GET /openapi.json HTTP/1.1" 200 OK
-INFO:     172.17.0.1:44592 - "GET /health HTTP/1.1" 503 Service Unavailable
-INFO:     172.17.0.1:44602 - "POST /predict HTTP/1.1" 503 Service Unavailable
-INFO:     172.17.0.1:45092 - "POST /predict HTTP/1.1" 422 Unprocessable Entity
+INFO:     172.17.0.1:46022 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     172.17.0.1:46030 - "GET /health HTTP/1.1" 503 Service Unavailable
+INFO:     172.17.0.1:46038 - "POST /predict HTTP/1.1" 503 Service Unavailable
+INFO:     172.17.0.1:46050 - "POST /predict HTTP/1.1" 422 Unprocessable Entity
