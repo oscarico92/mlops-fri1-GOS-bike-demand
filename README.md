@@ -61,7 +61,8 @@ docker run --rm --network none bike-demand:lab3 python -m bike_demand.preflight
 docker run --rm --network none bike-demand:lab3 pytest -q
 ```
 
-Expected: `Preflight passed: ...` and `51 passed`.
+Expected: `Preflight passed: ...` and every test passing (51 in Lab 3; 87 on `main` since Lab 4,
+the count grows as later labs add tests). Read the summary line, not a fixed number.
 
 ### 4. Run the baseline and copy the outputs out
 
