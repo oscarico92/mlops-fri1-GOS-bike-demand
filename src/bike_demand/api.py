@@ -4,7 +4,11 @@ import json
 import logging
 import math
 import os
+import re
+import time
+import uuid
 from contextlib import asynccontextmanager
+from datetime import UTC, datetime
 from pathlib import Path
 
 import joblib
@@ -20,6 +24,11 @@ from bike_demand.validate import FEATURES
 
 logger = logging.getLogger("bike_demand.api")
 LOG_FORMAT = "%(asctime)s %(levelname)s %(name)s %(message)s"
+# One JSON line per request, nothing else on that line (see log_request).
+access_logger = logging.getLogger("bike_demand.access")
+REQUEST_ID_HEADER = "X-Request-ID"
+# A client-supplied request id is kept only if it is short and plain; otherwise we make one.
+SAFE_REQUEST_ID = re.compile(r"[A-Za-z0-9._-]{1,64}")
 
 # Directory holding model.joblib and model-metadata.json written by train.
 MODEL_DIR_ENV = "BIKE_MODEL_DIR"
@@ -82,6 +91,14 @@ def configure_logging() -> None:
     """
     logging.basicConfig(level=logging.INFO, format=LOG_FORMAT)
     logger.setLevel(logging.INFO)
+    # Access lines are pure JSON: own handler, no prefix, not repeated by the root logger.
+    access_logger.setLevel(logging.INFO)
+    access_logger.propagate = False
+    if not any(getattr(h, "bike_access", False) for h in access_logger.handlers):
+        handler = logging.StreamHandler()
+        handler.setFormatter(logging.Formatter("%(message)s"))
+        handler.bike_access = True
+        access_logger.addHandler(handler)
 
 
 @asynccontextmanager
@@ -125,7 +142,64 @@ async def validation_error(request: Request, error: RequestValidationError):
     request with "temp": NaN turned into a 500 instead of a 422.
     """
     detail = json_safe(jsonable_encoder(error.errors()))
+    # Field names only, never the rejected values, for the access log line.
+    request.state.invalid_fields = sorted(
+        {
+            str(e["loc"][1])
+            if len(e["loc"]) > 1 and isinstance(e["loc"][1], str)
+            else "body"
+            for e in error.errors()
+        }
+    )
     return JSONResponse(status_code=422, content={"detail": detail})
+
+
+OUTCOMES = {200: "ok", 422: "invalid_input", 503: "model_unavailable"}
+
+
+def request_id_for(request: Request) -> str:
+    given = request.headers.get(REQUEST_ID_HEADER, "")
+    return given if SAFE_REQUEST_ID.fullmatch(given) else uuid.uuid4().hex[:16]
+
+
+def log_request(request: Request, request_id: str, status: int, started: float) -> None:
+    """Write the one access line of this request.
+
+    Enough for an operator to tell what happened and which model answered; never the
+    request body, the input values or the client address.
+    """
+    loaded = state["loaded"]
+    line = {
+        "ts": datetime.now(UTC).isoformat(timespec="milliseconds"),
+        "event": "request",
+        "request_id": request_id,
+        "method": request.method,
+        "path": request.url.path,
+        "status": status,
+        "outcome": OUTCOMES.get(
+            status, "client_error" if status < 500 else "server_error"
+        ),
+        "duration_ms": round((time.perf_counter() - started) * 1000, 1),
+        "model_version": loaded["model_version"] if loaded else None,
+    }
+    invalid = getattr(request.state, "invalid_fields", None)
+    if invalid:
+        line["invalid_fields"] = invalid
+    access_logger.info(json.dumps(line, separators=(",", ":")))
+
+
+@app.middleware("http")
+async def access_log(request: Request, call_next):
+    started = time.perf_counter()
+    request_id = request_id_for(request)
+    try:
+        response = await call_next(request)
+    except Exception:
+        log_request(request, request_id, 500, started)
+        raise
+    response.headers[REQUEST_ID_HEADER] = request_id
+    log_request(request, request_id, response.status_code, started)
+    return response
 
 
 def require_model() -> dict:

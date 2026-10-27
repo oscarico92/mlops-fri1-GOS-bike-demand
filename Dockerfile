@@ -44,4 +44,5 @@ LABEL org.opencontainers.image.revision=$GIT_COMMIT
 # Default: serve the API on port 8000 (preflight, tests and train run with
 # another command, see README)
 EXPOSE 8000
-CMD ["uvicorn", "bike_demand.api:app", "--host", "0.0.0.0", "--port", "8000"]
+# --no-access-log: the app writes one JSON line per request (without the client address)
+CMD ["uvicorn", "bike_demand.api:app", "--host", "0.0.0.0", "--port", "8000", "--no-access-log"]

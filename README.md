@@ -178,6 +178,27 @@ In Windows PowerShell type `curl.exe` (plain `curl` is an alias of
 double quotes of an inline `-d '{"season":3,...}'` and the API answers `422`
 `JSON decode error`. The same commands work with `curl.exe` and no other change.
 
+### Request logs (Lab 5)
+
+Every request writes exactly one JSON line to the container output (`docker logs bike-api`):
+
+```json
+{"ts":"2026-10-27T18:05:29.588+00:00","event":"request","request_id":"d2c36f3c2f184a98","method":"POST","path":"/predict","status":422,"outcome":"invalid_input","duration_ms":1.0,"model_version":"baseline-ddf084f62845","invalid_fields":["temp"]}
+```
+
+| Field | Meaning |
+| --- | --- |
+| `request_id` | Also returned in the `X-Request-ID` response header. A client may send its own (letters, digits, `.`, `_`, `-`, at most 64 characters); anything else is replaced. |
+| `status`, `outcome` | `ok`, `invalid_input` (422), `model_unavailable` (503), `client_error` (other 4xx), `server_error` (5xx). |
+| `duration_ms` | Time spent in the service, in milliseconds. |
+| `model_version` | Model that answered; `null` when no model is loaded. |
+| `invalid_fields` | Names of the rejected fields on a 422 (`body` when the JSON itself is invalid). |
+
+Never logged: the request body, input values, predictions and the client address. Uvicorn's own
+access log is turned off (`--no-access-log` in the Dockerfile) because it repeats each request and
+adds the client address. Start-up still writes one `model loaded` (INFO) or `model not available`
+(ERROR) line.
+
 ### Run the tests locally
 
 ```bash
