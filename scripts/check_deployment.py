@@ -6,7 +6,8 @@ claim with an expected value. One mismatch fails the whole check (exit 1).
     uv run --locked python scripts/check_deployment.py --url http://127.0.0.1:8000
 
 Expected values:
-- code revision: --expected-revision, default `git rev-parse HEAD` of this checkout;
+- code revision: --expected-revision, default `git rev-parse HEAD` of this checkout,
+  so run the script from the commit the image was built from;
 - model: --expected-model-sha256, default from configs/expected-model.json.
 """
 
@@ -111,6 +112,35 @@ def run_checks(fetch, expected_revision: str, expected_model_sha256: str) -> lis
     return rows
 
 
+LABEL = "org.opencontainers.image.revision"
+
+
+def container_label(container: str) -> str:
+    """Revision label of the image a running container was started from.
+
+    Set at build time (--build-arg GIT_COMMIT); unlike the GIT_COMMIT env var
+    read by the service, `docker run -e` cannot change it.
+    """
+    result = subprocess.run(
+        ["docker", "inspect", "--format", "{{json .Config.Labels}}", container],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        return "unavailable"
+    return (json.loads(result.stdout or "null") or {}).get(LABEL, "unavailable")
+
+
+def label_row(expected_revision: str, label: str) -> tuple:
+    return (
+        "image label revision",
+        expected_revision,
+        label,
+        label == expected_revision,
+    )
+
+
 def git_head() -> str:
     result = subprocess.run(
         ["git", "rev-parse", "HEAD"], capture_output=True, text=True, check=False
@@ -124,6 +154,11 @@ def main() -> int:
     parser.add_argument("--expected-revision", default=None)
     parser.add_argument("--expected-model-sha256", default=None)
     parser.add_argument("--timeout", type=float, default=5.0)
+    parser.add_argument(
+        "--container",
+        default=None,
+        help="name of the running container: also compare its image revision label",
+    )
     args = parser.parse_args()
 
     revision = args.expected_revision or git_head()
@@ -136,6 +171,8 @@ def main() -> int:
     except OSError as error:
         print(f"FAIL: service not reachable at {args.url}: {error}")
         return 1
+    if args.container:
+        rows.append(label_row(revision, container_label(args.container)))
 
     width = max(len(row[0]) for row in rows)
     print(f"service {args.url}")

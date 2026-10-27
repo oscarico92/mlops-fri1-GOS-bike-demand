@@ -67,3 +67,10 @@ def test_service_without_model_fails(tmp_path, monkeypatch):
     assert "ready (/health)" in failed(rows)
     assert "valid /predict" in failed(rows)
     assert "code_revision" not in failed(rows)  # still reported with a 503
+
+
+def test_label_row_catches_an_overridden_revision():
+    # `docker run -e GIT_COMMIT=<expected>` fakes /health, not the image label.
+    assert check.label_row(REVISION, REVISION)[3]
+    assert not check.label_row(REVISION, "b" * 40)[3]
+    assert not check.label_row(REVISION, "unavailable")[3]
