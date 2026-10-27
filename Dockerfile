@@ -28,6 +28,8 @@ COPY src ./src
 COPY configs ./configs
 COPY data ./data
 COPY tests ./tests
+# The deployment-check tests (Lab 5) load scripts/check_deployment.py
+COPY scripts ./scripts
 COPY reports ./reports
 COPY .github ./.github
 RUN uv sync --locked
