@@ -40,8 +40,24 @@ Explained differences: `training_commit` is `unavailable` because `.git` is not 
 carries the commit); the model bytes differ from native Windows but are identical in the container on two
 hosts and two architectures; run IDs and `model_version` are new on every run.
 
-Missing evidence: the final rerun from `main` by a non-author, following only the README, is not recorded
-yet. Owner: Oscar.
+### Final rerun from `main` by a non-author (Oscar, README only)
+
+Fresh clone of `main` at `e801c5e`, Windows 11 (10.0.26200) AMD64, Docker 29.7.2, following only the README
+steps 1–4 (Windows PowerShell variants). Raw logs: [`logs/lab-03/rerun-oscar/`](../logs/lab-03/rerun-oscar/).
+
+| Link in the chain | Observed |
+| --- | --- |
+| Commit / `uv.lock` blob | `e801c5ed` / `42e51142` ([`revision.txt`](../logs/lab-03/rerun-oscar/revision.txt)) |
+| Image ID | `sha256:f320f200…` ([`image-id.txt`](../logs/lab-03/rerun-oscar/image-id.txt)) |
+| Image label `org.opencontainers.image.revision` | `e801c5ed…`, equal to the commit |
+| Preflight (`--network none`) | passed |
+| `pytest -q` in the image (`--network none`) | 87 passed, 2 warnings |
+| Partitions | 8,645 / 4,358 / 4,376 |
+| MAE train mean / random forest | 154.23179306864967 / 86.84685685591091 (identical to Lab 2 and both earlier container runs) |
+| `model_sha256` / `reload_mae_delta` | `d24c050e…` (identical to the earlier container runs) / 0.0 |
+
+Finding on the README: step 3 still says "Expected: `51 passed`"; since Lab 4 the image runs 87 tests.
+Fixed in the README in the same pull request as this record.
 
 ## Lab 4: prediction API
 
@@ -74,6 +90,24 @@ The model served has the same SHA-256 as the Lab 3 container rerun (`d24c050e…
 computed. Local test runs and CI are separate claims: CI runs `pytest -m api` on the PR, not in the image.
 
 Pending: review of the Lab 4 PR (one bad request and one missing-model case by each reviewer), merge, tag `m2`.
+
+### Post-merge review by Oscar (one bad request, one missing model)
+
+Done **after** PRs #11 and #12 were merged, on the image built from `main` at `e801c5e` above (same image as the
+Lab 3 rerun). Raw evidence: [`logs/lab-04/review-oscar/`](../logs/lab-04/review-oscar/).
+
+| Request | Expected | Observed |
+| --- | --- | --- |
+| `GET /health` | `200` + version | `200`, `model_version` `baseline-8e5592ac84af`, `model_sha256` `d24c050e…` |
+| `POST /predict` valid | `200` | `200`, prediction 519.49 (same as the Lab 4 record) |
+| `hr=24`, `temp=NaN` (README examples) | `422` | `422`, fields `hr` and `temp` named |
+| **My bad request:** valid input plus `"cnt": 500` | `422` | `422` `extra_forbidden` on `cnt`: a label cannot be sent as input |
+| **Missing model** (`-e BIKE_MODEL_DIR=/nowhere`): `/health`, valid `/predict` | `503` | `503` both, reason names the missing `model-metadata.json`; startup log `ERROR bike_demand.api model not available` |
+| Missing model + `hr=24` | `422` | `422`: the client error is still reported first |
+
+Observation for Lab 5: apart from the startup line, the only per-request lines in `docker logs` are Uvicorn
+access lines (`"POST /predict HTTP/1.1" 422`); they do not say which model answered, which field failed or how
+long it took. Tag `m2` is still missing.
 
 ## Assistance
 
