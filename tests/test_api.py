@@ -1,0 +1,127 @@
+"""Prediction API: normal, invalid-input and missing-model behaviour."""
+
+import json
+
+import joblib
+import pandas as pd
+import pytest
+from fastapi.testclient import TestClient
+from sklearn.ensemble import RandomForestRegressor
+
+from bike_demand import api
+from bike_demand.preflight import sha256
+from bike_demand.validate import FEATURES
+
+pytestmark = pytest.mark.api
+
+VALID = {
+    "season": 3,
+    "yr": 1,
+    "mnth": 7,
+    "hr": 17,
+    "holiday": 0,
+    "weekday": 3,
+    "workingday": 1,
+    "weathersit": 1,
+    "temp": 0.7,
+    "atemp": 0.65,
+    "hum": 0.5,
+    "windspeed": 0.2,
+}
+
+
+def write_model(directory, version="baseline-test0001"):
+    """A tiny model saved like train does: model.joblib + model-metadata.json."""
+    frame = pd.DataFrame([VALID, {**VALID, "hr": 3}], columns=list(FEATURES))
+    model = RandomForestRegressor(n_estimators=2, random_state=0)
+    model.fit(frame, [500.0, 20.0])
+    directory.mkdir(parents=True, exist_ok=True)
+    joblib.dump(model, directory / "model.joblib")
+    metadata = {
+        "model_version": version,
+        "model_sha256": sha256(directory / "model.joblib"),
+        "features": list(FEATURES),
+    }
+    (directory / "model-metadata.json").write_text(json.dumps(metadata))
+    return directory
+
+
+@pytest.fixture
+def client_for(monkeypatch):
+    """Start the app (lifespan included) with the model directory under test."""
+
+    def start(directory):
+        monkeypatch.setenv(api.MODEL_DIR_ENV, str(directory))
+        return TestClient(api.app)
+
+    return start
+
+
+def test_health_and_predict_with_model(tmp_path, client_for):
+    with client_for(write_model(tmp_path / "model", "baseline-abc123")) as client:
+        health = client.get("/health")
+        assert health.status_code == 200
+        assert health.json()["model_version"] == "baseline-abc123"
+
+        response = client.post("/predict", json=VALID)
+        assert response.status_code == 200
+        body = response.json()
+        assert body["model_version"] == "baseline-abc123"
+        assert body["prediction"] >= 0
+
+
+def test_predict_accepts_integer_for_normalised_bounds(tmp_path, client_for):
+    with client_for(write_model(tmp_path / "model")) as client:
+        response = client.post("/predict", json={**VALID, "temp": 1, "hum": 0})
+        assert response.status_code == 200
+
+
+@pytest.mark.parametrize(
+    "change",
+    [
+        {"hr": 24},
+        {"season": 0},
+        {"weathersit": 5},
+        {"temp": 1.0000001},
+        {"windspeed": -0.1},
+        {"hr": "17"},
+        {"hr": 17.5},
+        {"holiday": True},
+        {"temp": "0.7"},
+        {"cnt": 100},
+        {"registered": 80},
+    ],
+    ids=lambda change: next(iter(change)) + "=" + repr(next(iter(change.values()))),
+)
+def test_invalid_input_is_rejected_before_inference(tmp_path, client_for, change):
+    with client_for(write_model(tmp_path / "model")) as client:
+        response = client.post("/predict", json={**VALID, **change})
+        assert response.status_code == 422
+
+
+@pytest.mark.parametrize("field", FEATURES)
+def test_missing_field_is_rejected(tmp_path, client_for, field):
+    payload = {key: value for key, value in VALID.items() if key != field}
+    with client_for(write_model(tmp_path / "model")) as client:
+        assert client.post("/predict", json=payload).status_code == 422
+
+
+def test_missing_model_gives_503(tmp_path, client_for):
+    with client_for(tmp_path / "empty") as client:
+        assert client.get("/health").status_code == 503
+        assert client.post("/predict", json=VALID).status_code == 503
+
+
+def test_invalid_input_without_model_is_still_422(tmp_path, client_for):
+    with client_for(tmp_path / "empty") as client:
+        response = client.post("/predict", json={**VALID, "hr": 24})
+        assert response.status_code == 422
+
+
+def test_tampered_model_is_not_served(tmp_path, client_for):
+    directory = write_model(tmp_path / "model")
+    with (directory / "model.joblib").open("ab") as stream:
+        stream.write(b"tampered")
+    with client_for(directory) as client:
+        assert client.get("/health").status_code == 503
+        assert client.post("/predict", json=VALID).status_code == 503

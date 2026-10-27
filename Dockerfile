@@ -1,4 +1,5 @@
 # Lab 3: run the Lab 2 baseline and its tests in a clean environment.
+# Lab 4: serve the evaluated baseline model through the prediction API.
 FROM python:3.12.12-slim@sha256:f3fa41d74a768c2fce8016b98c191ae8c1bacd8f1152870a3f9f87d350920b7c
 
 # uv version allowed by pyproject.toml (>=0.12.19,<0.13)
@@ -31,9 +32,16 @@ COPY reports ./reports
 COPY .github ./.github
 RUN uv sync --locked
 
+# Produce the evaluated Lab 2 model once, at build time, from the same frozen data,
+# config and split: the image then carries one fixed model (artifacts/model.joblib
+# + model-metadata.json). The service only loads it; it never trains.
+RUN python -m bike_demand.train --config configs/baseline.yaml > /dev/null
+
 # Commit packaged in the image (set with --build-arg GIT_COMMIT=$(git rev-parse HEAD))
 ARG GIT_COMMIT=unknown
 LABEL org.opencontainers.image.revision=$GIT_COMMIT
 
-# Default: train the baseline (preflight and tests are run with another command)
-CMD ["python", "-m", "bike_demand.train", "--config", "configs/baseline.yaml"]
+# Default: serve the API on port 8000 (preflight, tests and train run with
+# another command, see README)
+EXPOSE 8000
+CMD ["uvicorn", "bike_demand.api:app", "--host", "0.0.0.0", "--port", "8000"]
