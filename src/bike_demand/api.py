@@ -167,8 +167,8 @@ def request_id_for(request: Request) -> str:
 def log_request(request: Request, request_id: str, status: int, started: float) -> None:
     """Write the one access line of this request.
 
-    Enough for an operator to tell what happened and which model answered; never the
-    request body, the input values or the client address.
+    Enough for an operator to tell what happened and which model and code answered;
+    never the request body, the input values or the client address.
     """
     loaded = state["loaded"]
     line = {
@@ -183,6 +183,7 @@ def log_request(request: Request, request_id: str, status: int, started: float) 
         ),
         "duration_ms": round((time.perf_counter() - started) * 1000, 1),
         "model_version": loaded["model_version"] if loaded else None,
+        "code_revision": os.environ.get(CODE_REVISION_ENV, "unknown"),
     }
     invalid = getattr(request.state, "invalid_fields", None)
     if invalid:

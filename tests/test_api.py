@@ -175,7 +175,8 @@ def access_lines():
     access.removeHandler(handler)
 
 
-def test_one_json_line_per_request(tmp_path, client_for, access_lines):
+def test_one_json_line_per_request(tmp_path, client_for, access_lines, monkeypatch):
+    monkeypatch.setenv(api.CODE_REVISION_ENV, "abc1234")
     with client_for(write_model(tmp_path / "model", "baseline-log0002")) as client:
         response = client.post("/predict", json=VALID)
         assert response.status_code == 200
@@ -186,6 +187,7 @@ def test_one_json_line_per_request(tmp_path, client_for, access_lines):
     assert (line["method"], line["path"], line["status"]) == ("POST", "/predict", 200)
     assert line["outcome"] == "ok"
     assert line["model_version"] == "baseline-log0002"
+    assert line["code_revision"] == "abc1234"
     assert isinstance(line["duration_ms"], float) and line["duration_ms"] >= 0
     assert line["request_id"] == response.headers["X-Request-ID"]
     assert json.loads(access_lines[1])["path"] == "/health"
@@ -219,6 +221,9 @@ def test_missing_model_request_is_logged_as_unavailable(
         "model_unavailable",
         None,
     )
+    assert (
+        "code_revision" in line
+    )  # still says which code runs when the model is missing
 
 
 @pytest.mark.parametrize(
