@@ -107,8 +107,12 @@ messages; file contents are unchanged (`210631c` → `22115b7`, `b0ee385` → `3
 `e801c5e`). The evidence above was captured again at `22115b7`; reviews and PR comments that cite the old
 hashes refer to the same files.
 
-The image ID changes on every build although every layer is cached and the model and label are the same; we
-do not know why. What reproduces is the model SHA-256 and the behaviour, not the image ID.
+The image ID changed on every build although every layer was cached and the model and label were the same.
+Cause (found by Oscar in #15, measured in #17): Docker Desktop adds a provenance attestation that contains the
+build time, and `docker image inspect --format "{{.Id}}"` returns the digest of the manifest list that
+includes it. Two cached builds give two IDs by default and the same ID with `docker build --provenance=false`
+([`provenance-test.txt`](../logs/lab-04/image-id/provenance-test.txt)). The image IDs recorded above are
+default builds, so they identify one build, not the content; the model SHA-256 and the label identify the content.
 
 Pending: Oscar's check on `main`; tag `m2` once this record is merged.
 
