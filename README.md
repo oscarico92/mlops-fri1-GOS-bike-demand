@@ -65,12 +65,13 @@ Expected: `Preflight passed: ...` and `51 passed`.
 
 ### 4. Run the baseline and copy the outputs out
 
-The default command trains the baseline (`python -m bike_demand.train --config configs/baseline.yaml`).
+Since Lab 4 the default command starts the API, so pass the training command explicitly.
 Use a named container so its outputs can be copied before it is removed.
 `--network none` shows that nothing is downloaded at run time: everything comes from the image.
 
 ```bash
-docker run --name bike-rerun --network none bike-demand:lab3 2>&1 | tee train.log
+docker run --name bike-rerun --network none bike-demand:lab3 \
+  python -m bike_demand.train --config configs/baseline.yaml 2>&1 | tee train.log
 docker cp bike-rerun:/app/reports/metrics.json ./metrics-rerun.json
 docker cp bike-rerun:/app/artifacts ./artifacts-rerun
 docker rm bike-rerun
@@ -104,6 +105,72 @@ Replace `tee` with `Tee-Object` (for example `... 2>&1 | Tee-Object build.log`) 
 `--format "{{.Id}}"` with double quotes. Windows PowerShell 5.1 prints Docker's normal
 log lines in red as `NativeCommandError` when stderr is redirected; they are not
 failures. PowerShell 7 (`pwsh`) does not do this.
+
+## Prediction API (Lab 4)
+
+`src/bike_demand/api.py` serves the evaluated baseline model. It never trains: at
+startup it loads `model.joblib` and `model-metadata.json` from `BIKE_MODEL_DIR`
+(default `artifacts/`), checks the model SHA-256 against the metadata, and keeps the
+result in one model-availability state shared by both endpoints.
+
+| Endpoint | Answer |
+| --- | --- |
+| `GET /health` | `200` with `status`, `model_version`, `model_sha256` when a usable model is loaded; otherwise `503` with the reason |
+| `POST /predict` | `200` with `prediction` (finite, non-negative rentals/hour) and `model_version`; `422` for invalid input; `503` for valid input without a model |
+
+`model_version` is read from `model-metadata.json`, never hard-coded.
+
+**Input contract.** One flat JSON object with the 12 training features, all required:
+`season` 1–4, `yr` 0–1, `mnth` 1–12, `hr` 0–23, `holiday` 0–1, `weekday` 0–6,
+`workingday` 0–1, `weathersit` 1–4 (integers), and `temp`, `atemp`, `hum`,
+`windspeed` (finite numbers in 0–1, normalised as in the UCI data, not Celsius or %).
+
+- Types are strict: `"17"`, `17.5` or `true` for an integer field are rejected (`422`).
+- Extra fields are rejected (`422`), so `cnt`, `casual` and `registered` can never be
+  sent as inputs. Rejected alternative: silently ignoring them, which would hide a
+  client bug.
+
+**Where the model comes from in the image.** The Dockerfile runs the Lab 2 training
+once at build time (same frozen data, config and split), so each image carries one
+fixed model. The model bytes are the same as in the Lab 3 rerun (`model_sha256`
+`d24c050e…`); `model_version` is a new random id for each build, so read it from
+`/health`. Rejected alternative: mounting a model from the laptop, which would make
+the image depend on host files.
+
+### Run and test the service in Docker
+
+```bash
+docker build --build-arg GIT_COMMIT=$(git rev-parse HEAD) -t bike-demand:lab4 . 2>&1 | tee build.log
+docker image inspect bike-demand:lab4 --format '{{.Id}}'
+docker run --rm --network none bike-demand:lab4 pytest -q            # tests run inside the image
+docker run --rm --name bike-api -p 127.0.0.1:8000:8000 bike-demand:lab4
+```
+
+In a second terminal:
+
+```bash
+curl -s localhost:8000/health
+curl -s -X POST localhost:8000/predict -H "Content-Type: application/json" \
+  -d '{"season":3,"yr":1,"mnth":7,"hr":17,"holiday":0,"weekday":3,"workingday":1,"weathersit":1,"temp":0.7,"atemp":0.65,"hum":0.5,"windspeed":0.2}'
+curl -s -X POST localhost:8000/predict -H "Content-Type: application/json" \
+  -d '{"season":3,"yr":1,"mnth":7,"hr":24,"holiday":0,"weekday":3,"workingday":1,"weathersit":1,"temp":0.7,"atemp":0.65,"hum":0.5,"windspeed":0.2}'
+```
+
+Expected: `200` with the model version, `200` with a prediction, then `422` naming
+`hr`. To see the missing-model case, start the container with
+`-e BIKE_MODEL_DIR=/nowhere`: `/health` and `/predict` answer `503`. The interactive
+contract is at http://localhost:8000/docs. In Windows PowerShell use `curl.exe`.
+
+### Run the tests locally
+
+```bash
+uv sync --locked
+uv run --locked pytest -q -m api
+```
+
+The API tests build a tiny model in a temporary folder, so they do not need a trained
+`artifacts/` directory. They cover a valid request, out-of-range values, wrong types,
+missing and extra fields, a missing model and a tampered model file.
 
 ---
 

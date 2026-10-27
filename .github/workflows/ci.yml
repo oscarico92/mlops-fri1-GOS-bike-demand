@@ -30,3 +30,4 @@ jobs:
       - run: uv run --locked ruff format --check .
       - run: uv run --locked pytest -q -m infra
       - run: uv run --locked pytest -q -m lab1
+      - run: uv run --locked pytest -q -m api

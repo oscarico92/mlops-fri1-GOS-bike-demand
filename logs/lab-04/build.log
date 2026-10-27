@@ -1,0 +1,228 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.97kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for ghcr.io/astral-sh/uv:0.12.24@sha256:3af4716e991d6956a41e573eab705d0ee08500cd829ed30293eb8472f372c65a
+#2 DONE 1.4s
+
+#3 [internal] load metadata for docker.io/library/python:3.12.12-slim@sha256:f3fa41d74a768c2fce8016b98c191ae8c1bacd8f1152870a3f9f87d350920b7c
+#3 DONE 1.6s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 395B done
+#4 DONE 0.0s
+
+#5 FROM ghcr.io/astral-sh/uv:0.12.24@sha256:3af4716e991d6956a41e573eab705d0ee08500cd829ed30293eb8472f372c65a
+#5 resolve ghcr.io/astral-sh/uv:0.12.24@sha256:3af4716e991d6956a41e573eab705d0ee08500cd829ed30293eb8472f372c65a 0.0s done
+#5 DONE 0.0s
+
+#6 [stage-0  1/15] FROM docker.io/library/python:3.12.12-slim@sha256:f3fa41d74a768c2fce8016b98c191ae8c1bacd8f1152870a3f9f87d350920b7c
+#6 resolve docker.io/library/python:3.12.12-slim@sha256:f3fa41d74a768c2fce8016b98c191ae8c1bacd8f1152870a3f9f87d350920b7c 0.0s done
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 1.44MB 0.0s done
+#7 DONE 0.0s
+
+#8 [stage-0  2/15] COPY --from=ghcr.io/astral-sh/uv:0.12.24@sha256:3af4716e991d6956a41e573eab705d0ee08500cd829ed30293eb8472f372c65a /uv /bin/uv
+#8 CACHED
+
+#9 [stage-0  3/15] RUN apt-get update     && apt-get install -y --no-install-recommends git     && rm -rf /var/lib/apt/lists/*
+#9 CACHED
+
+#10 [stage-0  4/15] WORKDIR /app
+#10 CACHED
+
+#11 [stage-0  5/15] COPY pyproject.toml uv.lock .python-version ./
+#11 DONE 0.0s
+
+#12 [stage-0  6/15] RUN uv sync --locked --no-install-project
+#12 0.320 Using CPython 3.12.12 interpreter at: /usr/local/bin/python3.12
+#12 0.321 Creating virtual environment at: .venv
+#12 0.341 Resolved 100 packages in 10ms
+#12 0.804 Downloading pygments (1.2MiB)
+#12 0.808 Downloading mlflow-skinny (3.9MiB)
+#12 0.810 Downloading mlflow (11.4MiB)
+#12 0.811 Downloading fonttools (5.2MiB)
+#12 0.812 Downloading aiohttp (1.8MiB)
+#12 0.812 Downloading pyarrow (44.7MiB)
+#12 0.812 Downloading sqlalchemy (4.4MiB)
+#12 0.813 Downloading databricks-sdk (1.0MiB)
+#12 0.813 Downloading kiwisolver (1.2MiB)
+#12 0.813 Downloading pillow (6.0MiB)
+#12 0.814 Downloading numpy (15.0MiB)
+#12 0.814 Downloading pydantic-core (1.9MiB)
+#12 0.814 Downloading ruff (10.1MiB)
+#12 0.815 Downloading pandas (11.2MiB)
+#12 0.815 Downloading scikit-learn (8.5MiB)
+#12 0.816 Downloading scipy (32.4MiB)
+#12 0.816 Downloading matplotlib (10.2MiB)
+#12 0.816 Downloading cryptography (4.5MiB)
+#12 0.816 Downloading mlflow-tracing (1.9MiB)
+#12 3.917  Downloaded databricks-sdk
+#12 3.988  Downloaded kiwisolver
+#12 3.998  Downloaded pygments
+#12 4.219  Downloaded aiohttp
+#12 4.254  Downloaded mlflow-tracing
+#12 4.260  Downloaded pydantic-core
+#12 4.925  Downloaded mlflow-skinny
+#12 5.079  Downloaded sqlalchemy
+#12 5.096  Downloaded cryptography
+#12 5.189  Downloaded fonttools
+#12 5.343  Downloaded pillow
+#12 5.746  Downloaded scikit-learn
+#12 5.918  Downloaded ruff
+#12 5.946  Downloaded matplotlib
+#12 6.059  Downloaded pandas
+#12 6.100  Downloaded mlflow
+#12 6.216  Downloaded numpy
+#12 7.114  Downloaded scipy
+#12 7.547  Downloaded pyarrow
+#12 7.547 Prepared 96 packages in 7.20s
+#12 8.493 Installed 96 packages in 945ms
+#12 8.493  + aiohappyeyeballs==2.7.1
+#12 8.494  + aiohttp==3.14.4
+#12 8.494  + aiosignal==1.4.0
+#12 8.494  + alembic==1.20.0
+#12 8.494  + annotated-doc==0.0.5
+#12 8.494  + annotated-types==0.8.0
+#12 8.494  + anyio==4.15.1
+#12 8.494  + attrs==26.1.0
+#12 8.494  + blinker==1.9.0
+#12 8.494  + cachetools==7.2.1
+#12 8.494  + certifi==2026.7.22
+#12 8.494  + cffi==2.1.1
+#12 8.494  + charset-normalizer==3.5.2
+#12 8.494  + click==8.5.0
+#12 8.494  + cloudpickle==3.1.2
+#12 8.494  + contourpy==1.4.0
+#12 8.494  + cryptography==50.0.2
+#12 8.494  + cycler==0.12.1
+#12 8.494  + databricks-sdk==0.148.0
+#12 8.494  + docker==7.2.0
+#12 8.494  + fastapi==0.142.2
+#12 8.494  + flask==3.1.3
+#12 8.494  + flask-cors==6.0.5
+#12 8.494  + fonttools==4.66.1
+#12 8.494  + frozenlist==1.8.0
+#12 8.494  + gitdb==4.0.12
+#12 8.494  + gitpython==3.2.0
+#12 8.494  + google-auth==2.60.0
+#12 8.494  + graphene==3.4.3
+#12 8.494  + graphql-core==3.2.13
+#12 8.494  + graphql-relay==3.2.0
+#12 8.494  + gunicorn==26.2.0
+#12 8.494  + h11==0.16.0
+#12 8.494  + httpcore==1.0.9
+#12 8.495  + httpx==0.28.1
+#12 8.495  + huey==3.4.0
+#12 8.495  + idna==3.20
+#12 8.495  + importlib-metadata==9.0.1
+#12 8.495  + iniconfig==2.3.1
+#12 8.495  + itsdangerous==2.2.0
+#12 8.495  + jinja2==3.1.6
+#12 8.495  + joblib==1.6.0
+#12 8.495  + kiwisolver==1.5.1
+#12 8.495  + mako==1.4.3
+#12 8.495  + markupsafe==3.0.4
+#12 8.495  + matplotlib==3.11.2
+#12 8.495  + mlflow==3.17.0
+#12 8.495  + mlflow-skinny==3.17.0
+#12 8.495  + mlflow-tracing==3.17.0
+#12 8.495  + multidict==6.9.1
+#12 8.495  + narwhals==2.26.0
+#12 8.495  + numpy==2.5.3
+#12 8.495  + opentelemetry-api==1.45.1
+#12 8.495  + opentelemetry-proto==1.45.1
+#12 8.495  + opentelemetry-sdk==1.45.1
+#12 8.495  + opentelemetry-semantic-conventions==0.66b1
+#12 8.495  + packaging==26.3
+#12 8.495  + pandas==2.3.3
+#12 8.495  + pillow==12.3.0
+#12 8.495  + pluggy==1.6.0
+#12 8.495  + prettytable==3.18.0
+#12 8.495  + propcache==0.5.4
+#12 8.495  + protobuf==6.33.6
+#12 8.495  + pyarrow==25.0.1
+#12 8.495  + pyasn1==0.6.4
+#12 8.495  + pyasn1-modules==0.4.2
+#12 8.495  + pycparser==3.0
+#12 8.495  + pydantic==2.13.5
+#12 8.496  + pydantic-core==2.46.5
+#12 8.496  + pygments==2.21.0
+#12 8.496  + pyparsing==3.3.3
+#12 8.496  + pytest==9.1.1
+#12 8.496  + python-dateutil==2.9.0.post0
+#12 8.496  + python-dotenv==1.2.4
+#12 8.496  + pytz==2026.5
+#12 8.496  + pyyaml==6.0.3
+#12 8.496  + requests==2.34.2
+#12 8.496  + ruff==0.15.7
+#12 8.496  + scikit-learn==1.9.1
+#12 8.496  + scipy==1.18.1
+#12 8.496  + six==1.17.0
+#12 8.496  + skops==0.16.0
+#12 8.496  + smmap==5.0.3
+#12 8.496  + sqlalchemy==2.1.3
+#12 8.496  + sqlparse==0.6.0
+#12 8.496  + starlette==1.7.0
+#12 8.496  + threadpoolctl==3.7.0
+#12 8.496  + typing-extensions==4.16.0
+#12 8.496  + typing-inspection==0.4.4
+#12 8.496  + tzdata==2026.5
+#12 8.496  + urllib3==2.8.0
+#12 8.496  + uvicorn==0.54.0
+#12 8.496  + wcwidth==0.9.2
+#12 8.496  + werkzeug==3.1.9
+#12 8.496  + yarl==1.25.1
+#12 8.496  + zipp==4.1.1
+#12 DONE 9.3s
+
+#13 [stage-0  7/15] COPY README.md ./
+#13 DONE 0.1s
+
+#14 [stage-0  8/15] COPY src ./src
+#14 DONE 0.0s
+
+#15 [stage-0  9/15] COPY configs ./configs
+#15 DONE 0.0s
+
+#16 [stage-0 10/15] COPY data ./data
+#16 DONE 0.0s
+
+#17 [stage-0 11/15] COPY tests ./tests
+#17 DONE 0.0s
+
+#18 [stage-0 12/15] COPY reports ./reports
+#18 DONE 0.0s
+
+#19 [stage-0 13/15] COPY .github ./.github
+#19 DONE 0.0s
+
+#20 [stage-0 14/15] RUN uv sync --locked
+#20 0.121 Resolved 100 packages in 1ms
+#20 0.124    Building bike-demand @ file:///app
+#20 1.577       Built bike-demand @ file:///app
+#20 1.578 Prepared 1 package in 1.45s
+#20 1.581 Installed 1 package in 2ms
+#20 1.581  + bike-demand==0.1.0 (from file:///app)
+#20 DONE 1.6s
+
+#21 [stage-0 15/15] RUN python -m bike_demand.train --config configs/baseline.yaml > /dev/null
+#21 8.138 2026/10/27 16:49:12 INFO mlflow.store.db.utils: Creating initial MLflow database tables...
+#21 8.150 2026/10/27 16:49:12 INFO mlflow.store.db.utils: Updating database tables
+#21 DONE 9.6s
+
+#22 exporting to image
+#22 exporting layers
+#22 exporting layers 28.6s done
+#22 exporting manifest sha256:fc38004fe8c1ba6fec7aefe0708693cbd4ce593ffede8452c744d8c9c8076a42 done
+#22 exporting config sha256:a562a69389d1ecf5bdb928fd2d1dc38bd3d53d793283e188b778638b0f61686c done
+#22 exporting attestation manifest sha256:590652cc3b363306eade8a954be2221d7ddd92f07cbb9d9cf89f206b0f48c6f8 done
+#22 exporting manifest list sha256:df6fb4dbdb3bdc381b8331644558faaa3e1256f827279406fc25f8058235d3a3 done
+#22 naming to docker.io/library/bike-demand:lab4 done
+#22 unpacking to docker.io/library/bike-demand:lab4
+#22 unpacking to docker.io/library/bike-demand:lab4 7.1s done
+#22 DONE 35.8s
