@@ -1,0 +1,127 @@
+name: Deploy to Cloud Run
+
+# Lab 6: deliver a commit to Cloud Run only after it passed every check on main.
+# Gate: runs when "Container checks" finished successfully for a push to main, and
+# also requires "Week 1 checks" to be green on the same commit.
+# Configuration comes from repository variables (no secret, no stored key):
+# see docs/cloud-run-setup.md.
+on:
+  workflow_run:
+    workflows: ["Container checks"]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: read
+  actions: read     # read the result of "Week 1 checks" for the same commit
+  id-token: write   # keyless login to Google Cloud (Workload Identity Federation)
+
+# One deploy at a time; never cancel a deploy halfway.
+concurrency:
+  group: deploy-cloud-run
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      REVISION: ${{ github.event.workflow_run.head_sha }}
+      PROJECT: ${{ vars.GCP_PROJECT_ID }}
+      REGION: ${{ vars.GCP_REGION }}
+      SERVICE: ${{ vars.CLOUD_RUN_SERVICE }}
+      AR_REPO: ${{ vars.GCP_ARTIFACT_REPO }}
+      WIF_PROVIDER: ${{ vars.GCP_WIF_PROVIDER }}
+      DEPLOY_SA: ${{ vars.GCP_DEPLOY_SA }}
+    steps:
+      - name: Deploy configured?
+        run: |
+          missing=""
+          for name in PROJECT REGION SERVICE AR_REPO WIF_PROVIDER DEPLOY_SA; do
+            [ -n "${!name}" ] || missing="$missing $name"
+          done
+          if [ -n "$missing" ]; then
+            echo "::error::deploy not configured, missing repository variables:$missing (docs/cloud-run-setup.md)"
+            exit 1
+          fi
+
+      - name: Week 1 checks are green on the same commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          result=$(gh api "repos/${{ github.repository }}/actions/workflows/ci.yml/runs?head_sha=$REVISION&event=push" \
+            --jq '.workflow_runs[0].conclusion')
+          echo "Week 1 checks on $REVISION: $result"
+          test "$result" = "success"
+
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          ref: ${{ env.REVISION }}
+          persist-credentials: false
+
+      - name: Keyless login (Workload Identity Federation)
+        uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
+        with:
+          workload_identity_provider: ${{ env.WIF_PROVIDER }}
+          service_account: ${{ env.DEPLOY_SA }}
+
+      - uses: google-github-actions/setup-gcloud@aa5489c8933f4cc7a4f7d45035b3b1440c9c10db # v3.0.1
+
+      - name: Build and push the image tagged with the commit
+        run: |
+          IMAGE="$REGION-docker.pkg.dev/$PROJECT/$AR_REPO/bike-demand:$REVISION"
+          gcloud auth configure-docker "$REGION-docker.pkg.dev" --quiet
+          docker build --build-arg GIT_COMMIT="$REVISION" -t "$IMAGE" .
+          docker push "$IMAGE"
+          echo "IMAGE=$IMAGE" >> "$GITHUB_ENV"
+
+      - name: Remember the revision serving now (for undo)
+        run: |
+          previous=$(gcloud run services describe "$SERVICE" --region "$REGION" \
+            --format='value(status.latestReadyRevisionName)' 2>/dev/null || true)
+          echo "previous revision: ${previous:-none (first deploy)}"
+          echo "PREVIOUS=$previous" >> "$GITHUB_ENV"
+
+      - name: Deploy a new revision
+        run: >
+          gcloud run deploy "$SERVICE"
+          --image "$IMAGE"
+          --region "$REGION"
+          --port 8000
+          --min-instances 0
+          --max-instances 1
+          --allow-unauthenticated
+          --quiet
+
+      - name: Live identity check (Lab 5 script against the Cloud Run URL)
+        run: |
+          URL=$(gcloud run services describe "$SERVICE" --region "$REGION" --format='value(status.url)')
+          LIVE=$(gcloud run services describe "$SERVICE" --region "$REGION" --format='value(status.latestReadyRevisionName)')
+          {
+            echo "commit   $REVISION"
+            echo "image    $IMAGE"
+            echo "revision $LIVE"
+            echo "url      $URL"
+          } | tee live-check.txt
+          for attempt in $(seq 1 30); do
+            if curl -fs "$URL/health" > /dev/null; then break; fi
+            sleep 2
+          done
+          python3 scripts/check_deployment.py --url "$URL" --expected-revision "$REVISION" --timeout 30 \
+            | tee -a live-check.txt
+          test "${PIPESTATUS[0]}" -eq 0
+
+      - name: Undo - send traffic back to the previous revision
+        if: failure() && env.PREVIOUS != ''
+        run: |
+          gcloud run services update-traffic "$SERVICE" --region "$REGION" --to-revisions "$PREVIOUS=100"
+          echo "traffic back on $PREVIOUS" | tee -a live-check.txt
+
+      - name: Keep the deploy record
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: live-check-${{ env.REVISION }}
+          path: live-check.txt
+          if-no-files-found: warn
