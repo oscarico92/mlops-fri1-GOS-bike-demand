@@ -1,0 +1,4 @@
+
+Microsoft Windows [version 10.0.26200.9457]
+uv 0.12.23 (46b84fd0b 2026-10-03 x86_64-pc-windows-msvc)
+docker 29.0.1 linux/amd64

@@ -237,6 +237,42 @@ JSON; Uvicorn's own start-up lines (`INFO:     Started server process ...`) are 
 only the request lines: `docker logs bike-api 2>&1 | grep '"event":"request"'` (PowerShell:
 `docker logs bike-api 2>&1 | Select-String '"event":"request"'`).
 
+### Regression tests (Lab 6)
+
+`tests/regression/` recomputes, from the frozen `data/raw/hour.csv`, the results we recorded in
+Labs 2–5 and compares them with `tests/fixtures/recorded-baseline.json`. That file is written by
+hand from the recorded runs; `train` never rewrites it (unlike `reports/metrics.json`), so a changed
+result cannot become the new expectation by running `train`.
+
+```bash
+uv run --locked pytest -q -m regression                 # 5 tests, a few seconds
+uv run --locked python scripts/regression_can_fail.py   # shows each test fails for its defect
+```
+
+| Defect it catches | Test | Recorded value | How we know it can fail |
+| --- | --- | --- | --- |
+| Raw data edited or replaced | `test_frozen_data_is_the_recorded_snapshot` | data SHA-256 `e03de4ee…` | one validation label +1 |
+| A partition window moved (rows change partition) | `test_partitions_match_the_recorded_split` | 8645 / 4358 / 4376 rows and their date ranges | validation ends 2012-06-29 |
+| Comparator computed on validation labels (leakage) | `test_train_mean_comparator_recomputes` | train mean 143.79, naive MAE 154.23 | `mean` taken from `validation_target` |
+| Model setting changed without review | `test_random_forest_validation_mae_recomputes` | RF validation MAE 86.85 | `max_depth` 10 → 11 in preset and config |
+| API feeds the model something it was not trained on | `test_served_prediction_for_the_reference_request` | 519.49 for `examples/predict-valid.json` | humidity multiplied by 100 in `/predict` |
+
+`scripts/regression_can_fail.py` copies the working tree to a temporary folder, injects one defect,
+runs the regression tests there and checks that the named test is red (the repository is never
+modified); it also checks that the clean copy is green. CI runs both commands on every pull request.
+
+**Tolerance.** `1e-9` absolute. The recorded values were identical to the last printed digit in every
+run we have: Lab 2 on native Windows, the Lab 3–5 containers on macOS arm64 and Windows x86_64, and
+local Linux runs. The smallest model change we measured moves the RF MAE by `1.4e-3` (seed 42 → 43);
+`max_depth` 10 → 11 moves it by `8.0e-2`. So the tolerance only absorbs floating-point summation order
+and cannot hide a model change. Rejected: a relative tolerance such as 1 %, which would accept
+`max_depth` 9 (+0.34 MAE).
+
+**Limits.** These tests check the baseline we recorded, not model quality, and never compute a
+test-period metric. They call the same functions as `train` but not `train` itself (no MLflow run), so
+a defect only in the run bookkeeping is left to `tests/exercise/`. If the recorded result must
+change on purpose, update `recorded-baseline.json` in a reviewed pull request that says why.
+
 ### Run the tests locally
 
 ```bash

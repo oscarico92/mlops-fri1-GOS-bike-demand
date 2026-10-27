@@ -1,0 +1,41 @@
+{
+  "source": "Lab 2 recorded run (reports/metrics.json at 85d3d32, 2026-10-09) and the Lab 3-5 container reruns; prediction from logs/lab-04/fixes/http.txt and logs/lab-05/; reference_request is examples/predict-valid.json, copied here because the image has no examples/",
+  "data_sha256": "e03de4ee4ef4dc376ac6e04bf829673c6269e8eba5c60fa121640fa2f829504f",
+  "partitions": {
+    "train": {
+      "rows": 8645,
+      "date_min": "2011-01-01",
+      "date_max": "2011-12-31"
+    },
+    "validation": {
+      "rows": 4358,
+      "date_min": "2012-01-01",
+      "date_max": "2012-06-30"
+    },
+    "test": {
+      "rows": 4376,
+      "date_min": "2012-07-01",
+      "date_max": "2012-12-31"
+    }
+  },
+  "train_mean": 143.79444765760556,
+  "validation_mae": {
+    "naive_train_mean": 154.23179306864967,
+    "random_forest": 86.84685685591091
+  },
+  "reference_request": {
+    "season": 3,
+    "yr": 1,
+    "mnth": 7,
+    "hr": 17,
+    "holiday": 0,
+    "weekday": 3,
+    "workingday": 1,
+    "weathersit": 1,
+    "temp": 0.7,
+    "atemp": 0.65,
+    "hum": 0.5,
+    "windspeed": 0.2
+  },
+  "reference_prediction": 519.4906075228514
+}
