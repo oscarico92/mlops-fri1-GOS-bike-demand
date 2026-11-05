@@ -1,0 +1,11 @@
+INFO:     Started server process [1]
+INFO:     Waiting for application startup.
+2026-10-27 17:56:30,541 INFO bike_demand.api model loaded: version=baseline-8e5592ac84af sha256=d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07 dir=artifacts
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     172.17.0.1:52868 - "GET /health HTTP/1.1" 200 OK
+INFO:     172.17.0.1:52872 - "GET /health HTTP/1.1" 200 OK
+INFO:     172.17.0.1:52876 - "POST /predict HTTP/1.1" 200 OK
+INFO:     172.17.0.1:52880 - "POST /predict HTTP/1.1" 422 Unprocessable Entity
+INFO:     172.17.0.1:52888 - "POST /predict HTTP/1.1" 422 Unprocessable Entity
+INFO:     172.17.0.1:52892 - "POST /predict HTTP/1.1" 422 Unprocessable Entity

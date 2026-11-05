@@ -1,0 +1,12 @@
+### GET /health (no model)
+{"detail":"model not available: [Errno 2] No such file or directory: '/nowhere/model-metadata.json'"}
+HTTP 503
+
+### POST /predict valid (no model)
+{"detail":"model not available: [Errno 2] No such file or directory: '/nowhere/model-metadata.json'"}
+HTTP 503
+
+### POST /predict hr=24 (no model)
+{"detail":[{"type":"less_than_equal","loc":["body","hr"],"msg":"Input should be less than or equal to 23","input":24,"ctx":{"le":23}}]}
+HTTP 422
+

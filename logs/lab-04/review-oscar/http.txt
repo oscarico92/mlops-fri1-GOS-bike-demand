@@ -1,0 +1,20 @@
+### GET /health
+{"status":"ok","model_version":"baseline-8e5592ac84af","model_sha256":"d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07"}
+HTTP 200
+
+### POST /predict valid
+{"prediction":519.4906075228514,"model_version":"baseline-8e5592ac84af"}
+HTTP 200
+
+### POST /predict hr=24 (README)
+{"detail":[{"type":"less_than_equal","loc":["body","hr"],"msg":"Input should be less than or equal to 23","input":24,"ctx":{"le":23}}]}
+HTTP 422
+
+### POST /predict temp=NaN (README)
+{"detail":[{"type":"finite_number","loc":["body","temp"],"msg":"Input should be a finite number","input":"nan"}]}
+HTTP 422
+
+### POST /predict extra field cnt (my bad request)
+{"detail":[{"type":"extra_forbidden","loc":["body","cnt"],"msg":"Extra inputs are not permitted","input":500}]}
+HTTP 422
+
