@@ -238,6 +238,52 @@ JSON; Uvicorn's own start-up lines (`INFO:     Started server process ...`) are 
 only the request lines: `docker logs bike-api 2>&1 | grep '"event":"request"'` (PowerShell:
 `docker logs bike-api 2>&1 | Select-String '"event":"request"'`).
 
+### Regression tests (Lab 6)
+
+`tests/regression/` recomputes, from the frozen `data/raw/hour.csv`, the results we recorded in
+Labs 2–5 and compares them with `tests/fixtures/recorded-baseline.json`. That file is written by
+hand from the recorded runs; `train` never rewrites it (unlike `reports/metrics.json`), so a changed
+result cannot become the new expectation by running `train`.
+
+```bash
+uv run --locked pytest -q -m regression                 # 5 tests, a few seconds
+uv run --locked python scripts/regression_can_fail.py   # shows each test fails for its defect
+```
+
+| Defect it catches | Test | Recorded value | How we know it can fail |
+| --- | --- | --- | --- |
+| Raw data edited or replaced | `test_frozen_data_is_the_recorded_snapshot` | data SHA-256 `e03de4ee…` | one validation label +1 |
+| A partition window moved (rows change partition) | `test_partitions_match_the_recorded_split` | 8645 / 4358 / 4376 rows and their date ranges | validation ends 2012-06-29 |
+| Comparator computed on validation labels (leakage) | `test_train_mean_comparator_recomputes` | train mean 143.79, naive MAE 154.23 | `mean` taken from `validation_target` |
+| Model setting changed without review | `test_random_forest_validation_mae_recomputes` | RF validation MAE 86.85 | `max_depth` 10 → 11 in preset and config |
+| API feeds the model something it was not trained on | `test_served_prediction_for_the_reference_request` | 519.49 for `examples/predict-valid.json` | humidity multiplied by 100 in `/predict` |
+
+The mapping is not one defect, one test: a defect in the data or in a partition window also changes
+the comparator and the forest MAE, so those tests turn red too (see
+[`can-fail-windows.txt`](logs/lab-06/regression/can-fail-windows.txt)). What the script checks is that
+the test named for each defect is among the red ones.
+
+`scripts/regression_can_fail.py` copies the working tree to a temporary folder, injects one defect,
+runs the regression tests there and checks that the named test is red (the repository is never
+modified); it also checks that the clean copy is green. CI runs both commands on every pull request.
+
+**Tolerance.** `1e-9` absolute. The recorded values were identical to the last printed digit in every
+run we have: Lab 2 on native Windows, the Lab 3–5 containers on macOS arm64 and Windows x86_64, and
+local Linux runs. The smallest model change we measured moves the RF MAE by `1.4e-3` (seed 42 → 43);
+`max_depth` 10 → 11 moves it by `8.0e-2`, `max_depth` 10 → 9 by `+0.34`. These come from
+`uv run --locked python scripts/measure_tolerance.py`; commit, platform and output are in
+[`tolerance-runs.txt`](logs/lab-06/regression/tolerance-runs.txt). So the tolerance only absorbs floating-point summation order
+and cannot hide a model change. Rejected: a relative tolerance such as 1 %, which would accept
+`max_depth` 9 (+0.34 MAE).
+
+**Limits.** These tests check the baseline we recorded, not model quality, and never compute a
+test-period metric. They call the same functions as `train` but not `train` itself (no MLflow run), so
+a defect only in the run bookkeeping is left to `tests/exercise/`. pytest also prints a
+`StarletteDeprecationWarning` ("Using `httpx` with `starlette.testclient` is deprecated"): it comes from
+`fastapi.testclient` in the locked FastAPI/Starlette versions, not from our tests, and changes no result.
+Removing it means changing locked dependencies, which belongs in its own reviewed pull request. If the recorded result must
+change on purpose, update `recorded-baseline.json` in a reviewed pull request that says why.
+
 ### Run the tests locally
 
 ```bash
@@ -377,6 +423,33 @@ build without `--build-arg GIT_COMMIT` (the identity step and the check fail).
   valid and one invalid request only; the tests and deploy parts of Lab 6 cover the rest.
 
 
+### Deploy to Cloud Run (Lab 6)
+
+`.github/workflows/deploy.yml` delivers a commit of `main` to the Cloud Run service once
+it has passed every check. One-time project setup and the repository variables it needs:
+[docs/cloud-run-setup.md](docs/cloud-run-setup.md). Until those variables exist, the deploy
+job fails at "Deploy configured?" with an explicit message; it never reports a deploy it did not do.
+
+Steps: check that "Week 1 checks" is green on the same commit, keyless login, build and push
+the image tagged with the commit (label `org.opencontainers.image.revision` set as in Lab 5),
+`gcloud run deploy` with `--port 8000`, then the Lab 5 check against the live URL with the
+commit as expected revision. If the check fails, traffic goes back to the previous revision.
+The run keeps `live-check.txt` (commit, image, revision, URL, check output) as an artifact.
+
+| Question | Our choice | Rejected option and why |
+| --- | --- | --- |
+| **Gate:** which branch and checks gate a deploy? | Only commits pushed to `main` (that is, merged pull requests), and only when both "Container checks" and "Week 1 checks" are green on that commit. The identity provider also accepts tokens from `main` only. | Deploying from pull requests or on every push: an unreviewed change could reach the live service. |
+| **Identity:** how does it log in with no stored key? | Direct Workload Identity Federation: GitHub issues a short-lived OIDC token (`id-token: write`), Google exchanges it for a short-lived access token for our repository's identity, which is trusted for this repository's `main` only and holds the deploy roles in the instructor's shared project (resources prefixed `gos-`). | A service-account JSON key in GitHub secrets: a long-lived secret that can leak and must be rotated by hand. |
+| **Proof:** what shows the new revision is live? | The Lab 5 check run against the Cloud Run URL: `/health` answers `200` with model `d24c050e…` and `code_revision` equal to the deployed commit, a valid and an invalid `/predict` behave as expected. The output, with the revision name and URL, is kept as `live-check.txt`. | "The deploy command succeeded" or "the revision is Ready": both are true for a revision that serves the wrong model or code. |
+| **Undo:** what do you do if the live check fails? | The workflow sends 100 % of the traffic back to the revision that was serving before the deploy and fails, so the bad commit is visible. On the very first deploy there is no previous revision: the service is deleted or redeployed from the last good commit by hand. | Leaving the failed revision live and fixing forward: users would be served the bad revision until the fix lands. |
+
+Public access is a deliberate exception for this course (`--allow-unauthenticated`, as in the
+instructor's walkthrough): the Lab 5 check sends no token. Rejected for a retained service:
+requiring authentication would be safer but needs an identity token in the check. Exposure is
+limited with `--max-instances 1`, `--min-instances 0` and by deleting the service after the lab
+(see the setup page). The check on Cloud Run cannot compare the image label (no `--container`):
+the commit is compared through `code_revision`, which comes from the image built by this workflow.
+
 ## Training pipeline and accepted models (Lab 7)
 
 `src/bike_demand/pipeline.py` is the one entry point. It never edits `artifacts/`,
@@ -393,7 +466,8 @@ uv run --locked python -m bike_demand.pipeline restore baseline         # back t
 
 `bootstrap` retrains the Lab 2 settings and registers the result only if its bytes equal
 `configs/expected-model.json` (`d24c050e…`, the model the image and the Lab 5 check use);
-native Windows gives other bytes, so bootstrap there stops without registering anything.
+native Windows gives other bytes, so bootstrap there stops without registering anything: on Windows,
+run the pipeline in the container (`docker run --rm -v "$PWD/registry:/app/registry" bike-demand:ci python -m bike_demand.pipeline bootstrap`).
 
 `run` exits `0` (accept), `2` (reject), `3` (blocked) or `1` (error), so CI can read the
 outcome. Each run writes `decisions/<candidate_id>.json`: candidate settings and bytes,
@@ -425,6 +499,7 @@ registry/current.json        serving version, the version it replaced, when and 
 Tests: `uv run --locked pytest -q -m pipeline` (rejection leaves accepted bytes unchanged,
 promotion keeps the replaced version, restore works, promotion refused after the
 incumbent changed, tampered bundle fails closed, candidates vary model settings only).
+
 
 ---
 
