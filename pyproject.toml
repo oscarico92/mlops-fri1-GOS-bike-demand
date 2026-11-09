@@ -44,4 +44,5 @@ markers = [
     "exercise: Week 1 Lab 2 data/split/baseline exercises",
     "api: Week 2 Lab 4 prediction API behaviour",
     "deploy: Week 3 Lab 5 deployment check against a service",
+    "pipeline: Week 4 Lab 7 training pipeline and accepted-state boundary",
 ]
