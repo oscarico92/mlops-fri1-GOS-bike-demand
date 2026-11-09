@@ -53,7 +53,7 @@ jobs:
         run: |
           for attempt in $(seq 1 30); do
             run=$(gh api "repos/${{ github.repository }}/actions/workflows/ci.yml/runs?head_sha=$REVISION&event=push" \
-              --jq '.workflow_runs[0] | "\(.status) \(.conclusion)"')
+              --jq '(.workflow_runs[0] // empty) | "\(.status) \(.conclusion)"')
             echo "Week 1 checks on $REVISION: ${run:-no run yet}"
             case "$run" in
               "completed success") exit 0 ;;
@@ -103,16 +103,23 @@ jobs:
           echo "previous revision: ${previous:-none (first deploy)}"
           echo "PREVIOUS=$previous" >> "$GITHUB_ENV"
 
-      - name: Deploy a new revision
-        run: >
-          gcloud run deploy "$SERVICE"
-          --image "${IMAGE%:*}@$DIGEST"
-          --region "$REGION"
-          --port 8000
-          --min-instances 0
-          --max-instances 1
-          --allow-unauthenticated
-          --quiet
+      - name: Deploy a new revision and send it the traffic
+        # After a rollback (update-traffic --to-revisions PREV=100) the traffic stays pinned and
+        # "gcloud run deploy" gives the new revision 0 %. Route it explicitly to the revision
+        # just created; the next step checks that this revision runs our digest.
+        run: |
+          gcloud run deploy "$SERVICE" \
+            --image "${IMAGE%:*}@$DIGEST" \
+            --region "$REGION" \
+            --port 8000 \
+            --min-instances 0 \
+            --max-instances 1 \
+            --allow-unauthenticated \
+            --quiet
+          NEW=$(gcloud run services describe "$SERVICE" --region "$REGION" \
+            --format='value(status.latestCreatedRevisionName)')
+          echo "new revision: $NEW"
+          gcloud run services update-traffic "$SERVICE" --region "$REGION" --to-revisions "$NEW=100"
 
       - name: Live identity check (Lab 5 script against the Cloud Run URL)
         # Cloud Run has no "--container" to read the image label, so the check first proves that
@@ -149,9 +156,26 @@ jobs:
       - name: Undo - send traffic back to the previous revision
         if: failure() && env.PREVIOUS != ''
         run: |
+          PREV_DIGEST=$(gcloud run revisions describe "$PREVIOUS" --region "$REGION" --format='value(status.imageDigest)')
           gcloud run services update-traffic "$SERVICE" --region "$REGION" --to-revisions "$PREVIOUS=100"
           URL=$(gcloud run services describe "$SERVICE" --region "$REGION" --format='value(status.url)')
-          echo "traffic back on $PREVIOUS, /health now: $(curl -s "$URL/health")" | tee -a live-check.txt
+          gcloud run services describe "$SERVICE" --region "$REGION" --format=json > service-after-undo.json
+          SERVING=$(python3 -c 'import json
+          t = json.load(open("service-after-undo.json"))["status"]["traffic"]
+          full = [e["revisionName"] for e in t if e.get("percent") == 100]
+          print(full[0] if full else "")')
+          SERVING_DIGEST=$(gcloud run revisions describe "$SERVING" --region "$REGION" --format='value(status.imageDigest)')
+          HEALTH=$(curl -s -o health-after-undo.json -w '%{http_code}' "$URL/health" || true)
+          {
+            echo "undo     traffic 100 % on $SERVING (expected $PREVIOUS)"
+            echo "undo     running $SERVING_DIGEST (expected $PREV_DIGEST)"
+            echo "undo     /health $HEALTH $(cat health-after-undo.json 2>/dev/null)"
+          } | tee -a live-check.txt
+          if [ "$SERVING" != "$PREVIOUS" ] || [ "$SERVING_DIGEST" != "$PREV_DIGEST" ] || [ "$HEALTH" != "200" ]; then
+            echo "::error::undo did not restore $PREVIOUS" | tee -a live-check.txt
+            exit 1
+          fi
+          echo "undo     restored $PREVIOUS" | tee -a live-check.txt
 
       - name: Keep the deploy record
         if: always()
