@@ -1,0 +1,5 @@
+REVISION: gos-bike-demand-00001-lc9
+ACTIVE: yes
+SERVICE: gos-bike-demand
+DEPLOYED: 2026-11-09 22:44:08 UTC
+DEPLOYED BY: repo:oscarico92@131778029/mlops-fri1-GOS-bike-demand@1411479247:ref:refs/heads/main (projects/1087566946792/locations/global/workloadIdentityPools/gos-github)

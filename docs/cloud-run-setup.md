@@ -1,6 +1,6 @@
 # Cloud Run setup (Lab 6, once)
 
-Our project is the instructor's shared project (`mlops-ece-group2-and-group3`, other teams
+Our project is the instructor's shared project (`mlops-ece-group2`, other teams
 deploy there too). Rules for this shared project:
 
 - every resource we create starts with `gos-`;
@@ -13,6 +13,18 @@ Our IAM roles in the project are *Project IAM Admin*, *Create Service Accounts* 
 Granting roles on a service account would need rights we do not have, which is why we use
 direct federation (roles granted at project level to our repository identity) instead of
 impersonating a deploy service account.
+
+None of these roles can create a Workload Identity pool (`iam.workloadIdentityPools.create`
+was denied). With *Project IAM Admin*, Oscar added **one** role to his own account,
+`roles/iam.workloadIdentityPoolAdmin`, then created the pool. This is the only role we gave
+ourselves; it is recorded here so the instructor can see it and remove it after the lab:
+
+```bash
+gcloud projects add-iam-policy-binding mlops-ece-group2 \
+  --member="user:<your account>" --role="roles/iam.workloadIdentityPoolAdmin" \
+  --condition=None --format=none
+# IAM changes take 1 to 7 minutes to apply: wait before creating the pool.
+```
 
 Run in **Cloud Shell** (console, top right `>_`), with the project selected:
 
