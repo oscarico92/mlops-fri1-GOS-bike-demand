@@ -42,6 +42,7 @@ RUN python -m bike_demand.train --config configs/baseline.yaml > /dev/null
 # Commit packaged in the image (set with --build-arg GIT_COMMIT=$(git rev-parse HEAD))
 ARG GIT_COMMIT=unknown
 LABEL org.opencontainers.image.revision=$GIT_COMMIT
+ENV GIT_COMMIT=$GIT_COMMIT
 
 # Default: serve the API on port 8000 (preflight, tests and train run with
 # another command, see README)
