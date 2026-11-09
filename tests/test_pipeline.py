@@ -210,3 +210,20 @@ def test_output_files_do_not_make_the_tree_dirty(tmp_path, monkeypatch):
     assert pipeline.code_tree_dirty() is True
     monkeypatch.setattr(pipeline, "git", lambda *a: "unavailable")
     assert pipeline.code_tree_dirty() is None
+
+
+def test_a_gate_that_raises_is_recorded_as_blocked(env, monkeypatch):
+    pipeline.POLICY.write_text("stand-in: true\n")
+    gate = types.ModuleType("bike_demand.gate")
+
+    def broken(policy, evidence, metadata):
+        raise TypeError("boom")
+
+    gate.decide = broken
+    monkeypatch.setitem(sys.modules, "bike_demand.gate", gate)
+    before = digest_tree(env.registry / "accepted")
+    assert run(env) == pipeline.EXIT["blocked"]
+    record = only_decision(env)
+    assert record["outcome"] == "blocked"
+    assert record["reasons"] == ["gate could not run: TypeError: boom"]
+    assert digest_tree(env.registry / "accepted") == before

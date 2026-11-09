@@ -270,9 +270,16 @@ def decide(evidence: dict, metadata: dict) -> dict:
             "reasons": ["gate code not available"],
             "policy": policy_file,
         }
-    policy = yaml.safe_load(POLICY.read_text())
-    result = gate.decide(policy, evidence, metadata)
-    if result.get("outcome") not in EXIT:
+    try:
+        policy = yaml.safe_load(POLICY.read_text())
+        result = gate.decide(policy, evidence, metadata)
+    except Exception as error:  # noqa: BLE001 - a gate that cannot run is a check that did not run
+        return {
+            "outcome": "blocked",
+            "reasons": [f"gate could not run: {type(error).__name__}: {error}"],
+            "policy": policy_file,
+        }
+    if not isinstance(result, dict) or result.get("outcome") not in EXIT:
         return {
             "outcome": "blocked",
             "reasons": ["gate returned no valid outcome"],
