@@ -1,0 +1,8 @@
+{
+  "version": "baseline",
+  "model_sha256": "d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07",
+  "previous": null,
+  "switched_at": "2026-11-09T18:26:33+00:00",
+  "reason": "Lab 2 baseline, reviewed in PR #4",
+  "validation_mae": 86.84685685591091
+}
