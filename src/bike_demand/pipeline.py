@@ -76,6 +76,18 @@ def git(*args: str) -> str:
     return result.stdout.strip() if result.returncode == 0 else "unavailable"
 
 
+# Pipeline outputs: a decision record or a log written by an earlier run is not a code
+# change, so it must not make the next candidate look unattributable.
+OUTPUT_PATHS = ("decisions", "logs")
+
+
+def code_tree_dirty() -> bool | None:
+    """True if code or config differ from the commit; None if Git cannot tell."""
+    excludes = [f":(exclude){path}" for path in OUTPUT_PATHS]
+    status = git("status", "--porcelain", "--", ".", *excludes)
+    return None if status == "unavailable" else bool(status)
+
+
 def file_sha256(path: Path) -> str | None:
     return hashlib.sha256(path.read_bytes()).hexdigest() if path.is_file() else None
 
@@ -189,7 +201,7 @@ def train_candidate(root: Path, config: dict, candidate_id: str) -> dict:
         "model_settings": config["model"],
         "data_sha256": snapshot["sha256"],
         "training_commit": git("rev-parse", "HEAD"),
-        "working_tree_dirty": bool(git("status", "--porcelain")),
+        "working_tree_dirty": code_tree_dirty(),
         "created_at": now(),
     }
     write_json(staging / "metadata.json", metadata)

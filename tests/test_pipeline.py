@@ -193,3 +193,20 @@ def test_bootstrap_refuses_bytes_other_than_the_expected_model(tmp_path, monkeyp
         pipeline.cmd_bootstrap(SimpleNamespace())
     assert pipeline.read_current(tmp_path / "registry") is None
     assert not (tmp_path / "registry/accepted/baseline").exists()
+
+
+def test_output_files_do_not_make_the_tree_dirty(tmp_path, monkeypatch):
+    calls = []
+
+    def fake_git(*args):
+        calls.append(args)
+        return ""
+
+    monkeypatch.setattr(pipeline, "git", fake_git)
+    assert pipeline.code_tree_dirty() is False
+    (args,) = calls
+    assert ":(exclude)decisions" in args and ":(exclude)logs" in args
+    monkeypatch.setattr(pipeline, "git", lambda *a: " M src/bike_demand/api.py")
+    assert pipeline.code_tree_dirty() is True
+    monkeypatch.setattr(pipeline, "git", lambda *a: "unavailable")
+    assert pipeline.code_tree_dirty() is None
