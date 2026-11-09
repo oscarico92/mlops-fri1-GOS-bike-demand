@@ -257,6 +257,11 @@ uv run --locked python scripts/regression_can_fail.py   # shows each test fails 
 | Model setting changed without review | `test_random_forest_validation_mae_recomputes` | RF validation MAE 86.85 | `max_depth` 10 → 11 in preset and config |
 | API feeds the model something it was not trained on | `test_served_prediction_for_the_reference_request` | 519.49 for `examples/predict-valid.json` | humidity multiplied by 100 in `/predict` |
 
+The mapping is not one defect, one test: a defect in the data or in a partition window also changes
+the comparator and the forest MAE, so those tests turn red too (see
+[`can-fail-windows.txt`](logs/lab-06/regression/can-fail-windows.txt)). What the script checks is that
+the test named for each defect is among the red ones.
+
 `scripts/regression_can_fail.py` copies the working tree to a temporary folder, injects one defect,
 runs the regression tests there and checks that the named test is red (the repository is never
 modified); it also checks that the clean copy is green. CI runs both commands on every pull request.
@@ -264,13 +269,18 @@ modified); it also checks that the clean copy is green. CI runs both commands on
 **Tolerance.** `1e-9` absolute. The recorded values were identical to the last printed digit in every
 run we have: Lab 2 on native Windows, the Lab 3–5 containers on macOS arm64 and Windows x86_64, and
 local Linux runs. The smallest model change we measured moves the RF MAE by `1.4e-3` (seed 42 → 43);
-`max_depth` 10 → 11 moves it by `8.0e-2`. So the tolerance only absorbs floating-point summation order
+`max_depth` 10 → 11 moves it by `8.0e-2`, `max_depth` 10 → 9 by `+0.34`. These come from
+`uv run --locked python scripts/measure_tolerance.py`; commit, platform and output are in
+[`tolerance-runs.txt`](logs/lab-06/regression/tolerance-runs.txt). So the tolerance only absorbs floating-point summation order
 and cannot hide a model change. Rejected: a relative tolerance such as 1 %, which would accept
 `max_depth` 9 (+0.34 MAE).
 
 **Limits.** These tests check the baseline we recorded, not model quality, and never compute a
 test-period metric. They call the same functions as `train` but not `train` itself (no MLflow run), so
-a defect only in the run bookkeeping is left to `tests/exercise/`. If the recorded result must
+a defect only in the run bookkeeping is left to `tests/exercise/`. pytest also prints a
+`StarletteDeprecationWarning` ("Using `httpx` with `starlette.testclient` is deprecated"): it comes from
+`fastapi.testclient` in the locked FastAPI/Starlette versions, not from our tests, and changes no result.
+Removing it means changing locked dependencies, which belongs in its own reviewed pull request. If the recorded result must
 change on purpose, update `recorded-baseline.json` in a reviewed pull request that says why.
 
 ### Run the tests locally
