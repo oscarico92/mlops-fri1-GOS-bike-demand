@@ -89,6 +89,5 @@ those commits; local MLflow runs and laptop models are not CI evidence.
 
 ## Assistance
 
-Course slides and starter code. Each member used Claude (AI assistant) for parts of their work, as stated in
-their PRs. This record was drafted by Simon with Claude from the merged PRs and logs; every value above comes
+Course slides and starter code. Assistance used by each member is stated in their own PRs. This record was drafted by Simon with Claude from the merged PRs and logs; every value above comes
 from a committed log or a GitHub run.
