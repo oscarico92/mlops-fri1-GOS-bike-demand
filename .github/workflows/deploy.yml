@@ -33,12 +33,11 @@ jobs:
       SERVICE: ${{ vars.CLOUD_RUN_SERVICE }}
       AR_REPO: ${{ vars.GCP_ARTIFACT_REPO }}
       WIF_PROVIDER: ${{ vars.GCP_WIF_PROVIDER }}
-      DEPLOY_SA: ${{ vars.GCP_DEPLOY_SA }}
     steps:
       - name: Deploy configured?
         run: |
           missing=""
-          for name in PROJECT REGION SERVICE AR_REPO WIF_PROVIDER DEPLOY_SA; do
+          for name in PROJECT REGION SERVICE AR_REPO WIF_PROVIDER; do
             [ -n "${!name}" ] || missing="$missing $name"
           done
           if [ -n "$missing" ]; then
@@ -63,8 +62,10 @@ jobs:
       - name: Keyless login (Workload Identity Federation)
         uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
         with:
+          # Direct Workload Identity Federation: the roles are granted to this repository's
+          # identity itself (no service account to impersonate, no key).
           workload_identity_provider: ${{ env.WIF_PROVIDER }}
-          service_account: ${{ env.DEPLOY_SA }}
+          project_id: ${{ env.PROJECT }}
 
       - uses: google-github-actions/setup-gcloud@aa5489c8933f4cc7a4f7d45035b3b1440c9c10db # v3.0.1
 
