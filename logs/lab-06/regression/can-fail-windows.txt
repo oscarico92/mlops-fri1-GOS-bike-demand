@@ -1,0 +1,17 @@
+[as expected] no defect: exit 0; 5 passed, 1 warning in 11.49s
+[caught] raw data edited (one validation label +1)
+    expected red: test_frozen_data_is_the_recorded_snapshot
+    exit 1; failed: test_frozen_data_is_the_recorded_snapshot, test_random_forest_validation_mae_recomputes, test_train_mean_comparator_recomputes
+[caught] validation window ends one day early (2012-06-30 moves to test)
+    expected red: test_partitions_match_the_recorded_split
+    exit 1; failed: test_partitions_match_the_recorded_split, test_random_forest_validation_mae_recomputes, test_train_mean_comparator_recomputes
+[caught] comparator uses validation labels (leakage)
+    expected red: test_train_mean_comparator_recomputes
+    exit 1; failed: test_train_mean_comparator_recomputes
+[caught] model setting changed without review (max_depth 10 -> 11, preset and config)
+    expected red: test_random_forest_validation_mae_recomputes
+    exit 1; failed: test_random_forest_validation_mae_recomputes, test_served_prediction_for_the_reference_request
+[caught] API rescales an input (humidity sent to the model as a percentage)
+    expected red: test_served_prediction_for_the_reference_request
+    exit 1; failed: test_served_prediction_for_the_reference_request
+All defects caught.

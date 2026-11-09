@@ -1,0 +1,12 @@
+commit       e51dce32be4e662bfb1dd6032a521a05add18ca5
+dirty        False
+platform     Windows-11-10.0.26200-SP0 AMD64
+python       3.12.15  scikit-learn 1.9.1
+command      uv run --locked python scripts/measure_tolerance.py
+reference    recorded RF validation MAE 86.84685685591091
+
+baseline (recorded settings)   mae=86.84685685591091      delta=+0.000e+00
+random_state 42 -> 43          mae=86.84827287646809      delta=+1.416e-03
+n_estimators 50 -> 49          mae=86.88661603104366      delta=+3.976e-02
+max_depth 10 -> 11             mae=86.76711093516208      delta=-7.975e-02
+max_depth 10 -> 9              mae=87.18774475480427      delta=+3.409e-01

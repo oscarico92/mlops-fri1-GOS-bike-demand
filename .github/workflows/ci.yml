@@ -32,3 +32,7 @@ jobs:
       - run: uv run --locked pytest -q -m lab1
       - run: uv run --locked pytest -q -m api
       - run: uv run --locked pytest -q -m deploy
+      - name: Regression tests (recompute the recorded baseline from the frozen data)
+        run: uv run --locked pytest -q -m regression
+      - name: Each regression test still fails for its defect (throwaway copies, repo unchanged)
+        run: uv run --locked python scripts/regression_can_fail.py
