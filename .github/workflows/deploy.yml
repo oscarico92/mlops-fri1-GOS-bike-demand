@@ -48,11 +48,21 @@ jobs:
       - name: Week 1 checks are green on the same commit
         env:
           GH_TOKEN: ${{ github.token }}
+        # The two workflows start together on the same push, so "Week 1 checks" may still be
+        # running here: wait for it to finish (up to 15 min) instead of failing on "in progress".
         run: |
-          result=$(gh api "repos/${{ github.repository }}/actions/workflows/ci.yml/runs?head_sha=$REVISION&event=push" \
-            --jq '.workflow_runs[0].conclusion')
-          echo "Week 1 checks on $REVISION: $result"
-          test "$result" = "success"
+          for attempt in $(seq 1 30); do
+            run=$(gh api "repos/${{ github.repository }}/actions/workflows/ci.yml/runs?head_sha=$REVISION&event=push" \
+              --jq '.workflow_runs[0] | "\(.status) \(.conclusion)"')
+            echo "Week 1 checks on $REVISION: ${run:-no run yet}"
+            case "$run" in
+              "completed success") exit 0 ;;
+              completed*) echo "::error::Week 1 checks did not pass on $REVISION"; exit 1 ;;
+            esac
+            sleep 30
+          done
+          echo "::error::Week 1 checks still not finished on $REVISION after 15 min"
+          exit 1
 
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
@@ -75,19 +85,28 @@ jobs:
           gcloud auth configure-docker "$REGION-docker.pkg.dev" --quiet
           docker build --build-arg GIT_COMMIT="$REVISION" -t "$IMAGE" .
           docker push "$IMAGE"
+          # Deploy by digest: a tag can be moved, the digest names exactly the bytes pushed here.
+          DIGEST=$(docker inspect --format '{{index .RepoDigests 0}}' "$IMAGE" | cut -d@ -f2)
+          test -n "$DIGEST" || { echo "::error::no registry digest for $IMAGE"; exit 1; }
           echo "IMAGE=$IMAGE" >> "$GITHUB_ENV"
+          echo "DIGEST=$DIGEST" >> "$GITHUB_ENV"
 
       - name: Remember the revision serving now (for undo)
+        # Undo target = the revision that receives the traffic now, not the latest ready one:
+        # after a manual rollback the latest ready revision can be the bad one.
         run: |
-          previous=$(gcloud run services describe "$SERVICE" --region "$REGION" \
-            --format='value(status.latestReadyRevisionName)' 2>/dev/null || true)
+          previous=$(gcloud run services describe "$SERVICE" --region "$REGION" --format=json 2>/dev/null \
+            | python3 -c 'import json,sys
+          try: t = json.load(sys.stdin)["status"].get("traffic", [])
+          except Exception: t = []
+          print(max(t, key=lambda e: e.get("percent", 0)).get("revisionName", "") if t else "")' || true)
           echo "previous revision: ${previous:-none (first deploy)}"
           echo "PREVIOUS=$previous" >> "$GITHUB_ENV"
 
       - name: Deploy a new revision
         run: >
           gcloud run deploy "$SERVICE"
-          --image "$IMAGE"
+          --image "${IMAGE%:*}@$DIGEST"
           --region "$REGION"
           --port 8000
           --min-instances 0
@@ -96,15 +115,29 @@ jobs:
           --quiet
 
       - name: Live identity check (Lab 5 script against the Cloud Run URL)
+        # Cloud Run has no "--container" to read the image label, so the check first proves that
+        # 100 % of the traffic goes to a revision running exactly the digest pushed above; then
+        # /health must report this commit and the expected model.
         run: |
           URL=$(gcloud run services describe "$SERVICE" --region "$REGION" --format='value(status.url)')
-          LIVE=$(gcloud run services describe "$SERVICE" --region "$REGION" --format='value(status.latestReadyRevisionName)')
+          gcloud run services describe "$SERVICE" --region "$REGION" --format=json > service.json
+          LIVE=$(python3 -c 'import json
+          t = json.load(open("service.json"))["status"]["traffic"]
+          full = [e["revisionName"] for e in t if e.get("percent") == 100]
+          print(full[0] if full else "")')
+          LIVE_DIGEST=$(gcloud run revisions describe "$LIVE" --region "$REGION" --format='value(status.imageDigest)')
           {
             echo "commit   $REVISION"
             echo "image    $IMAGE"
-            echo "revision $LIVE"
+            echo "digest   $DIGEST"
+            echo "revision $LIVE (100 % of traffic)"
+            echo "running  $LIVE_DIGEST"
             echo "url      $URL"
           } | tee live-check.txt
+          if [ -z "$LIVE" ] || [ "${LIVE_DIGEST##*@}" != "$DIGEST" ]; then
+            echo "::error::the revision serving 100 % of the traffic does not run the image pushed for $REVISION" | tee -a live-check.txt
+            exit 1
+          fi
           for attempt in $(seq 1 30); do
             if curl -fs "$URL/health" > /dev/null; then break; fi
             sleep 2
@@ -117,7 +150,8 @@ jobs:
         if: failure() && env.PREVIOUS != ''
         run: |
           gcloud run services update-traffic "$SERVICE" --region "$REGION" --to-revisions "$PREVIOUS=100"
-          echo "traffic back on $PREVIOUS" | tee -a live-check.txt
+          URL=$(gcloud run services describe "$SERVICE" --region "$REGION" --format='value(status.url)')
+          echo "traffic back on $PREVIOUS, /health now: $(curl -s "$URL/health")" | tee -a live-check.txt
 
       - name: Keep the deploy record
         if: always()

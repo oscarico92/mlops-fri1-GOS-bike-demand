@@ -438,17 +438,18 @@ The run keeps `live-check.txt` (commit, image, revision, URL, check output) as a
 
 | Question | Our choice | Rejected option and why |
 | --- | --- | --- |
-| **Gate:** which branch and checks gate a deploy? | Only commits pushed to `main` (that is, merged pull requests), and only when both "Container checks" and "Week 1 checks" are green on that commit. The identity provider also accepts tokens from `main` only. | Deploying from pull requests or on every push: an unreviewed change could reach the live service. |
+| **Gate:** which branch and checks gate a deploy? | Only commits pushed to `main` (that is, merged pull requests), and only when both "Container checks" and "Week 1 checks" are green on that commit (the deploy waits up to 15 min for "Week 1 checks" to finish, since both start on the same push). The identity provider also accepts tokens from `main` only. | Deploying from pull requests or on every push: an unreviewed change could reach the live service. |
 | **Identity:** how does it log in with no stored key? | Direct Workload Identity Federation: GitHub issues a short-lived OIDC token (`id-token: write`), Google exchanges it for a short-lived access token for our repository's identity, which is trusted for this repository's `main` only and holds the deploy roles in the instructor's shared project (resources prefixed `gos-`). | A service-account JSON key in GitHub secrets: a long-lived secret that can leak and must be rotated by hand. |
-| **Proof:** what shows the new revision is live? | The Lab 5 check run against the Cloud Run URL: `/health` answers `200` with model `d24c050e…` and `code_revision` equal to the deployed commit, a valid and an invalid `/predict` behave as expected. The output, with the revision name and URL, is kept as `live-check.txt`. | "The deploy command succeeded" or "the revision is Ready": both are true for a revision that serves the wrong model or code. |
-| **Undo:** what do you do if the live check fails? | The workflow sends 100 % of the traffic back to the revision that was serving before the deploy and fails, so the bad commit is visible. On the very first deploy there is no previous revision: the service is deleted or redeployed from the last good commit by hand. | Leaving the failed revision live and fixing forward: users would be served the bad revision until the fix lands. |
+| **Proof:** what shows the new revision is live? | First, 100 % of the traffic goes to a revision running exactly the image digest pushed by this run (deployed by digest, not by tag). Then the Lab 5 check run against the Cloud Run URL: `/health` answers `200` with model `d24c050e…` and `code_revision` equal to the deployed commit, a valid and an invalid `/predict` behave as expected. The output, with the revision name and URL, is kept as `live-check.txt`. | "The deploy command succeeded" or "the revision is Ready": both are true for a revision that serves the wrong model or code. |
+| **Undo:** what do you do if the live check fails? | The workflow sends 100 % of the traffic back to the revision that received the traffic before the deploy (read from the traffic split, not "latest ready", which can be a bad revision after a manual rollback), records the `/health` it then answers, and fails, so the bad commit is visible. On the very first deploy there is no previous revision: the service is deleted or redeployed from the last good commit by hand. | Leaving the failed revision live and fixing forward: users would be served the bad revision until the fix lands. |
 
 Public access is a deliberate exception for this course (`--allow-unauthenticated`, as in the
 instructor's walkthrough): the Lab 5 check sends no token. Rejected for a retained service:
 requiring authentication would be safer but needs an identity token in the check. Exposure is
 limited with `--max-instances 1`, `--min-instances 0` and by deleting the service after the lab
-(see the setup page). The check on Cloud Run cannot compare the image label (no `--container`):
-the commit is compared through `code_revision`, which comes from the image built by this workflow.
+(see the setup page). The check on Cloud Run cannot read the image label (no `--container`), and `code_revision`
+alone could be overridden by an environment variable: the workflow therefore also compares the
+digest of the serving revision with the digest it pushed for this commit.
 
 ---
 
