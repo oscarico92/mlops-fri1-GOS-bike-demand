@@ -45,4 +45,5 @@ markers = [
     "api: Week 2 Lab 4 prediction API behaviour",
     "deploy: Week 3 Lab 5 deployment check against a service",
     "regression: Week 3 Lab 6 recomputes recorded results from the frozen data",
+    "signals: Week 4 Lab 8 service signal definitions",
 ]

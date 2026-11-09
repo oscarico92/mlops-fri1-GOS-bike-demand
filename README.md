@@ -450,6 +450,34 @@ limited with `--max-instances 1`, `--min-instances 0` and by deleting the servic
 (see the setup page). The check on Cloud Run cannot compare the image label (no `--container`):
 the commit is compared through `code_revision`, which comes from the image built by this workflow.
 
+## Service signals (Lab 8)
+
+Normal must be measured before an incident, with the same definitions for baseline,
+incident and recovery. Two scripts do this from outside the service:
+
+```bash
+# 1. send a fixed workload; every request has X-Request-ID <label>-valid-<n> or <label>-invalid-<n>
+python3 scripts/workload.py --url "$URL" --label baseline --valid 40 --invalid 10 --out logs/lab-08/baseline-requests.jsonl
+# 2. compute the signals from the service's JSON request lines
+docker logs bike-api 2>&1 | python3 scripts/signals.py --label baseline            # local container
+gcloud logging read 'resource.type="cloud_run_revision" AND resource.labels.service_name="gos-bike-demand"' \
+  --freshness=1h --format=json | python3 scripts/signals.py --label baseline         # Cloud Run
+```
+
+| Signal | Definition |
+| --- | --- |
+| Population | `POST /predict` events whose `request_id` starts with the label, between the first and last timestamp seen |
+| Intentional rejections | status `422` (invalid input): counted separately, never an error |
+| Eligible attempts | the other `/predict` events of the population (valid input) |
+| Success rate | good (`200`) / eligible; `"no data"` when there is no eligible attempt, never 100 % |
+| Latency | server `duration_ms` of good attempts: p50, p95, max |
+| Identity | count of requests per `code_revision / model_version` |
+| Missing data | JSON lines that cannot be read are counted (`unreadable_lines`) |
+
+Measured locally (container from `46ff046`, Linux): 20 valid + 5 invalid requests gave 20/20
+good, 5 intentional rejections, p50 5.2 ms, p95 8.7 ms, one identity. The Cloud Run baseline
+is recorded before the Lab 8 incident.
+
 ---
 
 The rest of this file is the course starter README, kept unchanged.
