@@ -1,7 +1,7 @@
 # Week 3, Labs 5–6: team record
 
 Team GOS: Oscar Schwartz (`oscarico92`), Gautier Deplanque (`gautierdpl`), Simon Gallais (`Urazikk`).
-Raw logs: [`logs/lab-05/`](../logs/lab-05/), [`logs/lab-06/`](../logs/lab-06/). State as of 9 November 2026.
+Raw logs: [`logs/lab-05/`](../logs/lab-05/), [`logs/lab-06/`](../logs/lab-06/). State as of 9 November 2026, after the merges of that evening (`main` at `46ff046`).
 
 ## Lab 5: service deployment, structured logs, model-version checks
 
@@ -46,11 +46,12 @@ answering `503` (no crash), nothing written to the image or the host; it is remo
 
 ### Areas, owners and reviews
 
-| Area | Owner | PR | Reviewer | State on 9 November |
+| Area | Owner | PR | Reviewer | State |
 | --- | --- | --- | --- | --- |
-| Container job + README "CI" | Simon | #18 | Gautier | Merged (`e88797a`). Red then green on the same PR, see below. |
-| Regression tests that recompute the recorded baseline | Gautier | #22 | Oscar | Open. CI green; review asks for the runs behind the tolerance numbers and a note on the test map. |
-| Cloud Run deploy workflow | Oscar | #21 | Simon | Open. Adapted to the shared project `mlops-ece-group2-and-group3` (`gos-` prefix, direct Workload Identity Federation). No deploy run yet; review asks to restore LF line endings in the README and to fix the gate race, the Cloud Run identity check and the undo target. |
+| Container job + README "CI" | Simon | #18 | Gautier | Merged (`e88797a`); red then green on the same PR, see below. |
+| Regression tests that recompute the recorded baseline | Gautier | #22 | Oscar | Merged (`f4d5a47`). Tolerance runs committed (`logs/lab-06/regression/tolerance-runs.txt`); `scripts/regression_can_fail.py` shows each test turning red. |
+| Cloud Run deploy workflow | Oscar | #21 | Simon | Merged (`e76551f`), first deploy in #28. Review points on the gate race, the Cloud Run identity check and the undo target were not addressed before merge; follow-up PR #29. |
+| Deliberate-defect PR (reviewer challenge of #18) | Gautier | #26 | Simon | Prediction written before CI: only the container job turns red. Observed: "Week 1 checks" green, "Container checks" red on `code_revision` (`unknown`). Merged by mistake, see below. |
 
 ### Red to green on PR #18 (runner evidence)
 
@@ -65,7 +66,26 @@ Cause: #14 added a test that loads `scripts/check_deployment.py`, but the Docker
 only a test run inside the image could see it. Gautier found the same bug independently in #16. The cause
 was fixed; no test was skipped or muted.
 
-Both workflows are green on `main` after each merge (`e88797a`, `d597309`). These are runner facts for
+### Red to green on `main` after #26 (runner evidence)
+
+| Commit | Result |
+| --- | --- |
+| `edc863a` (#26 merged, `ENV GIT_COMMIT` removed) | "Container checks" red at "Check model and code from outside the container": `code_revision` expected `edc863a…`, observed `unknown`, image label ok. Deploy did not run (gated on green). |
+| `c893a30` (#27 restores `ENV GIT_COMMIT`) | push run: first attempt red, re-run green with no change. **Cause not identified: open question, not counted as green.** |
+
+Cause of the red on `edc863a`: the image label is only visible from outside the container; `/health` reads
+the `GIT_COMMIT` environment variable, which #26 removed.
+
+### First Cloud Run deploy (#28, Oscar)
+
+- Project `mlops-ece-group2`, region `europe-west1`, service `gos-bike-demand`; deployed commit
+  `c893a30`, revision `gos-bike-demand-00001-lc9`.
+- "Deploy to Cloud Run" on `c893a30`: success, live check passed (artifact `live-check-c893a30…`).
+- `/health` on Cloud Run: `code_revision` `c893a30…`, `model_sha256` `d24c050e…`, the same model as every container.
+- Deployed by this repository's `main` identity through the `gos-github` Workload Identity pool: no key, no person.
+- Evidence: [`logs/lab-06/deploy-oscar/`](../logs/lab-06/deploy-oscar/).
+
+Both workflows were green on `main` after the merges of 27 October (`e88797a`) and 5 November (`d597309`). These are runner facts for
 those commits; local MLflow runs and laptop models are not CI evidence.
 
 ## Process deviations (recorded, not hidden)
@@ -77,15 +97,23 @@ those commits; local MLflow runs and laptop models are not CI evidence.
   commit finished (it finished green).
 - `main` was rewritten after #12 to remove two commit trailers; #13 was closed and replayed as #14. #17 now
   forbids rewriting `main`.
+- #21, #22 and #26 were merged by Oscar within one minute; #26 was the deliberate-defect PR ("do not merge")
+  and was merged without waiting for its container check, which left `main` red until #27. The check itself
+  worked: nothing was deployed from the red commit.
+- My review of #21 was not addressed before merge (only the line endings); follow-up in #29.
+- Creating the Workload Identity pool was denied with our roles; Oscar added
+  `roles/iam.workloadIdentityPoolAdmin` to his own account (binding added, nothing removed), recorded in
+  `docs/cloud-run-setup.md`.
 
 ## Missing evidence and next actions
 
 | Missing | Owner |
 | --- | --- |
-| Deliberate-defect PR by a reviewer (a check must turn red) | Gautier |
-| Regression tests merged (#22) | Gautier, review by Oscar |
-| First deploy run and `live-check.txt` from Cloud Run (#21) | Oscar, review by Simon |
-| Tag `m3` once the three items above are merged | team |
+| Rollback on Cloud Run not exercised yet (needs a second revision) | Oscar |
+| `live-check.txt` committed under `logs/lab-06/deploy-oscar/` | Oscar |
+| Follow-up of the #21 review (gate race, Cloud Run identity, undo target): PR #29 | Oscar, review by Simon |
+| Cause of the first red attempt on `c893a30` | Oscar |
+| Tag `m3` once the above is merged | team |
 
 ## Assistance
 
