@@ -1,0 +1,35 @@
+# Lab 7 gate policy, committed before any candidate is decided with it.
+# Read by bike_demand.gate.decide(policy, evidence, metadata); rationale in README "Gate policy (Lab 7)".
+#
+# Outcome: "blocked" if any mandatory check could not be evaluated (missing, invalid or
+# unattributable evidence); otherwise "reject" if any measured check fails; "accept" only if
+# every check passes. An unavailable check is never a pass, and a better MAE never
+# replaces missing evidence.
+version: 1
+metric: "validation MAE, rentals per hour, 4,358 rows Jan-Jun 2012 (same rows for every model)"
+
+quality:
+  # A candidate must beat both references by at least this many rentals per hour.
+  # Measured variation (PR #22, logs/lab-06/regression/): identical reruns differ by 0
+  # (< 1e-9); the seed alone moves the MAE by 1.4e-3. 1.0 rental/hour is ~700x the seed
+  # effect, so noise cannot cross it, and about 1.2 % of the accepted MAE (86.85).
+  margin_rentals_per_hour: 1.0
+  compare_with: [naive_train_mean, incumbent]
+
+operation:
+  # /predict answers 500 for a non-finite or negative prediction (src/bike_demand/api.py);
+  # a candidate that produces one on validation would turn real requests into errors.
+  predictions_finite: true
+  predictions_nonnegative: true
+
+integrity:
+  # Same as data/manifest.json "sha256" (a test keeps them equal).
+  data_sha256: e03de4ee4ef4dc376ac6e04bf829673c6269e8eba5c60fa121640fa2f829504f
+  features: [season, yr, mnth, hr, holiday, weekday, workingday, weathersit, temp, atemp, hum, windspeed]
+  validation:
+    rows: 4358
+    date_min: "2012-01-01"
+    date_max: "2012-06-30"
+  # The candidate must come from a recorded commit with no uncommitted change.
+  require_training_commit: true
+  require_clean_tree: true

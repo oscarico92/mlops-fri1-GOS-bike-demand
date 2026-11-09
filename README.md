@@ -377,6 +377,33 @@ build without `--build-arg GIT_COMMIT` (the identity step and the check fail).
   valid and one invalid request only; the tests and deploy parts of Lab 6 cover the rest.
 
 
+
+## Gate policy (Lab 7)
+
+The rule is [`configs/gate-policy.yaml`](configs/gate-policy.yaml), applied by
+`bike_demand.gate.decide(policy, evidence, metadata)`; the pipeline calls it for every candidate.
+Every check must pass. Each one ends **pass**, **fail** (evidence present and breaks the rule) or
+**unavailable** (evidence missing, invalid such as NaN, or not tied to committed code). Outcome:
+**blocked** if any check is unavailable, else **reject** if any check fails, else **accept**. An
+unavailable check never counts as a pass, and a better MAE never makes up for missing evidence.
+
+| Family | Rule | Why this threshold |
+| --- | --- | --- |
+| Quality | validation MAE at least **1.0 rental/hour** below the train-mean baseline **and** below the accepted model, on the same 4,358 rows. No evaluated accepted model → blocked. | Identical reruns differ by 0 (< 1e-9) and the seed alone moves the MAE by 1.4e-3 ([`tolerance-runs.txt`](logs/lab-06/regression/tolerance-runs.txt)): 1.0 is ~700× that, so noise cannot cross it. It is ~1.2 % of the accepted MAE (86.85), i.e. at least one bike per hour on average, the smallest change worth a new served model. |
+| Operation | every validation prediction finite and ≥ 0 | `/predict` answers `500` for a non-finite or negative prediction; such a candidate would turn requests into errors. |
+| Integrity | data SHA-256 = `data/manifest.json`; the 12 features in order; the 4,358 Jan–Jun 2012 rows; evaluated bytes = recorded candidate bytes; a recorded commit and a clean tree | A mismatch is a measured reject; no commit or a dirty tree is blocked, because the bytes cannot be tied to reviewed code. |
+
+Rejected options: **accept any lower MAE**, which would promote changes smaller than the seed effect;
+**non-inferiority** (accept if not worse), which would change the served bytes without a measured
+benefit; a **1 % relative margin**, which is close to ours but harder to read in rentals/hour. Tests:
+`uv run --locked pytest -q -m gate` (accept; reject on quality, operation and integrity; blocked
+without an evaluated accepted model, with missing or NaN evidence, with a dirty tree).
+
+Disclosure: the margin comes only from the measured variation above (PR #22). Two scores were already
+known when it was written: `max_depth` 11 (−0.08 MAE, in `tolerance-runs.txt`) and
+`shallow-forest` (90.62, in the blocked-run record of PR #23). Neither was evaluated to choose it, and the
+rule does not depend on them: any margin ≥ 0 rejects `shallow-forest`.
+
 ---
 
 The rest of this file is the course starter README, kept unchanged.
