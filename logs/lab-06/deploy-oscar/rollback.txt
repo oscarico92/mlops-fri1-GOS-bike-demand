@@ -1,0 +1,25 @@
+# Manual rollback on Cloud Run (Lab 6 undo), Cloud Shell, 2026-11-10 (UTC), Oscar
+# Revisions, all deployed by repo oscarico92/mlops-fri1-GOS-bike-demand ref refs/heads/main
+# through the gos-github Workload Identity pool:
+#   gos-bike-demand-00004-pb7  2026-11-09 23:55:38 UTC  (1feb672, merge of #29)  ACTIVE before rollback
+#   gos-bike-demand-00003-762  2026-11-09 23:37:58 UTC  (6c80b02, merge of #24)
+#   gos-bike-demand-00002-jhr  2026-11-09 22:57:50 UTC  (46ff046, merge of #28)
+#   gos-bike-demand-00001-lc9  2026-11-09 22:44:08 UTC  (c893a30, first deploy)
+
+$ curl -s "$URL/health"          # before
+{"status":"ok","model_version":"baseline-0310b626af22","model_sha256":"d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07","code_revision":"1feb672735f4199a257288d454adf76f9dff8678"}
+
+$ gcloud run services update-traffic gos-bike-demand --region europe-west1 --to-revisions gos-bike-demand-00001-lc9=100
+OK Updating traffic... Done.
+  OK Routing traffic...
+Done.
+URL: https://gos-bike-demand-jdc2acx6uq-ew.a.run.app
+Traffic:
+  100% gos-bike-demand-00001-lc9
+
+$ curl -s "$URL/health"          # after
+{"status":"ok","model_version":"baseline-8e9e25279c01","model_sha256":"d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07","code_revision":"c893a301928fe305273b60bf8f6278c697bad490"}
+
+# Result: the service answers with the first deployed commit (c893a30) within seconds,
+# without rebuilding or redeploying. Traffic is left pinned on 00001-lc9 on purpose:
+# the next deploy from main must still reach 100 % (Simon's review point 2 on #29).
