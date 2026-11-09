@@ -50,6 +50,7 @@ DEFAULT_REGISTRY = "registry"
 DECISIONS = Path("decisions")
 POLICY = Path("configs/gate-policy.yaml")
 BASELINE_CONFIG = Path("configs/baseline.yaml")
+EXPECTED_MODEL = Path("configs/expected-model.json")
 DATA = "data/raw/hour.csv"
 
 # Candidates vary model settings only; data, features and split stay the contract.
@@ -340,6 +341,16 @@ def cmd_bootstrap(args) -> int:
         raise ValueError("an accepted model already exists; bootstrap only runs once")
     config = yaml.safe_load(BASELINE_CONFIG.read_text())
     produced = train_candidate(root, config, "baseline")
+    # The baseline must be the same bytes the service and the Lab 5 check expect.
+    # Native Windows produces other bytes (fd98ceaf...); refuse rather than register them.
+    expected = json.loads(EXPECTED_MODEL.read_text())["model_sha256"]
+    if produced["metadata"]["model_sha256"] != expected:
+        shutil.rmtree(produced["path"], ignore_errors=True)
+        raise ValueError(
+            f"bootstrap produced model {produced['metadata']['model_sha256'][:12]}..., "
+            f"expected {expected[:12]}... ({EXPECTED_MODEL}); run it in the image or on "
+            "macOS/Linux, nothing was registered"
+        )
     metadata = store_accepted(root, "baseline", produced["path"])
     current = switch_current(
         root, "baseline", metadata, "Lab 2 baseline, reviewed in PR #4"

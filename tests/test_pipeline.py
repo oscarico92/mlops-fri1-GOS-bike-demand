@@ -181,3 +181,15 @@ def test_candidates_vary_model_settings_only(tmp_path, change, message):
     path.write_text(yaml.safe_dump(config))
     with pytest.raises(ValueError, match=message):
         pipeline.load_candidate_config(path)
+
+
+def test_bootstrap_refuses_bytes_other_than_the_expected_model(tmp_path, monkeypatch):
+    monkeypatch.chdir(ROOT)
+    monkeypatch.setenv(pipeline.REGISTRY_ENV, str(tmp_path / "registry"))
+    other = tmp_path / "expected-model.json"
+    other.write_text(json.dumps({"model_sha256": "f" * 64}))
+    monkeypatch.setattr(pipeline, "EXPECTED_MODEL", other)
+    with pytest.raises(ValueError, match="nothing was registered"):
+        pipeline.cmd_bootstrap(SimpleNamespace())
+    assert pipeline.read_current(tmp_path / "registry") is None
+    assert not (tmp_path / "registry/accepted/baseline").exists()

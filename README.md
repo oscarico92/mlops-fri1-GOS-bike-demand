@@ -391,6 +391,10 @@ uv run --locked python -m bike_demand.pipeline promote <candidate_id>   # only a
 uv run --locked python -m bike_demand.pipeline restore baseline         # back to a retained version
 ```
 
+`bootstrap` retrains the Lab 2 settings and registers the result only if its bytes equal
+`configs/expected-model.json` (`d24c050e…`, the model the image and the Lab 5 check use);
+native Windows gives other bytes, so bootstrap there stops without registering anything.
+
 `run` exits `0` (accept), `2` (reject), `3` (blocked) or `1` (error), so CI can read the
 outcome. Each run writes `decisions/<candidate_id>.json`: candidate settings and bytes,
 data hash, commit, the three validation MAEs on the same 4,358 rows (candidate, train-mean
