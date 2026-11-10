@@ -6,15 +6,15 @@ the service). Reviewer: Gautier. All times are UTC. Every claim below points to 
 ## Summary
 
 At 19:57:44 a manual `gcloud run services update` created revision `gos-bike-demand-00011-z46` with the same image
-as the healthy revision but with `BIKE_MODEL_DIR=/app/artifacts/v2`, a folder that does not exist in the image; at
-19:57:50 100 % of the traffic was sent to it. The service started without a model: `/health` and every valid
+as the healthy revision but with `BIKE_MODEL_DIR=/app/artifacts/v2`, a folder that does not exist in the image; the
+traffic switch to it was requested at 19:57:50 and had returned by 19:58:04 (`/health` 503). The service started without a model: `/health` and every valid
 `/predict` answered 503, invalid requests were still rejected with 422. The operator saw it at 20:10:31, measured it
 at 20:11:27 (0/40 valid requests good), traced it to the configuration boundary, and asked for a rollback.
 Traffic went back to `00010-m4d` at 20:17:47; recovery was measured at 20:20:05 (40/40 good, latency within the
 baseline). At 20:49:37 the variable was removed from the service template so that the next deployment cannot
 inherit it.
 
-Impact: about 20 minutes (19:57:50 to 20:17:47) during which no valid prediction could succeed. Detection took
+Impact: about 20 minutes (traffic on 00011-z46 from 19:57:50-19:58:04 to 20:17:47-20:17:53) during which no valid prediction could succeed. Detection took
 13 minutes, because nothing watches the service between workload runs.
 
 ## Timeline
@@ -25,18 +25,18 @@ Impact: about 20 minutes (19:57:50 to 20:17:47) during which no valid prediction
 | 19:23:19 | Simon | second baseline on 00010-m4d: 40/40 good, p50 12.0 ms, p95 13.8 ms | `baseline-00010/signals.txt` |
 | 19:57:36 | 00010-m4d | `model loaded: version=baseline-637fa42462b2 sha256=d24c050e…` | `incident/startup-and-errors.json` |
 | 19:57:44 | Oscar (injection) | `gcloud run services update`: new revision 00011-z46, same image digest `sha256:134e4389…` | `incident/audit.json` |
-| 19:57:50 | Oscar (injection) | `gcloud run services update-traffic`: 100 % to 00011-z46 | `incident/audit.json` |
+| 19:57:50 | Oscar (injection) | `gcloud run services update-traffic`: 100 % to 00011-z46 (audit time of the request; the command returned at 19:58:04) | `incident/audit.json`, `injector-oscar/injector-log.txt` (#37) |
 | 19:57:59 | 00011-z46 | `ERROR model not available: [Errno 2] No such file or directory: '/app/artifacts/v2/model-metadata.json'` | `incident/startup-and-errors.json` |
-| 19:58:04 | injector check | `GET /health` → 503 (curl) | `incident/startup-and-errors.json` |
+| 19:58:04 | Oscar | `GET /health` → 503 (curl), "model not available" | `incident/startup-and-errors.json`, `injector-oscar/injector-log.txt` |
 | **20:10:31** | Simon | **first signal**: `GET /health` → 503 and `POST /predict` → 503 on 00011-z46 | `incident/startup-and-errors.json` |
 | 20:11:27-20:11:31 | Simon | incident workload, run 2011271286: 40 × 503, 10 × 422 | `incident/sent.jsonl`, `incident/signals.txt` |
 | 20:11:40 | Simon | rollback attempt (`update-traffic` to 00010-m4d) refused: `run.services.update` denied (operator has `run.viewer`) | `incident/audit.json` |
-| between 20:11:40 and 20:17:47 | Simon | diagnosis sent to Oscar with the rollback command (exact sending time not recorded) | operator notes below |
-| 20:17:47 | Oscar | `update-traffic`: 100 % to 00010-m4d | `incident/audit.json`, `recovery/rollback-oscar.txt` |
+| before 20:15:59 | Simon | diagnosis sent to Oscar with the rollback command (exact sending time not recorded; Oscar logged the request at 20:15:59) | operator notes below, `injector-oscar/injector-log.txt` |
+| 20:17:47 | Oscar | `update-traffic`: 100 % to 00010-m4d (audit time; `/health` 200 checked at 20:17:53) | `incident/audit.json`, `recovery/rollback-oscar.txt`, `injector-oscar/injector-log.txt` |
 | 20:18:03 | 00010-m4d | `model loaded: version=baseline-637fa42462b2 sha256=d24c050e…` | `incident/startup-and-errors.json` |
 | 20:19:54 | Simon | outside check: `/health` 200, valid `/predict` 200, invalid 422, all on 00010-m4d | `recovery/cloud-logs.json` |
 | 20:20:05-20:20:09 | Simon | recovery workload, run 20200467b4: 40 × 200, 10 × 422 | `recovery/sent.jsonl`, `recovery/signals.txt` |
-| 20:49:37 | Oscar, at the operator's request | `--remove-env-vars BIKE_MODEL_DIR`: revision 00012-zkx created with no env vars, 0 % traffic; traffic still 100 % on 00010-m4d; `/health` 200 with c2fc401 / d24c050e… | screenshot of Oscar's Cloud Shell (see Uncertainties) |
+| 20:49:37 | Oscar, at the operator's request | `--remove-env-vars BIKE_MODEL_DIR`: revision 00012-zkx created with no env vars, 0 % traffic; traffic still 100 % on 00010-m4d; `/health` 200 with c2fc401 / d24c050e… | `injector-oscar/injector-log.txt` (#37) |
 
 ## First signal
 
@@ -100,7 +100,8 @@ one measured on the incident revision.
 3. Detection: 13 minutes went by with nobody looking. A scheduled run of `scripts/workload.py` + `signals.py`, or a
    Cloud Monitoring alert on the 5xx rate of the service, would have caught it within minutes.
 4. The rollback depended on one person: a second team member with a role that can run `update-traffic` would remove
-   that wait (here about 6 minutes between the refused attempt and the rollback).
+   that wait (here about 6 minutes between the refused attempt and the rollback; the injector's log also shows one mistyped
+   command at 20:15:59 that executed nothing).
 
 ## Uncertainties and limits
 
@@ -109,8 +110,11 @@ one measured on the incident revision.
   of 00011-z46 taken during the incident.
 - The 20:10:31 and 20:19:54 requests are attributed to the operator from their user agent and timing; the outputs of
   those two checks were not saved as files.
-- The cleanup at 20:49:37 is documented by a screenshot of Oscar's Cloud Shell, not by an exported file. The gcloud
-  message there names 00011-z46 with 0 % traffic while `latestCreatedRevisionName` is 00012-zkx; we take the latter.
+- gcloud's "revision … is serving N percent of traffic" messages name the wrong revision when traffic is pinned
+  (00010-m4d at injection, 00011-z46 at cleanup); the `Traffic:` lines, `status.traffic` and
+  `latestCreatedRevisionName` (00012-zkx) are the source we use.
+- Times differ by a few seconds between the audit log (when Cloud Run received a request) and the injector log
+  (when the command returned); both are given.
 - Personal data: e-mail addresses, `remoteIp` and `callerIp` were replaced or removed in every Cloud export
   (wider than runbook section 6, which only names `remoteIp`); nothing else was changed, and the signals computed
   before and after the redaction are identical. Earlier `callerIp` values remain in the history of main (#33).
