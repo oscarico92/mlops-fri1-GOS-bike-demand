@@ -1,0 +1,38 @@
+=== before 2026-11-10T19:57:20Z
+{'percent': 100, 'revisionName': 'gos-bike-demand-00010-m4d'}
+{"status":"ok","model_version":"baseline-637fa42462b2","model_sha256":"d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07","code_revision":"c2fc401d7768ba27de3dcebf5e5dbaaf2acd9ab7"}
+=== inject start 2026-11-10T19:57:43Z
+Deploying...
+Creating Revision...................done
+Done.
+Service [[1mgos-bike-demand[m] revision [[1mgos-bike-demand-00010-m4d[m] has been deployed and is serving [1m100[m percent of traffic.
+Service URL: [1mhttps://gos-bike-demand-1087566946792.europe-west1.run.app[m
+Updating traffic...
+Routing traffic................................................................................................................................done
+Done.
+URL: https://gos-bike-demand-jdc2acx6uq-ew.a.run.app
+Traffic:
+  100% [1mgos-bike-demand-00011-z46[m
+=== inject done 2026-11-10T19:58:04Z  faulty revision: gos-bike-demand-00011-z46  rollback target: gos-bike-demand-00010-m4d
+{"detail":"model not available: [Errno 2] No such file or directory: '/app/artifacts/v2/model-metadata.json'","code_revision":"c2fc401d7768ba27de3dcebf5e5dbaaf2acd9ab7"} HTTP 503
+=== rollback requested by operator 2026-11-10T20:15:59Z
+=== previous line was a mistyped command (template pasted), nothing executed; real rollback below 2026-11-10T20:17:46Z
+Updating traffic...
+Routing traffic....................................................done
+Done.
+URL: https://gos-bike-demand-jdc2acx6uq-ew.a.run.app
+Traffic:
+  100% [1mgos-bike-demand-00010-m4d[m
+=== after rollback 2026-11-10T20:17:53Z
+{'percent': 100, 'revisionName': 'gos-bike-demand-00010-m4d'}
+{"status":"ok","model_version":"baseline-637fa42462b2","model_sha256":"d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07","code_revision":"c2fc401d7768ba27de3dcebf5e5dbaaf2acd9ab7"} HTTP 200
+=== cleanup requested by operator (Simon): remove BIKE_MODEL_DIR from the service template 2026-11-10T20:49:37Z
+Deploying...
+Creating Revision.................done
+Done.
+Service [[1mgos-bike-demand[m] revision [[1mgos-bike-demand-00011-z46[m] has been deployed and is serving [1m0[m percent of traffic.
+=== after cleanup 2026-11-10T20:49:42Z
+{'percent': 100, 'revisionName': 'gos-bike-demand-00010-m4d'}
+latest created: gos-bike-demand-00012-zkx, env:
+
+{"status":"ok","model_version":"baseline-637fa42462b2","model_sha256":"d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07","code_revision":"c2fc401d7768ba27de3dcebf5e5dbaaf2acd9ab7"} HTTP 200
