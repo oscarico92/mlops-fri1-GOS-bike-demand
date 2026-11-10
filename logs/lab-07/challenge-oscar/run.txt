@@ -1,0 +1,106 @@
+commit e7f7202aa03cc7b1da1ff32618328c70a757e588
+dirty before start: ''
+date 2026-11-10T15:41:22Z  x86_64  Python 3.12.12
+
+### A1 bootstrap
+{
+  "version": "baseline",
+  "model_sha256": "d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07",
+  "previous": null,
+  "switched_at": "2026-11-10T15:41:26+00:00",
+  "reason": "Lab 2 baseline, reviewed in PR #4",
+  "validation_mae": 86.84685685591091
+}
+exit=0
+7ad4a799f55c118531d6eaa91e709118e4dcc59c4464da425ac171ccde8a97a9  accepted/baseline/evidence.json
+36f18f6f526d74799d9dbb4ddf13e62b92c90f253ed9c445442b593f5b2efeb7  accepted/baseline/metadata.json
+d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07  accepted/baseline/model.joblib
+61a5be91adf682e4546867a3a4cf29681071ab351a09bd6c319f3ca5a2fbc47f  current.json
+
+### A2 run shallow-forest (expected: reject, exit 2)
+{
+  "candidate_id": "20261110T154128Z-5834dd",
+  "outcome": "reject",
+  "reasons": [
+    "quality.vs_incumbent: fail (candidate MAE <= accepted model baseline MAE - margin; observed {'candidate_mae': 90.61821065026733, 'reference_mae': 86.84685685591091, 'margin': 1.0})"
+  ]
+}
+decision record: decisions/20261110T154128Z-5834dd.json
+exit=2
+
+### A3 accepted state after the rejection
+7ad4a799f55c118531d6eaa91e709118e4dcc59c4464da425ac171ccde8a97a9  accepted/baseline/evidence.json
+36f18f6f526d74799d9dbb4ddf13e62b92c90f253ed9c445442b593f5b2efeb7  accepted/baseline/metadata.json
+d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07  accepted/baseline/model.joblib
+61a5be91adf682e4546867a3a4cf29681071ab351a09bd6c319f3ca5a2fbc47f  current.json
+A RESULT: accepted bytes and current.json unchanged
+
+### B dirty tree: edit a tracked config, then run (expected: blocked, exit 3)
+{
+  "candidate_id": "20261110T154130Z-b63d04",
+  "outcome": "blocked",
+  "reasons": [
+    "integrity.provenance: unavailable (trained from a recorded commit with no uncommitted change; observed {'training_commit': 'e7f7202aa03cc7b1da1ff32618328c70a757e588', 'working_tree_dirty': True})",
+    "quality.vs_incumbent: fail (candidate MAE <= accepted model baseline MAE - margin; observed {'candidate_mae': 86.1118611900858, 'reference_mae': 86.84685685591091, 'margin': 1.0})"
+  ]
+}
+decision record: decisions/20261110T154130Z-b63d04.json
+exit=3
+B RESULT: accepted state unchanged
+
+### C inconsistent tamper: append one byte to accepted/baseline/model.joblib
+version  baseline  (NOT usable: accepted baseline: model checksum mismatch)
+switched 2026-11-10T15:41:26+00:00  reason: Lab 2 baseline, reviewed in PR #4
+status exit=0
+pipeline restore failed: accepted baseline: model checksum mismatch
+restore exit=1
+version  baseline  (bytes verified)
+switched 2026-11-10T15:41:26+00:00  reason: Lab 2 baseline, reviewed in PR #4
+status after putting the bytes back exit=0
+
+### D consistent substitution: rejected candidate bundle copied over accepted/baseline
+rejected candidate folder: /tmp/registry/candidates/20261110T154128Z-5834dd/
+  "model_sha256": "978b87f3e44a6d892bc7a9d13005875e3a92a607eea189fad8716ec84591a863",
+  "model_sha256": "d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07",
+current.json still says:
+{
+  "version": "baseline",
+  "model_sha256": "d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07",
+  "previous": null,
+  "switched_at": "2026-11-10T15:41:26+00:00",
+  "reason": "Lab 2 baseline, reviewed in PR #4"
+}
+
+version  baseline  (bytes verified)
+switched 2026-11-10T15:41:26+00:00  reason: Lab 2 baseline, reviewed in PR #4
+status exit=0
+{
+  "version": "baseline",
+  "model_sha256": "978b87f3e44a6d892bc7a9d13005875e3a92a607eea189fad8716ec84591a863",
+  "previous": "baseline",
+  "switched_at": "2026-11-10T15:41:42+00:00",
+  "reason": "restored baseline"
+}
+restore exit=0
+{
+  "candidate_id": "20261110T154144Z-97f6db",
+  "outcome": "accept",
+  "reasons": [
+    "all checks passed"
+  ]
+}
+decision record: decisions/20261110T154144Z-97f6db.json
+run exit=0
+incumbent evidence in decisions/20261110T154144Z-97f6db.json:
+{
+  "incumbent": {
+    "version": "baseline",
+    "model_sha256": "978b87f3e44a6d892bc7a9d13005875e3a92a607eea189fad8716ec84591a863",
+    "validation_mae": 90.61821065026733,
+    "status": "evaluated"
+  },
+  "outcome": "accept",
+  "reasons": [
+    "all checks passed"
+  ]
+}
