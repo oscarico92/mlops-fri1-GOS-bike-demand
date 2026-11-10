@@ -40,6 +40,7 @@ testpaths = ["tests"]
 addopts = "--strict-markers --strict-config"
 markers = [
     "infra: supplied plumbing; passes before the exercises are implemented",
+    "gate: Week 4 Lab 7 quality gate decisions with the committed policy",
     "lab1: Week 1 Lab 1 team-helper behavior contract; one supplied test fails until repaired",
     "exercise: Week 1 Lab 2 data/split/baseline exercises",
     "api: Week 2 Lab 4 prediction API behaviour",
