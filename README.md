@@ -477,13 +477,63 @@ known when it was written: `max_depth` 11 (−0.08 MAE, in `tolerance-runs.txt`)
 `shallow-forest` (90.62, in the blocked-run record of PR #23). Neither was evaluated to choose it, and the
 rule does not depend on them: any margin ≥ 0 rejects `shallow-forest`.
 
+## Training pipeline and accepted models (Lab 7)
+
+`src/bike_demand/pipeline.py` is the one entry point. It never edits `artifacts/`,
+`reports/metrics*.json` or the MLflow store, unlike `bike_demand.train`.
+
+```bash
+uv sync --locked
+uv run --locked python -m bike_demand.pipeline bootstrap      # once: Lab 2 baseline becomes "baseline"
+uv run --locked python -m bike_demand.pipeline run --candidate configs/candidates/shallow-forest.yaml
+uv run --locked python -m bike_demand.pipeline status
+uv run --locked python -m bike_demand.pipeline promote <candidate_id>   # only after an "accept"
+uv run --locked python -m bike_demand.pipeline restore baseline         # back to a retained version
+```
+
+`bootstrap` retrains the Lab 2 settings and registers the result only if its bytes equal
+`configs/expected-model.json` (`d24c050e…`, the model the image and the Lab 5 check use);
+native Windows gives other bytes, so bootstrap there stops without registering anything: on Windows,
+run the pipeline in the container (`docker run --rm -v "$PWD/registry:/app/registry" bike-demand:ci python -m bike_demand.pipeline bootstrap`).
+
+`run` exits `0` (accept), `2` (reject), `3` (blocked) or `1` (error), so CI can read the
+outcome. Each run writes `decisions/<candidate_id>.json`: candidate settings and bytes,
+data hash, commit, the three validation MAEs on the same 4,358 rows (candidate, train-mean
+baseline, accepted model), the accepted state at decision time and the policy file hash
+and commit. The decision rule lives in `configs/gate-policy.yaml` and `bike_demand.gate`
+(written and committed before any candidate is evaluated); while either is missing, every
+outcome is `blocked`.
+
+Layout (`registry/` is ignored by Git and Docker; set `BIKE_REGISTRY` to move it):
+
+```text
+registry/candidates/<id>/   model.joblib, metadata.json, evidence.json   (candidate output only)
+registry/accepted/<version>/ model.joblib, metadata.json                  (never modified once written)
+registry/current.json        serving version, the version it replaced, when and why
+```
+
+| Question | Our choice | Rejected option and why |
+| --- | --- | --- |
+| **Stage:** what does each step consume and produce? | `run`: frozen CSV + candidate YAML → candidate bundle + evidence + decision record. `promote`: an `accept` record + its candidate → a new accepted version and a switched `current.json`. | One command that trains and promotes: a candidate could become serving state without a reviewed decision. |
+| **Entry point:** what does a clean checkout need? | `uv sync --locked`, then `bootstrap` once and `run`. No laptop artifacts, no MLflow store. | Reusing `train`: it overwrites `artifacts/model.joblib` and the metrics files before any gate. |
+| **Failure / partial:** what is safe to retry? | `run` writes to `candidates/<id>.tmp` and renames it when complete; a crash leaves only a `.tmp` folder, and a retry gets a new id. Nothing accepted is touched by `run` (checked at the end of every run). | Writing in place: an interrupted run could leave a half model that looks complete. |
+| **Identity:** which inputs determine a run? | Data SHA-256, the 12 ordered features, model settings (only `n_estimators`, `max_depth`, `min_samples_leaf`, `max_features`; `random_state` 42 and `n_jobs` 1 fixed), commit and dirty flag, all in the record. | Free-form configs: a candidate could change data, features or seed and still be compared as if fair. |
+| **Separate:** what may a candidate write? | Only `registry/candidates/<id>/` and its decision record. | Writing next to the accepted model. |
+| **Switch:** what if promotion stops halfway? | The bundle is copied to `accepted/<version>.tmp`, its bytes checked against the decision, then renamed; `current.json` is replaced in one atomic rename. A stop before the rename leaves the old version serving. | Editing `current.json` in place. |
+| **Concurrent:** what if the accepted model changed? | `promote` refuses unless `current.json` is exactly the one recorded at decision time: run the candidate again against the new incumbent. | Promoting a decision taken against an older incumbent. |
+| **Retain:** what recovers without retraining? | Every accepted version stays in `registry/accepted/`; `current.json` names the previous one and `restore <version>` switches back after checking the bytes. A checksum mismatch fails closed. | Keeping only the current model. |
+
+Tests: `uv run --locked pytest -q -m pipeline` (rejection leaves accepted bytes unchanged,
+promotion keeps the replaced version, restore works, promotion refused after the
+incumbent changed, tampered bundle fails closed, candidates vary model settings only).
+
 ## Service signals (Lab 8)
 
 Normal must be measured before an incident, with the same definitions for baseline,
 incident and recovery. Two scripts do this from outside the service:
 
 ```bash
-# 1. send a fixed workload; ids are <label>-valid-<n> / <label>-invalid-<n> (intent comes from the request)
+# 1. send a fixed workload; ids are <label>-<run>-valid-<n> / -invalid-<n>, <run> new for each execution
 python3 scripts/workload.py --url "$URL" --label baseline --valid 40 --invalid 10 --out logs/lab-08/baseline-sent.jsonl
 # 2. compute the signals from the service's JSON request lines and what was sent
 docker logs bike-api 2>&1 | python3 scripts/signals.py --label baseline --sent logs/lab-08/baseline-sent.jsonl
@@ -502,10 +552,17 @@ gcloud logging read 'resource.type="cloud_run_revision" AND resource.labels.serv
 | Identity | requests per `code_revision / model_version` |
 | Client view | status the client received for each sent request, including `no_response` |
 | Unreadable | JSON lines that cannot be read |
+| Duplicates | an id logged more than once; the worst answer counts |
+
+With `--sent`, only the ids of that run are counted, so lines of an earlier run with the same
+label cannot hide a missing request; without `--sent`, `sent` and `missing` are `unknown`.
+Cloud Logging is not instant: wait about a minute after the workload before reading, and read
+again if `missing` is not 0, before calling a request missing.
 
 Measured locally (container from `46ff046`, Linux, before these definitions were tightened):
 20 valid + 5 invalid requests, 20/20 good, p50 5.2 ms, p95 8.7 ms, one identity. The Cloud Run
 baseline is recorded before the Lab 8 incident, on the same revision as the incident.
+
 
 ---
 

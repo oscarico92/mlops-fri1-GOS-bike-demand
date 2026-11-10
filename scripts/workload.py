@@ -2,8 +2,9 @@
 
     python scripts/workload.py --url https://<service> --label baseline --valid 40 --invalid 10
 
-Every request carries `X-Request-ID: <label>-<kind>-<n>`, so its JSON log line can be found
-and counted later (scripts/signals.py). Valid requests vary the hour over 0-23 so the
+Every request carries `X-Request-ID: <label>-<run>-<kind>-<n>`, where <run> is new for each
+execution, so its JSON log line can be found and counted later (scripts/signals.py) and lines
+from an earlier run with the same label are never taken for this one. Valid requests vary the hour over 0-23 so the
 workload is not one cached input; invalid requests send hr=24 (an intentional 422).
 Prints one summary line and writes the per-request results as JSON lines to --out.
 """
@@ -14,6 +15,7 @@ import sys
 import time
 import urllib.error
 import urllib.request
+import uuid
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -65,13 +67,15 @@ def main() -> int:
     args = parser.parse_args()
 
     started_at = datetime.now(UTC).isoformat(timespec="seconds")
+    run = datetime.now(UTC).strftime("%H%M%S") + uuid.uuid4().hex[:4]
+    prefix = f"{args.label}-{run}"
     results = []
     for n in range(args.valid):
         body = {**BASE, "hr": n % 24}
-        results.append(send(args.url, body, f"{args.label}-valid-{n}", args.timeout))
+        results.append(send(args.url, body, f"{prefix}-valid-{n}", args.timeout))
     for n in range(args.invalid):
         body = {**BASE, "hr": 24}
-        results.append(send(args.url, body, f"{args.label}-invalid-{n}", args.timeout))
+        results.append(send(args.url, body, f"{prefix}-invalid-{n}", args.timeout))
     ended_at = datetime.now(UTC).isoformat(timespec="seconds")
 
     if args.out:
@@ -85,6 +89,7 @@ def main() -> int:
         json.dumps(
             {
                 "label": args.label,
+                "run": run,
                 "url": args.url,
                 "window_utc": [started_at, ended_at],
                 "sent": len(results),

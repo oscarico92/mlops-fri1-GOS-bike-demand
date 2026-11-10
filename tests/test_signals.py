@@ -35,14 +35,16 @@ def event(rid, status, ms=10.0, model="m-1"):
 
 
 def workload(valid=10, invalid=5, client=200):
-    sent = [{"request_id": f"inc-valid-{n}", "status": client} for n in range(valid)]
-    sent += [{"request_id": f"inc-invalid-{n}", "status": 422} for n in range(invalid)]
+    sent = [{"request_id": f"inc-r1-valid-{n}", "status": client} for n in range(valid)]
+    sent += [
+        {"request_id": f"inc-r1-invalid-{n}", "status": 422} for n in range(invalid)
+    ]
     return sent
 
 
 def logs(valid_status, invalid_status=422, valid=10, invalid=5):
-    out = [event(f"inc-valid-{n}", valid_status(n)) for n in range(valid)]
-    out += [event(f"inc-invalid-{n}", invalid_status) for n in range(invalid)]
+    out = [event(f"inc-r1-valid-{n}", valid_status(n)) for n in range(valid)]
+    out += [event(f"inc-r1-invalid-{n}", invalid_status) for n in range(invalid)]
     return out
 
 
@@ -76,7 +78,7 @@ def test_f_requests_that_never_arrive_count_as_not_good():
     events = [
         e
         for e in logs(lambda n: 200)
-        if e["request_id"] not in {f"inc-valid-{n}" for n in range(4)}
+        if e["request_id"] not in {f"inc-r1-valid-{n}" for n in range(4)}
     ]
     r = signals.summarize(events, "inc", sent=workload())
     assert (r["missing"], r["good"], r["success_rate"]) == (4, 6, 0.6)
@@ -99,17 +101,37 @@ def test_docker_and_gcloud_inputs_are_read():
     text = "\n".join(
         [
             "INFO:     Started server process [1]",
-            json.dumps(event("inc-valid-0", 200)),
+            json.dumps(event("inc-r1-valid-0", 200)),
             "{broken",
         ]
     )
     events, unreadable = signals.events_from(text)
     assert (len(events), unreadable) == (1, 1)
     entries = [
-        {"jsonPayload": event("inc-valid-0", 200)},
-        {"textPayload": json.dumps(event("inc-valid-1", 500))},
+        {"jsonPayload": event("inc-r1-valid-0", 200)},
+        {"textPayload": json.dumps(event("inc-r1-valid-1", 500))},
         {"textPayload": "INFO:     Uvicorn running"},
     ]
     events, _ = signals.events_from(json.dumps(entries))
     r = signals.summarize(events, "inc")
     assert (r["eligible"], r["good"]) == (2, 1)
+
+
+def test_lines_of_an_earlier_run_with_the_same_label_do_not_count():
+    old_run = [event(f"inc-r0-valid-{n}", 200) for n in range(10)]
+    new_run = [event(f"inc-r1-valid-{n}", 200) for n in range(6)]  # 4 never arrived
+    sent = [{"request_id": f"inc-r1-valid-{n}", "status": 200} for n in range(10)]
+    r = signals.summarize(old_run + new_run, "inc", sent=sent)
+    assert (r["logged"], r["missing"], r["success_rate"]) == (6, 4, 0.6)
+
+
+def test_a_duplicate_id_counts_its_worst_answer():
+    events = [event("inc-r1-valid-0", 503), event("inc-r1-valid-0", 200)]
+    sent = [{"request_id": "inc-r1-valid-0", "status": 200}]
+    r = signals.summarize(events, "inc", sent=sent)
+    assert (r["good"], r["success_rate"], r["duplicate_lines"]) == (0, 0.0, 1)
+
+
+def test_without_sent_missing_is_unknown():
+    r = signals.summarize([event("inc-r1-valid-0", 200)], "inc")
+    assert r["missing"] == "unknown (no --sent)"

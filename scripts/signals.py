@@ -10,7 +10,9 @@ per-request file written by scripts/workload.py (`--out`): it says what was sent
 client received, so requests that never reached the service still count.
 
 Definitions (the same for baseline, incident and recovery). Intent comes from the request,
-never from the response: workload ids are `<label>-valid-<n>` or `<label>-invalid-<n>`.
+never from the response: workload ids are `<label>-<run>-valid-<n>` or `<label>-<run>-invalid-<n>`.
+With --sent, only the exact ids of that run are counted, so log lines of an earlier run with the
+same label cannot hide a missing request.
 - eligible attempts: every valid request sent (from --sent), or seen in the logs without --sent;
 - good: eligible attempts logged with status 200;
 - missing: requests sent but with no log line (never arrived, or answered by the platform); a
@@ -21,7 +23,9 @@ never from the response: workload ids are `<label>-valid-<n>` or `<label>-invali
 - latency: server duration_ms of good attempts (p50, p95, max);
 - identity: requests per code_revision / model_version;
 - client view (with --sent): status the client received, including "no_response";
-- unreadable: lines that look like JSON but cannot be read.
+- duplicates: an id logged more than once; the worst answer counts (a 503 then a 200 is not good);
+- unreadable: lines that look like JSON but cannot be read;
+- without --sent, `sent` and `missing` are "unknown": they cannot be known from the logs alone.
 """
 
 import argparse
@@ -69,11 +73,18 @@ def percentile(values: list[float], q: float) -> float | None:
 
 
 def intent(request_id: str, label: str) -> str | None:
-    if request_id.startswith(f"{label}-valid-"):
+    if not request_id.startswith(f"{label}-"):
+        return None
+    if "-valid-" in request_id:
         return "valid"
-    if request_id.startswith(f"{label}-invalid-"):
+    if "-invalid-" in request_id:
         return "invalid"
     return None
+
+
+def worse(a: dict, b: dict) -> dict:
+    """Of two lines for the same id, keep the one that is not a success."""
+    return a if a.get("status") != 200 else b
 
 
 def count(values) -> dict:
@@ -86,15 +97,25 @@ def count(values) -> dict:
 def summarize(
     events: list[dict], label: str, unreadable: int = 0, sent: list[dict] | None = None
 ) -> dict:
-    logged = {}
+    wanted = None
+    if sent is not None:
+        wanted = {str(r.get("request_id")) for r in sent}
+    logged: dict = {}
+    duplicates = 0
     for e in events:
+        rid = str(e.get("request_id", ""))
         if (
             e.get("event") == "request"
             and e.get("method") == "POST"
             and e.get("path") == "/predict"
-            and intent(str(e.get("request_id", "")), label)
+            and intent(rid, label)
+            and (wanted is None or rid in wanted)
         ):
-            logged[str(e["request_id"])] = e
+            if rid in logged:
+                duplicates += 1
+                logged[rid] = worse(logged[rid], e)
+            else:
+                logged[rid] = e
     if sent is not None:
         sent_ids = {
             str(r["request_id"]): r
@@ -122,7 +143,7 @@ def summarize(
         "window_utc": [times[0], times[-1]] if times else None,
         "sent": len(sent_ids) if sent is not None else "unknown (no --sent)",
         "logged": len(logged),
-        "missing": len(missing),
+        "missing": len(missing) if sent is not None else "unknown (no --sent)",
         "eligible": len(valid),
         "good": len(good),
         "success_rate": round(len(good) / len(valid), 4) if valid else "no data",
@@ -140,6 +161,7 @@ def summarize(
             f"{e.get('code_revision')} / {e.get('model_version')}"
             for e in logged.values()
         ),
+        "duplicate_lines": duplicates,
         "unreadable_lines": unreadable,
     }
     if sent is not None:

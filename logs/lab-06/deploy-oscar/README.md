@@ -16,3 +16,16 @@
 Before this deploy, "Container checks" failed on `main` after #26 removed
 `ENV GIT_COMMIT` from the Dockerfile: `/health` returned `code_revision: unknown` and the
 check stopped the pipeline, so nothing was deployed.
+
+## Second deploy and rollback (after #29)
+
+- `live-check-c893a30.txt`, `live-check-1feb672.txt`: deploy records of the first deploy and of the first
+  deploy with the #29 workflow (`1feb672`): the revision with 100 % of the traffic runs the digest pushed
+  by that run, then the Lab 5 check passes.
+- `rollback.txt`: manual rollback from `00004-pb7` (`1feb672`) to `00001-lc9` (`c893a30`) with
+  `update-traffic`: `/health` answers the old commit and the same model `d24c050e…`, no rebuild.
+- Deploy after a pinned rollback (Simon's review point 2 on #29): traffic was left pinned on `00001-lc9`.
+  The next merge on `main` (#25, `140d47d`) triggered "Deploy to Cloud Run" run #11, which succeeded:
+  the workflow routed 100 % of the traffic to the new revision and the digest check and the Lab 5 check
+  passed (`live-check-140d47d.txt`). Without the explicit routing added in #29, this deploy would have
+  left the new revision at 0 % and failed.

@@ -1,0 +1,18 @@
+# Lab 7 candidate: same data, features and split as Lab 2; only model settings vary.
+data: data/raw/hour.csv
+features:
+  - season
+  - yr
+  - mnth
+  - hr
+  - holiday
+  - weekday
+  - workingday
+  - weathersit
+  - temp
+  - atemp
+  - hum
+  - windspeed
+model:
+  n_estimators: 50
+  max_depth: 6
