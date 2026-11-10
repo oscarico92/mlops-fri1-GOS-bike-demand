@@ -1,0 +1,3414 @@
+[
+  {
+    "insertId": "6af335b60002a4216a3f46f9",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 1.1,
+      "event": "request",
+      "invalid_fields": [
+        "hr"
+      ],
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "invalid_input",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-invalid-9",
+      "status": 422,
+      "ts": "2026-11-10T15:18:14.173+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:14.197643237Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:14.173089Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.003456040s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "535",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "277",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 422,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b60002a6990abc1fce",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:14.194227197Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "WARNING",
+    "spanId": "19caf3085edaf30e",
+    "timestamp": "2026-11-10T15:18:14.168650Z",
+    "trace": "projects/mlops-ece-group2/traces/ee89e39c0a0dd66c85adf4b5ecd18e73"
+  },
+  {
+    "insertId": "6af335b6000161be785e203f",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 1.2,
+      "event": "request",
+      "invalid_fields": [
+        "hr"
+      ],
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "invalid_input",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-invalid-8",
+      "status": 422,
+      "ts": "2026-11-10T15:18:14.090+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:14.197643237Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:14.090558Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.004069590s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "535",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "277",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 422,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b6000164e7ba3572cb",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:14.194227197Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "WARNING",
+    "spanId": "fbae23281f06c09b",
+    "timestamp": "2026-11-10T15:18:14.085629Z",
+    "trace": "projects/mlops-ece-group2/traces/56ada24481b8b8ffc1cd710981122930"
+  },
+  {
+    "insertId": "6af335b600002fc1b4dcacde",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 2.1,
+      "event": "request",
+      "invalid_fields": [
+        "hr"
+      ],
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "invalid_input",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-invalid-7",
+      "status": 422,
+      "ts": "2026-11-10T15:18:14.012+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:14.197643237Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:14.012225Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.004676210s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "534",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "277",
+      "serverIp": "2600:1900:4241:200::",
+      "status": 422,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b6000032bcb80b970b",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:14.194227197Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "WARNING",
+    "spanId": "82d31b3136b92c65",
+    "timestamp": "2026-11-10T15:18:14.006552Z",
+    "trace": "projects/mlops-ece-group2/traces/b1eb9b9b51416fa649eaf8cca7201065"
+  },
+  {
+    "insertId": "6af335b5000ceed9a0964b09",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 1,
+      "event": "request",
+      "invalid_fields": [
+        "hr"
+      ],
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "invalid_input",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-invalid-6",
+      "status": 422,
+      "ts": "2026-11-10T15:18:13.848+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:13.858994166Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:13.847577Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.003365650s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "534",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "277",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 422,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b5000cf112058b0b6f",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:13.880212572Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "WARNING",
+    "spanId": "7598fff3eea6b680",
+    "timestamp": "2026-11-10T15:18:13.843575Z",
+    "trace": "projects/mlops-ece-group2/traces/02dbb2e53a7c883190be25c8b5314f13"
+  },
+  {
+    "insertId": "6af335b5000bbf35ed1b6873",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 1.1,
+      "event": "request",
+      "invalid_fields": [
+        "hr"
+      ],
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "invalid_input",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-invalid-5",
+      "status": 422,
+      "ts": "2026-11-10T15:18:13.770+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:13.858994166Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:13.769845Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.003757040s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "534",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "277",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 422,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b5000bc240c9fe2476",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:13.880212572Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "WARNING",
+    "spanId": "77fdf407bee2e7b8",
+    "timestamp": "2026-11-10T15:18:13.765467Z",
+    "trace": "projects/mlops-ece-group2/traces/55365625d7e6786d022813f5fd94c619"
+  },
+  {
+    "insertId": "6af335b500095cc35b86a71a",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 1.3,
+      "event": "request",
+      "invalid_fields": [
+        "hr"
+      ],
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "invalid_input",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-invalid-4",
+      "status": 422,
+      "ts": "2026-11-10T15:18:13.614+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:13.858994166Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:13.613571Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.003508550s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "534",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "277",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 422,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b500095f33cedb85cd",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:13.880212572Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "WARNING",
+    "spanId": "9de02166f33fe908",
+    "timestamp": "2026-11-10T15:18:13.609135Z",
+    "trace": "projects/mlops-ece-group2/traces/31e19b97e22dc50ab2557c3c4b7a30c5"
+  },
+  {
+    "insertId": "6af335b500086c4b6551a8ce",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 1.6,
+      "event": "request",
+      "invalid_fields": [
+        "hr"
+      ],
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "invalid_input",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-invalid-3",
+      "status": 422,
+      "ts": "2026-11-10T15:18:13.552+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:13.858994166Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:13.552011Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.003656200s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "535",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "277",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 422,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b500086e325314d784",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:13.880212572Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "WARNING",
+    "spanId": "afa1e6616b19077c",
+    "timestamp": "2026-11-10T15:18:13.547445Z",
+    "trace": "projects/mlops-ece-group2/traces/8060f1ab9523f904d8fc58975b585c7a"
+  },
+  {
+    "insertId": "6af335b50007637591ed76ae",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 1.2,
+      "event": "request",
+      "invalid_fields": [
+        "hr"
+      ],
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "invalid_input",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-invalid-2",
+      "status": 422,
+      "ts": "2026-11-10T15:18:13.484+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:13.526942949Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:13.484213Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.003844570s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "534",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "277",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 422,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b50007672377ee1bae",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:13.525876837Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "WARNING",
+    "spanId": "1ce91dc9b9a54ed9",
+    "timestamp": "2026-11-10T15:18:13.479837Z",
+    "trace": "projects/mlops-ece-group2/traces/9fa8dc6907bb26e9ce5f4fed09efe0c0"
+  },
+  {
+    "insertId": "6af335b50004d93ffa8fee70",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 1.1,
+      "event": "request",
+      "invalid_fields": [
+        "hr"
+      ],
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "invalid_input",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-invalid-1",
+      "status": 422,
+      "ts": "2026-11-10T15:18:13.318+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:13.526942949Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:13.317759Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.003607120s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "535",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "277",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 422,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b50004db633041633c",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:13.525876837Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "WARNING",
+    "spanId": "bee498cf3ba35b1f",
+    "timestamp": "2026-11-10T15:18:13.312883Z",
+    "trace": "projects/mlops-ece-group2/traces/72b62de046884f7cfdebe3a363cf45c9"
+  },
+  {
+    "insertId": "6af335b500038b5e583a5535",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 1.2,
+      "event": "request",
+      "invalid_fields": [
+        "hr"
+      ],
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "invalid_input",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-invalid-0",
+      "status": 422,
+      "ts": "2026-11-10T15:18:13.233+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:13.526942949Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:13.232286Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.003730810s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "535",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "277",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 422,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b500038da0331ee0ba",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:13.525876837Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "WARNING",
+    "spanId": "a48b10b0e9fc8b9f",
+    "timestamp": "2026-11-10T15:18:13.227970Z",
+    "trace": "projects/mlops-ece-group2/traces/deccc96418c49cfd2a26ddd8eba5902d"
+  },
+  {
+    "insertId": "6af335b500011f471437b6fa",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 10.9,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-39",
+      "status": 200,
+      "ts": "2026-11-10T15:18:13.074+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:13.193234023Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:13.073543Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.013883340s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "533",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "213",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b500012198f5747471",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:13.195867818Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "763d7c7c1da0a520",
+    "timestamp": "2026-11-10T15:18:13.059142Z",
+    "trace": "projects/mlops-ece-group2/traces/d9cf3e9165ff490a0c5cddc7317fe5ea"
+  },
+  {
+    "insertId": "6af335b4000f27eb9e385718",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 8.6,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-38",
+      "status": 200,
+      "ts": "2026-11-10T15:18:12.994+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:13.193234023Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:12.993259Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.010837750s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "534",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "213",
+      "serverIp": "2600:1900:4241:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b4000f2a739146c6ca",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:13.195867818Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "046eb3e0658fd48a",
+    "timestamp": "2026-11-10T15:18:12.981646Z",
+    "trace": "projects/mlops-ece-group2/traces/63485b750b9fa42cab9c3ea694be39cd"
+  },
+  {
+    "insertId": "6af335b4000e151eddd8057b",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 9.5,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-37",
+      "status": 200,
+      "ts": "2026-11-10T15:18:12.923+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:13.193234023Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:12.922910Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.012173490s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "533",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "213",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b4000e187cade9f2ae",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:13.195867818Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "d75beec47b2d7b08",
+    "timestamp": "2026-11-10T15:18:12.909503Z",
+    "trace": "projects/mlops-ece-group2/traces/7ffea9a1a848137cfb31cd2436cd1ea8"
+  },
+  {
+    "insertId": "6af335b400097080dbc22591",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 8,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-36",
+      "status": 200,
+      "ts": "2026-11-10T15:18:12.619+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:12.859825849Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:12.618624Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.010663180s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "534",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "213",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b4000972c2cad33f9b",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:12.863338779Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "4e4bcbe81dd619ca",
+    "timestamp": "2026-11-10T15:18:12.607093Z",
+    "trace": "projects/mlops-ece-group2/traces/78e40020ac030d60241247e2381de7c4"
+  },
+  {
+    "insertId": "6af335b40007ece566a02a8d",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 9.5,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-35",
+      "status": 200,
+      "ts": "2026-11-10T15:18:12.520+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:12.527609505Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:12.519397Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.011971760s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "534",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "213",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b40007efdf6f9fe0a9",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:12.527377596Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "364387714c3ad853",
+    "timestamp": "2026-11-10T15:18:12.506919Z",
+    "trace": "projects/mlops-ece-group2/traces/9952f0cc9851ff3ba5e357a4709ec118"
+  },
+  {
+    "insertId": "6af335b400069a4aa131e25b",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 9.8,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-34",
+      "status": 200,
+      "ts": "2026-11-10T15:18:12.433+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:12.527609505Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:12.432714Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.012130730s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "534",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "213",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b400069d73dde9fc62",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:12.527377596Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "a9be75b18998260a",
+    "timestamp": "2026-11-10T15:18:12.420237Z",
+    "trace": "projects/mlops-ece-group2/traces/a798404f6faf815d3a32e669442325c6"
+  },
+  {
+    "insertId": "6af335b40004074f14f3546d",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 10,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-33",
+      "status": 200,
+      "ts": "2026-11-10T15:18:12.264+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:12.527609505Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:12.264015Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.014941831s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "532",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "212",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b400040c2bede64729",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:12.527377596Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "9e296b801335900a",
+    "timestamp": "2026-11-10T15:18:12.248871Z",
+    "trace": "projects/mlops-ece-group2/traces/d3224674014f64fd90f2b62fd7bbf8e9"
+  },
+  {
+    "insertId": "6af335b40000aa981ac6d9bd",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 11.5,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-32",
+      "status": 200,
+      "ts": "2026-11-10T15:18:12.043+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:12.195874746Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:12.043672Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.014096840s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "533",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "212",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b40000ad4f71f303db",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:12.195138824Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "dd21e91035dcdf7e",
+    "timestamp": "2026-11-10T15:18:12.028652Z",
+    "trace": "projects/mlops-ece-group2/traces/79a673752e5b5ddd882392be7d5cbb5c"
+  },
+  {
+    "insertId": "6af335b3000ea48046bb317e",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 12.9,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-31",
+      "status": 200,
+      "ts": "2026-11-10T15:18:11.959+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:12.195874746Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:11.959616Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.018102290s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "532",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "212",
+      "serverIp": "2600:1900:4241:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b3000eab474ae790e5",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:12.195138824Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "1ddfde56d4d137ec",
+    "timestamp": "2026-11-10T15:18:11.941718Z",
+    "trace": "projects/mlops-ece-group2/traces/a220ddf892b726f098b1111916690c07"
+  },
+  {
+    "insertId": "6af335b3000d692cb150ffa8",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 10.7,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-30",
+      "status": 200,
+      "ts": "2026-11-10T15:18:11.878+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:12.195874746Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:11.878892Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.015228581s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "558",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "213",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b3000d6ebf94ceac42",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:12.195138824Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "8b1d4d5558de2939",
+    "timestamp": "2026-11-10T15:18:11.863782Z",
+    "trace": "projects/mlops-ece-group2/traces/f5e167b82fe0d2697ccbd24f696a6652"
+  },
+  {
+    "insertId": "6af335b3000ac62f5ba9b7b6",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 14.6,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-29",
+      "status": 200,
+      "ts": "2026-11-10T15:18:11.706+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:11.863937387Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:11.706095Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.018610360s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "533",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "213",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b3000ac9b5a5b8c445",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:11.864248962Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "8501f2fba4ade350",
+    "timestamp": "2026-11-10T15:18:11.686141Z",
+    "trace": "projects/mlops-ece-group2/traces/cdc651311f5fe20ee696b102d08ff9e8"
+  },
+  {
+    "insertId": "6af335b3000830523203b788",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 9.3,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-28",
+      "status": 200,
+      "ts": "2026-11-10T15:18:11.536+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:11.863937387Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:11.536658Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.011704210s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "533",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "212",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b3000831c3fe2d262e",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:11.864248962Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "97cd03b407be05d4",
+    "timestamp": "2026-11-10T15:18:11.524182Z",
+    "trace": "projects/mlops-ece-group2/traces/31626630a7c918c00392e44d73593138"
+  },
+  {
+    "insertId": "6af335b3000719c983ef820f",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 21.3,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-27",
+      "status": 200,
+      "ts": "2026-11-10T15:18:11.465+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:11.527544348Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:11.465353Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.024051430s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "533",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "211",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b300071dfef950a777",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:11.531604798Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "4a1712192eeb149e",
+    "timestamp": "2026-11-10T15:18:11.440191Z",
+    "trace": "projects/mlops-ece-group2/traces/5478fc67b9774c040eaeedf77f5ec103"
+  },
+  {
+    "insertId": "6af335b300053618d6ea95a6",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 8.8,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-26",
+      "status": 200,
+      "ts": "2026-11-10T15:18:11.340+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:11.527544348Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:11.341528Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.013786100s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "558",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "212",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b300053ec25d5d8fa7",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:11.531604798Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "f9ef4f909ba80f00",
+    "timestamp": "2026-11-10T15:18:11.328272Z",
+    "trace": "projects/mlops-ece-group2/traces/21a3f71ea24b3f3fb7cd5e64cb605906"
+  },
+  {
+    "insertId": "6af335b30002a80457a80499",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 10.7,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-25",
+      "status": 200,
+      "ts": "2026-11-10T15:18:11.174+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:11.193561790Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:11.174084Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.013319821s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "533",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "213",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b30002ab1e4138d6b9",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:11.197563958Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "83af9b5d43bab954",
+    "timestamp": "2026-11-10T15:18:11.159815Z",
+    "trace": "projects/mlops-ece-group2/traces/f3f56092bab1b0c05006f07af29a51b5"
+  },
+  {
+    "insertId": "6af335b3000012c07fe89f4b",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 11.8,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-24",
+      "status": 200,
+      "ts": "2026-11-10T15:18:11.005+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:11.193561790Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:11.004800Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.014316310s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "533",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "212",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b30000158d6cdaea4d",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:11.197563958Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "67c6252d9a5c0b11",
+    "timestamp": "2026-11-10T15:18:10.990143Z",
+    "trace": "projects/mlops-ece-group2/traces/1b13f3e0f507f76cf484ad13ba7f0375"
+  },
+  {
+    "insertId": "6af335b2000e10af4532b32e",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 11.6,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-23",
+      "status": 200,
+      "ts": "2026-11-10T15:18:10.922+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:11.193561790Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:10.921775Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.014431531s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "534",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "213",
+      "serverIp": "2600:1900:4241:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b2000e182a71c5b54e",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:11.197563958Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "0b29d0260d2ecffb",
+    "timestamp": "2026-11-10T15:18:10.906672Z",
+    "trace": "projects/mlops-ece-group2/traces/226898d8a6c3cc4edcf820e5b3d0732e"
+  },
+  {
+    "insertId": "6af335b2000ca106e127cbbd",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 10.9,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-22",
+      "status": 200,
+      "ts": "2026-11-10T15:18:10.828+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:10.864489880Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:10.827654Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.013106021s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "534",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "213",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b2000ca3a9efb496aa",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:10.865611413Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "2e47cd727b82d05c",
+    "timestamp": "2026-11-10T15:18:10.813969Z",
+    "trace": "projects/mlops-ece-group2/traces/abc47623e634159a505990f2cf784798"
+  },
+  {
+    "insertId": "6af335b2000a35eb299e2686",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 8.9,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-21",
+      "status": 200,
+      "ts": "2026-11-10T15:18:10.669+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:10.864489880Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:10.669163Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.010934801s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "534",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "213",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b2000a38ca1cb7e953",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:10.865611413Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "271bfe8d7fe5a18f",
+    "timestamp": "2026-11-10T15:18:10.657650Z",
+    "trace": "projects/mlops-ece-group2/traces/a96a7625d88062abf247a1660e9610e9"
+  },
+  {
+    "insertId": "6af335b20007b494f4f29759",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 13.2,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-20",
+      "status": 200,
+      "ts": "2026-11-10T15:18:10.505+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:10.529599307Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:10.504980Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.015996731s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "534",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "212",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b20007b716939d9534",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:10.528300682Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "39a9e4459b7c39dd",
+    "timestamp": "2026-11-10T15:18:10.488196Z",
+    "trace": "projects/mlops-ece-group2/traces/219513f71d54af18a9db517cd759cef0"
+  },
+  {
+    "insertId": "6af335b2000670beacebd275",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 13.3,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-19",
+      "status": 200,
+      "ts": "2026-11-10T15:18:10.422+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:10.529599307Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:10.422078Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.015437311s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "532",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "212",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b20006734869a106eb",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:10.528300682Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "950f1a885764f0b5",
+    "timestamp": "2026-11-10T15:18:10.406018Z",
+    "trace": "projects/mlops-ece-group2/traces/924bbb9e69b207759a030c7b68525357"
+  },
+  {
+    "insertId": "6af335b2000526c64e842b78",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 9.8,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-18",
+      "status": 200,
+      "ts": "2026-11-10T15:18:10.337+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:10.529599307Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:10.337606Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.013152291s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "532",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "212",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b200052a1d13697c7d",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:10.528300682Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "c8045d62f0313ca4",
+    "timestamp": "2026-11-10T15:18:10.323911Z",
+    "trace": "projects/mlops-ece-group2/traces/d687231a3aa6cfdda9aace1711c192b2"
+  },
+  {
+    "insertId": "6af335b20002f753d129630e",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 13.1,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-17",
+      "status": 200,
+      "ts": "2026-11-10T15:18:10.194+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:10.529599307Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:10.194387Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.016957051s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "534",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "212",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b20002fe1fdf76a70f",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:10.528300682Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "e3c9daec96eba8ec",
+    "timestamp": "2026-11-10T15:18:10.177757Z",
+    "trace": "projects/mlops-ece-group2/traces/71910057a97cd86d08b6f96bcad6a009"
+  },
+  {
+    "insertId": "6af335b20001a4ba6d06f319",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 8.9,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-16",
+      "status": 200,
+      "ts": "2026-11-10T15:18:10.107+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:10.197456919Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:10.107706Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.011902151s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "533",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "213",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b20001a8555d1808ee",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:10.203198349Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "4d5dfbb92a2f9e62",
+    "timestamp": "2026-11-10T15:18:10.095348Z",
+    "trace": "projects/mlops-ece-group2/traces/b5cc7446dcbe80742d64018bb473ea5d"
+  },
+  {
+    "insertId": "6af335b1000de0780240007d",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 21.4,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-15",
+      "status": 200,
+      "ts": "2026-11-10T15:18:09.909+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:10.197456919Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:09.909432Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.024337431s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "534",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "213",
+      "serverIp": "2600:1900:4241:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b1000de2b28743cc39",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:10.203198349Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "9307b4ba29ee0a84",
+    "timestamp": "2026-11-10T15:18:09.884411Z",
+    "trace": "projects/mlops-ece-group2/traces/ced9548f930c6e6f4b46d7edad8cd8c2"
+  },
+  {
+    "insertId": "6af335b1000c949f8304cf6c",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 11,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-14",
+      "status": 200,
+      "ts": "2026-11-10T15:18:09.824+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:09.861546109Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:09.824479Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.013349311s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "533",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "213",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b1000c97a7f6bd2aad",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:09.863021397Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "a86ccbc2ee49bd02",
+    "timestamp": "2026-11-10T15:18:09.810528Z",
+    "trace": "projects/mlops-ece-group2/traces/6613e8f1ce115653bcd5ba230dcee17f"
+  },
+  {
+    "insertId": "6af335b1000a3c65f75dd65f",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 13,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-13",
+      "status": 200,
+      "ts": "2026-11-10T15:18:09.669+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:09.861546109Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:09.670821Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.015566671s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "533",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "213",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b1000a3819ace68195",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:09.863021397Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "631a2e34c9e620c0",
+    "timestamp": "2026-11-10T15:18:09.653101Z",
+    "trace": "projects/mlops-ece-group2/traces/a3b17ec8b33ff3fd1b3bdaf4bbc391cc"
+  },
+  {
+    "insertId": "6af335b10008d856c171d84b",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 8.5,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-12",
+      "status": 200,
+      "ts": "2026-11-10T15:18:09.579+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:09.861546109Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:09.579670Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.010888301s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "534",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "213",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b10008dadd8cf1b8f2",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:09.863021397Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "2af97b5ca1fe8994",
+    "timestamp": "2026-11-10T15:18:09.567927Z",
+    "trace": "projects/mlops-ece-group2/traces/4875017d5b43f39b9d0e8b3ebad26c97"
+  },
+  {
+    "insertId": "6af335b100065468908bdb3a",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 8.9,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-11",
+      "status": 200,
+      "ts": "2026-11-10T15:18:09.414+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:09.530910324Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:09.414824Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.010978781s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "559",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "213",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b1000655920073623c",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:09.532195421Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "cd4a6780d0e628cb",
+    "timestamp": "2026-11-10T15:18:09.402953Z",
+    "trace": "projects/mlops-ece-group2/traces/baff149e0c9db0646aa12103e10b25bc"
+  },
+  {
+    "insertId": "6af335b100052af581dc7b66",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 8.9,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-10",
+      "status": 200,
+      "ts": "2026-11-10T15:18:09.339+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:09.530910324Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:09.338677Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.012167530s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "534",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "213",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b100052dcaf2fd6ae6",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:09.532195421Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "8c391746971594bd",
+    "timestamp": "2026-11-10T15:18:09.325984Z",
+    "trace": "projects/mlops-ece-group2/traces/fa450c498b63dc64d1c0ad93c7801df9"
+  },
+  {
+    "insertId": "6af335b10003d88809d02762",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 9.8,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-9",
+      "status": 200,
+      "ts": "2026-11-10T15:18:09.252+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:09.530910324Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:09.252040Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.012238941s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "531",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "211",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b10003dbc862f37806",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:09.532195421Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "83b0befcca06e3c2",
+    "timestamp": "2026-11-10T15:18:09.238991Z",
+    "trace": "projects/mlops-ece-group2/traces/2015448d0218d02c8d5eee8dec570a9e"
+  },
+  {
+    "insertId": "6af335b100015601e17bb4e1",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 10.1,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-8",
+      "status": 200,
+      "ts": "2026-11-10T15:18:09.087+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:09.195244175Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:09.087553Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.013328741s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "532",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "211",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b100015b21e7e17023",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:09.197009404Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "49284b734f69de8a",
+    "timestamp": "2026-11-10T15:18:09.074499Z",
+    "trace": "projects/mlops-ece-group2/traces/c42aa0f9fdee6292b240ea557f53d90e"
+  },
+  {
+    "insertId": "6af335b0000e193959692d26",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 12.1,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-7",
+      "status": 200,
+      "ts": "2026-11-10T15:18:08.923+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:09.195244175Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:08.923961Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.015116651s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "532",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "211",
+      "serverIp": "2600:1900:4241:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b0000e19b35451bd5f",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:09.197009404Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "c855f8932629c492",
+    "timestamp": "2026-11-10T15:18:08.907631Z",
+    "trace": "projects/mlops-ece-group2/traces/ccf899b1943f95db65f32410fb61261e"
+  },
+  {
+    "insertId": "6af335b0000c183046941f0a",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 14,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-6",
+      "status": 200,
+      "ts": "2026-11-10T15:18:08.793+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:08.861785065Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:08.792624Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.017307058s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "532",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "212",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b0000c1ac39d2faf82",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:08.867329498Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "24ba3f395c2c083c",
+    "timestamp": "2026-11-10T15:18:08.774621Z",
+    "trace": "projects/mlops-ece-group2/traces/5586c6bc0e9b7c4d5bb1cce4768aa101"
+  },
+  {
+    "insertId": "6af335b0000a65a92340eddd",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 8.6,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-5",
+      "status": 200,
+      "ts": "2026-11-10T15:18:08.681+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:08.861785065Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:08.681385Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.011122369s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "532",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "212",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b0000a686be4bbe3dc",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:08.867329498Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "7dacc2f6e4e3631c",
+    "timestamp": "2026-11-10T15:18:08.669418Z",
+    "trace": "projects/mlops-ece-group2/traces/8575bb6bf5464eff110d7af24af2f98c"
+  },
+  {
+    "insertId": "6af335b00008e1099dbeb246",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 9.2,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-4",
+      "status": 200,
+      "ts": "2026-11-10T15:18:08.582+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:08.861785065Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:08.581897Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.011113469s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "532",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "211",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b00008e368c8bc0dba",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:08.867329498Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "d089281d76f25239",
+    "timestamp": "2026-11-10T15:18:08.569802Z",
+    "trace": "projects/mlops-ece-group2/traces/584020c5d758b7aa7389447d73f120d6"
+  },
+  {
+    "insertId": "6af335b000052bb1588399ed",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 10.8,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-3",
+      "status": 200,
+      "ts": "2026-11-10T15:18:08.339+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:08.529590233Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:08.338865Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.012968828s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "557",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "210",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b000052e766814e9d2",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:08.528453593Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "5282c00979891345",
+    "timestamp": "2026-11-10T15:18:08.325421Z",
+    "trace": "projects/mlops-ece-group2/traces/2270b40cb6f7e979f08b7be930ae34fb"
+  },
+  {
+    "insertId": "6af335b00003a674206fd34c",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 8.2,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-2",
+      "status": 200,
+      "ts": "2026-11-10T15:18:08.240+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:08.529590233Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:08.239220Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.010738709s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "531",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "211",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b00003a8c065e315a2",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:08.528453593Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "c2c347b27e576266",
+    "timestamp": "2026-11-10T15:18:08.227885Z",
+    "trace": "projects/mlops-ece-group2/traces/6f583cbe16eacb32445c3856b4172b5d"
+  },
+  {
+    "insertId": "6af335b00001fa5ac8c4c2c5",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 11.8,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-1",
+      "status": 200,
+      "ts": "2026-11-10T15:18:08.130+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:08.198396721Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:08.129626Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.014335738s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "531",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "212",
+      "serverIp": "2600:1900:4245:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b00001fd6b7553eb08",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:08.198208516Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "a4d5621fd427717b",
+    "timestamp": "2026-11-10T15:18:08.114226Z",
+    "trace": "projects/mlops-ece-group2/traces/73f343cafb1e00fd9ae29e8146f16d76"
+  },
+  {
+    "insertId": "6af335b0000095e38778abc7",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 13.2,
+      "event": "request",
+      "method": "POST",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/predict",
+      "request_id": "baseline-151807f4a9-valid-0",
+      "status": 200,
+      "ts": "2026-11-10T15:18:08.039+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:08.198396721Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:08.038371Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.016116398s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "POST",
+      "requestSize": "532",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/predict",
+      "responseSize": "211",
+      "serverIp": "2600:1900:4241:200::",
+      "status": 200,
+      "userAgent": "Python-urllib/3.13"
+    },
+    "insertId": "6af335b0000098c8b2003336",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:08.198208516Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "671b1668602cd7ca",
+    "timestamp": "2026-11-10T15:18:08.021844Z",
+    "trace": "projects/mlops-ece-group2/traces/f5d304822f07276f449365ce3c6b6eba"
+  },
+  {
+    "insertId": "6af335af0008051190862602",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 0.9,
+      "event": "request",
+      "method": "GET",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/health",
+      "request_id": "3e42069c165e462d",
+      "status": 200,
+      "ts": "2026-11-10T15:18:07.526+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:18:07.533105932Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:18:07.525585Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.004457159s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "GET",
+      "requestSize": "302",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/health",
+      "responseSize": "325",
+      "serverIp": "2600:1900:4241:200::",
+      "status": 200,
+      "userAgent": "curl/8.12.1"
+    },
+    "insertId": "6af335af000807f2a247eea8",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:18:07.534210161Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "210dc2924e2b42a5",
+    "timestamp": "2026-11-10T15:18:07.520759Z",
+    "trace": "projects/mlops-ece-group2/traces/a0831e3386e879b8cbcbc030e3fae1f5",
+    "traceSampled": true
+  },
+  {
+    "insertId": "6af335a20007d4b2a2962541",
+    "jsonPayload": {
+      "code_revision": "6e97194e384aeb579c159b5ea0f1310734f1d0a4",
+      "duration_ms": 1.6,
+      "event": "request",
+      "method": "GET",
+      "model_version": "baseline-6e8f651c585f",
+      "outcome": "ok",
+      "path": "/health",
+      "request_id": "d49550ee9bae449f",
+      "status": 200,
+      "ts": "2026-11-10T15:17:54.514+00:00"
+    },
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-11-10T15:17:54.519134417Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "timestamp": "2026-11-10T15:17:54.513202Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.005563550s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "redacted",
+      "requestMethod": "GET",
+      "requestSize": "278",
+      "requestUrl": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app/health",
+      "responseSize": "325",
+      "serverIp": "2600:1900:4241:200::",
+      "status": 200,
+      "userAgent": "curl/8.12.1"
+    },
+    "insertId": "6af335a20007d82f3e18de1d",
+    "labels": {
+      "instanceId": "00e8a408bd237e171bc8922253892c94220c50fdc198ecc41876fa450bbad68508b06f44efe20007c776667aac8a4912a56866f69bf865a130ae1060535451425083c3cfeac3d663c8fe30fd8b363b045c2726fb447ee5d6c1"
+    },
+    "logName": "projects/mlops-ece-group2/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-11-10T15:17:54.518588503Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "gos-bike-demand",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "gos-bike-demand-00009-xqq",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "8a19a7f5da86e7f3",
+    "timestamp": "2026-11-10T15:17:54.507243Z",
+    "trace": "projects/mlops-ece-group2/traces/3c094dc159a7c32036a17b0470118d0f",
+    "traceSampled": true
+  }
+]

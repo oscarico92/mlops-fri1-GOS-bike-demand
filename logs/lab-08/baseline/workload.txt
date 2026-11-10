@@ -1,0 +1,1 @@
+{"label": "baseline", "run": "151807f4a9", "url": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app", "window_utc": ["2026-11-10T15:18:07+00:00", "2026-11-10T15:18:14+00:00"], "sent": 50, "statuses": {"200": 40, "422": 10}, "model_versions": ["baseline-6e8f651c585f"]}
