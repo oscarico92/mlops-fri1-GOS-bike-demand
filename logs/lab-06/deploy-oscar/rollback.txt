@@ -21,5 +21,6 @@ $ curl -s "$URL/health"          # after
 {"status":"ok","model_version":"baseline-8e9e25279c01","model_sha256":"d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07","code_revision":"c893a301928fe305273b60bf8f6278c697bad490"}
 
 # Result: the service answers with the first deployed commit (c893a30) within seconds,
-# without rebuilding or redeploying. Traffic is left pinned on 00001-lc9 on purpose:
-# the next deploy from main must still reach 100 % (Simon's review point 2 on #29).
+# without rebuilding or redeploying. Traffic was left pinned on 00001-lc9 on purpose:
+# the next deploy from main (#25, 140d47d, Deploy run #11) succeeded and moved 100 % to its
+# new revision (see live-check-140d47d.txt), so a deploy still works after a rollback.

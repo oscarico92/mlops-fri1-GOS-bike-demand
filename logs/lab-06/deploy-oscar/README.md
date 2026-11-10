@@ -24,5 +24,8 @@ check stopped the pipeline, so nothing was deployed.
   by that run, then the Lab 5 check passes.
 - `rollback.txt`: manual rollback from `00004-pb7` (`1feb672`) to `00001-lc9` (`c893a30`) with
   `update-traffic`: `/health` answers the old commit and the same model `d24c050e…`, no rebuild.
-- Traffic was left pinned on `00001-lc9`; the deploy triggered by merging this evidence must route
-  100 % to its new revision anyway (checked in its live-check record).
+- Deploy after a pinned rollback (Simon's review point 2 on #29): traffic was left pinned on `00001-lc9`.
+  The next merge on `main` (#25, `140d47d`) triggered "Deploy to Cloud Run" run #11, which succeeded:
+  the workflow routed 100 % of the traffic to the new revision and the digest check and the Lab 5 check
+  passed (`live-check-140d47d.txt`). Without the explicit routing added in #29, this deploy would have
+  left the new revision at 0 % and failed.
