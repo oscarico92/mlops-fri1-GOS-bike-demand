@@ -451,6 +451,36 @@ limited with `--max-instances 1`, `--min-instances 0` and by deleting the servic
 alone could be overridden by an environment variable: the workflow therefore also compares the
 digest of the serving revision with the digest it pushed for this commit.
 
+## Pipeline and gate (Lab 7)
+
+Where to look, for a reviewer:
+
+| What | Where |
+| --- | --- |
+| Entry point a clean checkout can run | `uv run --locked python -m bike_demand.pipeline` with `bootstrap`, `run --candidate <yaml>`, `status`, `promote <id>`, `restore <version>` (details in "Training pipeline and accepted models" below) |
+| Policy, committed before any candidate | [`configs/gate-policy.yaml`](configs/gate-policy.yaml), applied by `src/bike_demand/gate.py` (see "Gate policy" below) |
+| Decision records | [`decisions/`](decisions/), one JSON per run (inputs, commit, the three MAEs, outcome, reasons) |
+| Gated runs and the accepted state they left | [`logs/lab-07/gate-run/`](logs/lab-07/gate-run/): two rejections, `baseline` unchanged |
+| Reviewer challenge | [`logs/lab-07/challenge-oscar/`](logs/lab-07/challenge-oscar/): predictions committed before the run, raw output, result |
+| Accepted versions and recovery without retraining | `registry/` (not in Git); `status` checks every retained version, `restore <version>` switches back |
+
+**Integrity of an accepted version.** A bundle is checked against its own `metadata.json` *and* against a
+record kept outside the registry: `configs/expected-model.json` for `baseline`, the committed `accept`
+decision in `decisions/` for a promoted version. Without that second check, a rejected bundle copied over
+the accepted one (model and metadata together) was served, restored and used as the incumbent (reviewer
+challenge). `status` exits `1` when a retained version is not usable.
+
+**What Cloud Run serves.** The image trains the Lab 2 settings at build time and serves that model; it does
+not read `registry/`. The served model is the accepted `baseline` by bytes: `/health` on Cloud Run reports
+`model_sha256` `d24c050e…`, equal to `configs/expected-model.json` and to `registry/current.json`
+([`logs/lab-06/deploy-oscar/`](logs/lab-06/deploy-oscar/)). Every retained Cloud Run revision serves those
+bytes, so any of them is a valid rollback target for `baseline`. Limit: a promotion would not change the
+served model; it would need an image built from the promoted bundle, which we have not done (no candidate
+has been accepted).
+
+**What the gate still cannot know.** Behaviour outside the validation period (Jan–Jun 2012), quality on
+future data, and anything about a registry rewritten together with the committed records.
+
 ## Gate policy (Lab 7)
 
 The rule is [`configs/gate-policy.yaml`](configs/gate-policy.yaml), applied by
@@ -521,7 +551,7 @@ registry/current.json        serving version, the version it replaced, when and 
 | **Separate:** what may a candidate write? | Only `registry/candidates/<id>/` and its decision record. | Writing next to the accepted model. |
 | **Switch:** what if promotion stops halfway? | The bundle is copied to `accepted/<version>.tmp`, its bytes checked against the decision, then renamed; `current.json` is replaced in one atomic rename. A stop before the rename leaves the old version serving. | Editing `current.json` in place. |
 | **Concurrent:** what if the accepted model changed? | `promote` refuses unless `current.json` is exactly the one recorded at decision time: run the candidate again against the new incumbent. | Promoting a decision taken against an older incumbent. |
-| **Retain:** what recovers without retraining? | Every accepted version stays in `registry/accepted/`; `current.json` names the previous one and `restore <version>` switches back after checking the bytes. A checksum mismatch fails closed. | Keeping only the current model. |
+| **Retain:** what recovers without retraining? | Every accepted version stays in `registry/accepted/`; `current.json` names the previous one and `restore <version>` switches back after checking the bytes against the bundle's metadata and against the committed record of that version (expected model or `accept` decision). Any mismatch fails closed. | Keeping only the current model. |
 
 Tests: `uv run --locked pytest -q -m pipeline` (rejection leaves accepted bytes unchanged,
 promotion keeps the replaced version, restore works, promotion refused after the

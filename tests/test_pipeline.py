@@ -161,6 +161,47 @@ def test_tampered_accepted_model_fails_closed(env):
     )
 
 
+def test_a_consistent_substitution_of_the_accepted_bundle_fails_closed(
+    env, monkeypatch
+):
+    """Lab 7 challenge (#35): a rejected bundle copied over accepted/baseline, model and
+    metadata together, must not be served, restored or used as the incumbent."""
+    use_gate(monkeypatch, env, "reject")
+    assert run(env) == pipeline.EXIT["reject"]
+    rejected = env.registry / "candidates" / only_decision(env)["candidate_id"]
+    for name in ("model.joblib", "metadata.json"):
+        shutil.copy(rejected / name, env.registry / "accepted/baseline" / name)
+    current = pipeline.read_current(env.registry)
+    assert pipeline.cmd_status(SimpleNamespace()) == 1
+    with pytest.raises(ValueError, match="differs from its committed record"):
+        pipeline.cmd_restore(SimpleNamespace(version="baseline"))
+    assert pipeline.read_current(env.registry) == current
+    for path in (env.tmp / "decisions").glob("*.json"):
+        path.unlink()
+    run(env)  # the stand-in gate decides; what matters is what it was given
+    incumbent = only_decision(env)["evidence"]["incumbent"]
+    assert incumbent["status"].startswith("unavailable")
+    assert "committed record" in incumbent["status"]
+
+
+def test_status_fails_when_a_retained_version_is_not_usable(env):
+    assert pipeline.cmd_status(SimpleNamespace()) == 0
+    with (env.registry / "accepted/baseline/model.joblib").open("ab") as stream:
+        stream.write(b"tampered")
+    assert pipeline.cmd_status(SimpleNamespace()) == 1
+
+
+def test_a_promoted_version_without_its_accept_record_fails_closed(env, monkeypatch):
+    use_gate(monkeypatch, env, "accept")
+    run(env)
+    candidate_id = only_decision(env)["candidate_id"]
+    assert pipeline.cmd_promote(SimpleNamespace(candidate_id=candidate_id)) == 0
+    assert pipeline.cmd_status(SimpleNamespace()) == 0
+    (env.tmp / "decisions" / f"{candidate_id}.json").unlink()
+    with pytest.raises(ValueError, match="no decision record"):
+        pipeline.cmd_restore(SimpleNamespace(version=candidate_id))
+
+
 @pytest.mark.parametrize(
     ("change", "message"),
     [
