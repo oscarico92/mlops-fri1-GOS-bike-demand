@@ -1,0 +1,14 @@
+commit   1feb672735f4199a257288d454adf76f9dff8678
+image    europe-west1-docker.pkg.dev/mlops-ece-group2/gos-bike-demand/bike-demand:1feb672735f4199a257288d454adf76f9dff8678
+digest   sha256:444b00a6c9e0f31649f19cbd692c24d902acc82c4362aecb1900bc8930b437d1
+revision gos-bike-demand-00004-pb7 (100 % of traffic)
+running  europe-west1-docker.pkg.dev/mlops-ece-group2/gos-bike-demand/bike-demand@sha256:444b00a6c9e0f31649f19cbd692c24d902acc82c4362aecb1900bc8930b437d1
+url      https://gos-bike-demand-jdc2acx6uq-ew.a.run.app
+service https://gos-bike-demand-jdc2acx6uq-ew.a.run.app
+ready (/health)           ok    expected 200  observed 200
+model_sha256              ok    expected d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07  observed d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07
+code_revision             ok    expected 1feb672735f4199a257288d454adf76f9dff8678  observed 1feb672735f4199a257288d454adf76f9dff8678
+valid /predict            ok    expected 200, finite >= 0  observed 200, 519.4906075228514
+same model_version        ok    expected baseline-0310b626af22  observed baseline-0310b626af22
+invalid /predict (hr=24)  ok    expected 422  observed 422
+check passed

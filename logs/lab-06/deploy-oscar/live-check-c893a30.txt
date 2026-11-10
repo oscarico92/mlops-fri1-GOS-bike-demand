@@ -1,0 +1,12 @@
+commit   c893a301928fe305273b60bf8f6278c697bad490
+image    europe-west1-docker.pkg.dev/mlops-ece-group2/gos-bike-demand/bike-demand:c893a301928fe305273b60bf8f6278c697bad490
+revision gos-bike-demand-00001-lc9
+url      https://gos-bike-demand-jdc2acx6uq-ew.a.run.app
+service https://gos-bike-demand-jdc2acx6uq-ew.a.run.app
+ready (/health)           ok    expected 200  observed 200
+model_sha256              ok    expected d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07  observed d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07
+code_revision             ok    expected c893a301928fe305273b60bf8f6278c697bad490  observed c893a301928fe305273b60bf8f6278c697bad490
+valid /predict            ok    expected 200, finite >= 0  observed 200, 519.4906075228514
+same model_version        ok    expected baseline-8e9e25279c01  observed baseline-8e9e25279c01
+invalid /predict (hr=24)  ok    expected 422  observed 422
+check passed
