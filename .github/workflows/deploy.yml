@@ -1,0 +1,186 @@
+name: Deploy to Cloud Run
+
+# Lab 6: deliver a commit to Cloud Run only after it passed every check on main.
+# Gate: runs when "Container checks" finished successfully for a push to main, and
+# also requires "Week 1 checks" to be green on the same commit.
+# Configuration comes from repository variables (no secret, no stored key):
+# see docs/cloud-run-setup.md.
+on:
+  workflow_run:
+    workflows: ["Container checks"]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: read
+  actions: read     # read the result of "Week 1 checks" for the same commit
+  id-token: write   # keyless login to Google Cloud (Workload Identity Federation)
+
+# One deploy at a time; never cancel a deploy halfway.
+concurrency:
+  group: deploy-cloud-run
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      REVISION: ${{ github.event.workflow_run.head_sha }}
+      PROJECT: ${{ vars.GCP_PROJECT_ID }}
+      REGION: ${{ vars.GCP_REGION }}
+      SERVICE: ${{ vars.CLOUD_RUN_SERVICE }}
+      AR_REPO: ${{ vars.GCP_ARTIFACT_REPO }}
+      WIF_PROVIDER: ${{ vars.GCP_WIF_PROVIDER }}
+    steps:
+      - name: Deploy configured?
+        run: |
+          missing=""
+          for name in PROJECT REGION SERVICE AR_REPO WIF_PROVIDER; do
+            [ -n "${!name}" ] || missing="$missing $name"
+          done
+          if [ -n "$missing" ]; then
+            echo "::error::deploy not configured, missing repository variables:$missing (docs/cloud-run-setup.md)"
+            exit 1
+          fi
+
+      - name: Week 1 checks are green on the same commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        # The two workflows start together on the same push, so "Week 1 checks" may still be
+        # running here: wait for it to finish (up to 15 min) instead of failing on "in progress".
+        run: |
+          for attempt in $(seq 1 30); do
+            run=$(gh api "repos/${{ github.repository }}/actions/workflows/ci.yml/runs?head_sha=$REVISION&event=push" \
+              --jq '(.workflow_runs[0] // empty) | "\(.status) \(.conclusion)"')
+            echo "Week 1 checks on $REVISION: ${run:-no run yet}"
+            case "$run" in
+              "completed success") exit 0 ;;
+              completed*) echo "::error::Week 1 checks did not pass on $REVISION"; exit 1 ;;
+            esac
+            sleep 30
+          done
+          echo "::error::Week 1 checks still not finished on $REVISION after 15 min"
+          exit 1
+
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          ref: ${{ env.REVISION }}
+          persist-credentials: false
+
+      - name: Keyless login (Workload Identity Federation)
+        uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
+        with:
+          # Direct Workload Identity Federation: the roles are granted to this repository's
+          # identity itself (no service account to impersonate, no key).
+          workload_identity_provider: ${{ env.WIF_PROVIDER }}
+          project_id: ${{ env.PROJECT }}
+
+      - uses: google-github-actions/setup-gcloud@aa5489c8933f4cc7a4f7d45035b3b1440c9c10db # v3.0.1
+
+      - name: Build and push the image tagged with the commit
+        run: |
+          IMAGE="$REGION-docker.pkg.dev/$PROJECT/$AR_REPO/bike-demand:$REVISION"
+          gcloud auth configure-docker "$REGION-docker.pkg.dev" --quiet
+          docker build --build-arg GIT_COMMIT="$REVISION" -t "$IMAGE" .
+          docker push "$IMAGE"
+          # Deploy by digest: a tag can be moved, the digest names exactly the bytes pushed here.
+          DIGEST=$(docker inspect --format '{{index .RepoDigests 0}}' "$IMAGE" | cut -d@ -f2)
+          test -n "$DIGEST" || { echo "::error::no registry digest for $IMAGE"; exit 1; }
+          echo "IMAGE=$IMAGE" >> "$GITHUB_ENV"
+          echo "DIGEST=$DIGEST" >> "$GITHUB_ENV"
+
+      - name: Remember the revision serving now (for undo)
+        # Undo target = the revision that receives the traffic now, not the latest ready one:
+        # after a manual rollback the latest ready revision can be the bad one.
+        run: |
+          previous=$(gcloud run services describe "$SERVICE" --region "$REGION" --format=json 2>/dev/null \
+            | python3 -c 'import json,sys
+          try: t = json.load(sys.stdin)["status"].get("traffic", [])
+          except Exception: t = []
+          print(max(t, key=lambda e: e.get("percent", 0)).get("revisionName", "") if t else "")' || true)
+          echo "previous revision: ${previous:-none (first deploy)}"
+          echo "PREVIOUS=$previous" >> "$GITHUB_ENV"
+
+      - name: Deploy a new revision and send it the traffic
+        # After a rollback (update-traffic --to-revisions PREV=100) the traffic stays pinned and
+        # "gcloud run deploy" gives the new revision 0 %. Route it explicitly to the revision
+        # just created; the next step checks that this revision runs our digest.
+        run: |
+          gcloud run deploy "$SERVICE" \
+            --image "${IMAGE%:*}@$DIGEST" \
+            --region "$REGION" \
+            --port 8000 \
+            --min-instances 0 \
+            --max-instances 1 \
+            --allow-unauthenticated \
+            --quiet
+          NEW=$(gcloud run services describe "$SERVICE" --region "$REGION" \
+            --format='value(status.latestCreatedRevisionName)')
+          echo "new revision: $NEW"
+          gcloud run services update-traffic "$SERVICE" --region "$REGION" --to-revisions "$NEW=100"
+
+      - name: Live identity check (Lab 5 script against the Cloud Run URL)
+        # Cloud Run has no "--container" to read the image label, so the check first proves that
+        # 100 % of the traffic goes to a revision running exactly the digest pushed above; then
+        # /health must report this commit and the expected model.
+        run: |
+          URL=$(gcloud run services describe "$SERVICE" --region "$REGION" --format='value(status.url)')
+          gcloud run services describe "$SERVICE" --region "$REGION" --format=json > service.json
+          LIVE=$(python3 -c 'import json
+          t = json.load(open("service.json"))["status"]["traffic"]
+          full = [e["revisionName"] for e in t if e.get("percent") == 100]
+          print(full[0] if full else "")')
+          LIVE_DIGEST=$(gcloud run revisions describe "$LIVE" --region "$REGION" --format='value(status.imageDigest)')
+          {
+            echo "commit   $REVISION"
+            echo "image    $IMAGE"
+            echo "digest   $DIGEST"
+            echo "revision $LIVE (100 % of traffic)"
+            echo "running  $LIVE_DIGEST"
+            echo "url      $URL"
+          } | tee live-check.txt
+          if [ -z "$LIVE" ] || [ "${LIVE_DIGEST##*@}" != "$DIGEST" ]; then
+            echo "::error::the revision serving 100 % of the traffic does not run the image pushed for $REVISION" | tee -a live-check.txt
+            exit 1
+          fi
+          for attempt in $(seq 1 30); do
+            if curl -fs "$URL/health" > /dev/null; then break; fi
+            sleep 2
+          done
+          python3 scripts/check_deployment.py --url "$URL" --expected-revision "$REVISION" --timeout 30 \
+            | tee -a live-check.txt
+          test "${PIPESTATUS[0]}" -eq 0
+
+      - name: Undo - send traffic back to the previous revision
+        if: failure() && env.PREVIOUS != ''
+        run: |
+          PREV_DIGEST=$(gcloud run revisions describe "$PREVIOUS" --region "$REGION" --format='value(status.imageDigest)')
+          gcloud run services update-traffic "$SERVICE" --region "$REGION" --to-revisions "$PREVIOUS=100"
+          URL=$(gcloud run services describe "$SERVICE" --region "$REGION" --format='value(status.url)')
+          gcloud run services describe "$SERVICE" --region "$REGION" --format=json > service-after-undo.json
+          SERVING=$(python3 -c 'import json
+          t = json.load(open("service-after-undo.json"))["status"]["traffic"]
+          full = [e["revisionName"] for e in t if e.get("percent") == 100]
+          print(full[0] if full else "")')
+          SERVING_DIGEST=$(gcloud run revisions describe "$SERVING" --region "$REGION" --format='value(status.imageDigest)')
+          HEALTH=$(curl -s -o health-after-undo.json -w '%{http_code}' "$URL/health" || true)
+          {
+            echo "undo     traffic 100 % on $SERVING (expected $PREVIOUS)"
+            echo "undo     running $SERVING_DIGEST (expected $PREV_DIGEST)"
+            echo "undo     /health $HEALTH $(cat health-after-undo.json 2>/dev/null)"
+          } | tee -a live-check.txt
+          if [ "$SERVING" != "$PREVIOUS" ] || [ "$SERVING_DIGEST" != "$PREV_DIGEST" ] || [ "$HEALTH" != "200" ]; then
+            echo "::error::undo did not restore $PREVIOUS" | tee -a live-check.txt
+            exit 1
+          fi
+          echo "undo     restored $PREVIOUS" | tee -a live-check.txt
+
+      - name: Keep the deploy record
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: live-check-${{ env.REVISION }}
+          path: live-check.txt
+          if-no-files-found: warn
