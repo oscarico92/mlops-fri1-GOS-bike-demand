@@ -15,3 +15,6 @@ artifacts/
 tracking/
 roster.txt
 reports/*private*
+
+# Lab 7: model bundles stay out of Git (decision records are committed)
+registry/

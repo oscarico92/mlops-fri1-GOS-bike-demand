@@ -1,0 +1,178 @@
+{
+  "candidate_id": "20261110T143925Z-bc9a2f",
+  "decided_at": "2026-11-10T14:39:27+00:00",
+  "candidate_config": "configs/candidates/deep-forest.yaml",
+  "candidate": {
+    "candidate_id": "20261110T143925Z-bc9a2f",
+    "model_version": "candidate-20261110T143925Z-bc9a2f",
+    "model_sha256": "b5ff9363cf706f194caccb1d0ccac8ee7d365b62e06b1017c2ab8693e9dff3b6",
+    "features": [
+      "season",
+      "yr",
+      "mnth",
+      "hr",
+      "holiday",
+      "weekday",
+      "workingday",
+      "weathersit",
+      "temp",
+      "atemp",
+      "hum",
+      "windspeed"
+    ],
+    "model_settings": {
+      "n_estimators": 100,
+      "max_depth": 20,
+      "random_state": 42,
+      "n_jobs": 1
+    },
+    "data_sha256": "e03de4ee4ef4dc376ac6e04bf829673c6269e8eba5c60fa121640fa2f829504f",
+    "training_commit": "244a633b15790c76c7c0bb5994501487b626d490",
+    "working_tree_dirty": false,
+    "created_at": "2026-11-10T14:39:27+00:00"
+  },
+  "evidence": {
+    "candidate_id": "20261110T143925Z-bc9a2f",
+    "validation_rows": 4358,
+    "validation_window": {
+      "rows": 4358,
+      "date_min": "2012-01-01",
+      "date_max": "2012-06-30"
+    },
+    "metric": "MAE, rentals per hour, validation Jan-Jun 2012",
+    "candidate": {
+      "model_sha256": "b5ff9363cf706f194caccb1d0ccac8ee7d365b62e06b1017c2ab8693e9dff3b6",
+      "validation_mae": 86.1118611900858,
+      "predictions_finite": true,
+      "predictions_nonnegative": true
+    },
+    "naive_train_mean": {
+      "validation_mae": 154.23179306864967
+    },
+    "incumbent": {
+      "version": "baseline",
+      "model_sha256": "d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07",
+      "validation_mae": 86.84685685591091,
+      "status": "evaluated"
+    },
+    "data_sha256": "e03de4ee4ef4dc376ac6e04bf829673c6269e8eba5c60fa121640fa2f829504f"
+  },
+  "incumbent_at_decision": {
+    "version": "baseline",
+    "model_sha256": "d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07",
+    "previous": null,
+    "switched_at": "2026-11-10T14:39:22+00:00",
+    "reason": "Lab 2 baseline, reviewed in PR #4"
+  },
+  "outcome": "reject",
+  "reasons": [
+    "quality.vs_incumbent: fail (candidate MAE <= accepted model baseline MAE - margin; observed {'candidate_mae': 86.1118611900858, 'reference_mae': 86.84685685591091, 'margin': 1.0})"
+  ],
+  "checks": [
+    {
+      "family": "quality",
+      "name": "quality.vs_naive_train_mean",
+      "status": "pass",
+      "rule": "candidate MAE <= train-mean baseline MAE - margin",
+      "observed": {
+        "candidate_mae": 86.1118611900858,
+        "reference_mae": 154.23179306864967,
+        "margin": 1.0
+      }
+    },
+    {
+      "family": "quality",
+      "name": "quality.vs_incumbent",
+      "status": "fail",
+      "rule": "candidate MAE <= accepted model baseline MAE - margin",
+      "observed": {
+        "candidate_mae": 86.1118611900858,
+        "reference_mae": 86.84685685591091,
+        "margin": 1.0
+      }
+    },
+    {
+      "family": "operation",
+      "name": "operation.predictions_finite",
+      "status": "pass",
+      "rule": "predictions_finite is true on every validation prediction",
+      "observed": true
+    },
+    {
+      "family": "operation",
+      "name": "operation.predictions_nonnegative",
+      "status": "pass",
+      "rule": "predictions_nonnegative is true on every validation prediction",
+      "observed": true
+    },
+    {
+      "family": "integrity",
+      "name": "integrity.data_sha256",
+      "status": "pass",
+      "rule": "evidence and candidate data SHA-256 equal the frozen snapshot",
+      "observed": [
+        "e03de4ee4ef4dc376ac6e04bf829673c6269e8eba5c60fa121640fa2f829504f",
+        "e03de4ee4ef4dc376ac6e04bf829673c6269e8eba5c60fa121640fa2f829504f"
+      ]
+    },
+    {
+      "family": "integrity",
+      "name": "integrity.features",
+      "status": "pass",
+      "rule": "candidate trained on the 12 contract features, in order",
+      "observed": [
+        "season",
+        "yr",
+        "mnth",
+        "hr",
+        "holiday",
+        "weekday",
+        "workingday",
+        "weathersit",
+        "temp",
+        "atemp",
+        "hum",
+        "windspeed"
+      ]
+    },
+    {
+      "family": "integrity",
+      "name": "integrity.validation_rows",
+      "status": "pass",
+      "rule": "evaluated on the validation rows of the contract",
+      "observed": {
+        "rows": 4358,
+        "window": {
+          "rows": 4358,
+          "date_min": "2012-01-01",
+          "date_max": "2012-06-30"
+        }
+      }
+    },
+    {
+      "family": "integrity",
+      "name": "integrity.candidate_bytes",
+      "status": "pass",
+      "rule": "the evaluated bytes are the candidate's recorded bytes",
+      "observed": [
+        "b5ff9363cf706f194caccb1d0ccac8ee7d365b62e06b1017c2ab8693e9dff3b6",
+        "b5ff9363cf706f194caccb1d0ccac8ee7d365b62e06b1017c2ab8693e9dff3b6"
+      ]
+    },
+    {
+      "family": "integrity",
+      "name": "integrity.provenance",
+      "status": "pass",
+      "rule": "trained from a recorded commit with no uncommitted change",
+      "observed": {
+        "training_commit": "244a633b15790c76c7c0bb5994501487b626d490",
+        "working_tree_dirty": false
+      }
+    }
+  ],
+  "policy": {
+    "path": "configs/gate-policy.yaml",
+    "sha256": "049b4a426f7a41677e393b779104179416afa7e39b81e1e99d55620adda28fd6",
+    "last_commit": "cd19a26b4901978f9d9f2600e0393bf88a1ea540 2026-11-09T19:33:30+01:00"
+  }
+}

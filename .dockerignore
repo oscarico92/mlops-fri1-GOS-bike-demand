@@ -18,3 +18,6 @@ logs
 reports/metrics.json
 reports/metrics-history.jsonl
 reports/images
+
+# Lab 7: local model registry
+registry

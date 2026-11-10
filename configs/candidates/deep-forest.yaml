@@ -1,0 +1,19 @@
+# Lab 7 candidate: same data, features and split as Lab 2; only model settings vary.
+# Deeper and larger forest than the accepted baseline (max_depth 10, 50 trees).
+data: data/raw/hour.csv
+features:
+  - season
+  - yr
+  - mnth
+  - hr
+  - holiday
+  - weekday
+  - workingday
+  - weathersit
+  - temp
+  - atemp
+  - hum
+  - windspeed
+model:
+  n_estimators: 100
+  max_depth: 20
