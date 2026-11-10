@@ -1,4 +1,10 @@
-"""Lab 8 signal definitions: same rules for baseline, incident and recovery."""
+"""Lab 8 signal definitions: same rules for baseline, incident and recovery.
+
+Intent comes from the request id (`<label>-valid-<n>` / `<label>-invalid-<n>`), never from
+the response; requests that were sent but never logged still count (cases from Gautier's
+review of #30: C regression to 422, D all valid rejected, E validation broken, F requests
+that never arrive).
+"""
 
 import importlib.util
 import json
@@ -14,63 +20,96 @@ signals = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(signals)
 
 
-def line(request_id, status, ms=10.0, path="/predict", method="POST", model="m-1"):
-    return json.dumps(
-        {
-            "ts": f"2026-11-10T10:00:{len(request_id):02d}.000+00:00",
-            "event": "request",
-            "request_id": request_id,
-            "method": method,
-            "path": path,
-            "status": status,
-            "duration_ms": ms,
-            "model_version": model,
-            "code_revision": "abc",
-        }
+def event(rid, status, ms=10.0, model="m-1"):
+    return {
+        "ts": f"2026-11-10T10:00:00.{len(rid):03d}+00:00",
+        "event": "request",
+        "request_id": rid,
+        "method": "POST",
+        "path": "/predict",
+        "status": status,
+        "duration_ms": ms,
+        "model_version": model,
+        "code_revision": "abc",
+    }
+
+
+def workload(valid=10, invalid=5, client=200):
+    sent = [{"request_id": f"inc-valid-{n}", "status": client} for n in range(valid)]
+    sent += [{"request_id": f"inc-invalid-{n}", "status": 422} for n in range(invalid)]
+    return sent
+
+
+def logs(valid_status, invalid_status=422, valid=10, invalid=5):
+    out = [event(f"inc-valid-{n}", valid_status(n)) for n in range(valid)]
+    out += [event(f"inc-invalid-{n}", invalid_status) for n in range(invalid)]
+    return out
+
+
+def test_a_baseline():
+    r = signals.summarize(logs(lambda n: 200), "inc", sent=workload())
+    assert (r["sent"], r["logged"], r["missing"]) == (15, 15, 0)
+    assert (r["eligible"], r["good"], r["success_rate"]) == (10, 10, 1.0)
+    assert (r["intentional_rejections_422"], r["invalid_accepted"]) == (5, 0)
+
+
+def test_c_valid_requests_answered_422_are_failures_not_rejections():
+    r = signals.summarize(logs(lambda n: 422 if n < 5 else 200), "inc", sent=workload())
+    assert (r["eligible"], r["good"], r["success_rate"]) == (10, 5, 0.5)
+    assert r["intentional_rejections_422"] == 5
+
+
+def test_d_all_valid_rejected_is_zero_not_no_data():
+    r = signals.summarize(logs(lambda n: 422), "inc", sent=workload())
+    assert r["success_rate"] == 0.0
+
+
+def test_e_invalid_requests_accepted_are_flagged():
+    r = signals.summarize(
+        logs(lambda n: 200, invalid_status=200), "inc", sent=workload()
     )
+    assert r["invalid_accepted"] == 5
+    assert r["success_rate"] == 1.0
 
 
-DOCKER_LOGS = "\n".join(
-    [
-        "INFO:     Started server process [1]",
-        "2026-11-10 10:00:00,000 INFO bike_demand.api model loaded: version=m-1",
-        line("baseline-valid-0", 200, 10.0),
-        line("baseline-valid-1", 200, 30.0),
-        line("baseline-valid-2", 503, 1.0, model=None),
-        line("baseline-invalid-0", 422, 0.5),
-        line("other-valid-0", 200, 5.0),
-        json.dumps(
-            {"event": "request", "method": "GET", "path": "/health", "status": 200}
-        ),
-        "{broken json",
+def test_f_requests_that_never_arrive_count_as_not_good():
+    events = [
+        e
+        for e in logs(lambda n: 200)
+        if e["request_id"] not in {f"inc-valid-{n}" for n in range(4)}
     ]
-)
+    r = signals.summarize(events, "inc", sent=workload())
+    assert (r["missing"], r["good"], r["success_rate"]) == (4, 6, 0.6)
+    assert r["eligible_statuses"] == {"missing": 4, "200": 6}
 
 
-def test_rejections_are_not_errors_and_label_filters_the_population():
-    events, unreadable = signals.events_from(DOCKER_LOGS)
-    result = signals.summarize(events, "baseline", unreadable)
-    assert result["population"] == 4
-    assert result["intentional_rejections_422"] == 1
-    assert (result["eligible"], result["good"]) == (3, 2)
-    assert result["success_rate"] == round(2 / 3, 4)
-    assert result["eligible_statuses"] == {"200": 2, "503": 1}
-    assert result["latency_ms_good"] == {"p50": 10.0, "p95": 30.0, "max": 30.0}
-    assert result["unreadable_lines"] == 1
-    assert result["identities"] == {"abc / m-1": 3, "abc / None": 1}
+def test_no_response_is_named_in_the_client_view():
+    r = signals.summarize(
+        [], "inc", sent=workload(valid=2, invalid=0, client="no_response")
+    )
+    assert r["client_statuses"] == {"no_response": 2}
+    assert (r["missing"], r["success_rate"]) == (2, 0.0)
 
 
-def test_no_eligible_attempt_is_no_data_not_100_percent():
-    events, _ = signals.events_from(line("baseline-invalid-0", 422))
-    assert signals.summarize(events, "baseline")["success_rate"] == "no data"
+def test_nothing_sent_is_no_data():
+    assert signals.summarize([], "inc", sent=[])["success_rate"] == "no data"
 
 
-def test_gcloud_json_array_is_read_from_json_or_text_payload():
+def test_docker_and_gcloud_inputs_are_read():
+    text = "\n".join(
+        [
+            "INFO:     Started server process [1]",
+            json.dumps(event("inc-valid-0", 200)),
+            "{broken",
+        ]
+    )
+    events, unreadable = signals.events_from(text)
+    assert (len(events), unreadable) == (1, 1)
     entries = [
-        {"jsonPayload": json.loads(line("baseline-valid-0", 200))},
-        {"textPayload": line("baseline-valid-1", 500)},
+        {"jsonPayload": event("inc-valid-0", 200)},
+        {"textPayload": json.dumps(event("inc-valid-1", 500))},
         {"textPayload": "INFO:     Uvicorn running"},
     ]
     events, _ = signals.events_from(json.dumps(entries))
-    result = signals.summarize(events, "baseline")
-    assert (result["eligible"], result["good"]) == (2, 1)
+    r = signals.summarize(events, "inc")
+    assert (r["eligible"], r["good"]) == (2, 1)

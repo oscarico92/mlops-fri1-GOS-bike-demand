@@ -43,7 +43,8 @@ def send(url: str, body: dict, request_id: str, timeout: float) -> dict:
         answer = None
     return {
         "request_id": request_id,
-        "status": status,
+        # no HTTP answer at all (timeout, connection refused): named, never dropped
+        "status": status if status is not None else "no_response",
         "client_ms": round((time.perf_counter() - started) * 1000, 1),
         "model_version": answer.get("model_version")
         if isinstance(answer, dict)

@@ -483,27 +483,29 @@ Normal must be measured before an incident, with the same definitions for baseli
 incident and recovery. Two scripts do this from outside the service:
 
 ```bash
-# 1. send a fixed workload; every request has X-Request-ID <label>-valid-<n> or <label>-invalid-<n>
-python3 scripts/workload.py --url "$URL" --label baseline --valid 40 --invalid 10 --out logs/lab-08/baseline-requests.jsonl
-# 2. compute the signals from the service's JSON request lines
-docker logs bike-api 2>&1 | python3 scripts/signals.py --label baseline            # local container
+# 1. send a fixed workload; ids are <label>-valid-<n> / <label>-invalid-<n> (intent comes from the request)
+python3 scripts/workload.py --url "$URL" --label baseline --valid 40 --invalid 10 --out logs/lab-08/baseline-sent.jsonl
+# 2. compute the signals from the service's JSON request lines and what was sent
+docker logs bike-api 2>&1 | python3 scripts/signals.py --label baseline --sent logs/lab-08/baseline-sent.jsonl
 gcloud logging read 'resource.type="cloud_run_revision" AND resource.labels.service_name="gos-bike-demand"' \
-  --freshness=1h --format=json | python3 scripts/signals.py --label baseline         # Cloud Run
+  --freshness=1h --format=json | python3 scripts/signals.py --label baseline --sent logs/lab-08/baseline-sent.jsonl
 ```
 
 | Signal | Definition |
 | --- | --- |
-| Population | `POST /predict` events whose `request_id` starts with the label, between the first and last timestamp seen |
-| Intentional rejections | status `422` (invalid input): counted separately, never an error |
-| Eligible attempts | the other `/predict` events of the population (valid input) |
-| Success rate | good (`200`) / eligible; `"no data"` when there is no eligible attempt, never 100 % |
+| Eligible attempts | every valid request sent (`--sent`), known from the request id, not from the answer |
+| Good / success rate | valid requests logged with `200` / eligible; `"no data"` only if no valid request was sent |
+| Missing | requests sent but with no log line (never reached the app, or answered by the platform); a missing valid request is not good |
+| Intentional rejections | invalid requests answered `422` |
+| Invalid accepted | invalid requests answered anything else: a validation defect |
 | Latency | server `duration_ms` of good attempts: p50, p95, max |
-| Identity | count of requests per `code_revision / model_version` |
-| Missing data | JSON lines that cannot be read are counted (`unreadable_lines`) |
+| Identity | requests per `code_revision / model_version` |
+| Client view | status the client received for each sent request, including `no_response` |
+| Unreadable | JSON lines that cannot be read |
 
-Measured locally (container from `46ff046`, Linux): 20 valid + 5 invalid requests gave 20/20
-good, 5 intentional rejections, p50 5.2 ms, p95 8.7 ms, one identity. The Cloud Run baseline
-is recorded before the Lab 8 incident.
+Measured locally (container from `46ff046`, Linux, before these definitions were tightened):
+20 valid + 5 invalid requests, 20/20 good, p50 5.2 ms, p95 8.7 ms, one identity. The Cloud Run
+baseline is recorded before the Lab 8 incident, on the same revision as the incident.
 
 ---
 
