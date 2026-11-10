@@ -34,7 +34,19 @@ committed policy rejects.
 a record kept outside it. `restore` trusts that check and then writes the bundle's own SHA into
 `current.json`. The test "tampered bundle fails closed" only covers an inconsistent bundle (case C).
 
-## Proposed fix (to be reviewed, not done in this PR)
+## After the fix (`d9f1087`)
+
+Same `run.sh`, same image recipe, built from the fix commit: [`after-fix/run.txt`](after-fix/run.txt).
+`pytest -q -m pipeline` in that image: 16 passed (13 existing + 3 new).
+
+| # | Before the fix (`e7f7202`) | After the fix (`d9f1087`) |
+| --- | --- | --- |
+| A | reject, state unchanged | reject, state unchanged |
+| B | blocked (dirty tree) | blocked (dirty tree) |
+| C | NOT usable, `restore` exit 1, but `status` exit 0 | NOT usable, `restore` exit 1, `status` exit **1** |
+| D | "bytes verified", `restore` rewrote `current.json` with the rejected SHA, `deep-forest` **accepted** | `status`: "differs from its committed record", exit 1; `restore` exit 1, `current.json` untouched; `run` **blocked** (incumbent unavailable) |
+
+## Proposed fix (implemented in `d9f1087`, under review)
 
 - Keep the SHA of every accepted version where the registry cannot rewrite it: written at promotion in a
   committed record (e.g. the `accept` decision in `decisions/`, or an accepted index in Git), and
