@@ -136,12 +136,37 @@ def read_current(root: Path) -> dict | None:
     return json.loads(path.read_text()) if path.is_file() else None
 
 
+def recorded_sha256(version: str) -> str:
+    """SHA-256 of an accepted version, from a record kept outside the registry.
+
+    The bundle's own metadata.json cannot be trusted alone: a model and its metadata can be
+    replaced together (Lab 7 challenge, logs/lab-07/challenge-oscar/). The reference comes
+    from committed files: configs/expected-model.json for the baseline, the "accept"
+    decision record in decisions/ for a promoted version. No record: fail closed.
+    """
+    if version == "baseline":
+        return json.loads(EXPECTED_MODEL.read_text())["model_sha256"]
+    path = DECISIONS / f"{version}.json"
+    if not path.is_file():
+        raise ValueError(f"accepted {version}: no decision record {path}")
+    record = json.loads(path.read_text())
+    if record.get("outcome") != "accept":
+        raise ValueError(f"accepted {version}: its decision record is not an accept")
+    return record["candidate"]["model_sha256"]
+
+
 def load_accepted(root: Path, version: str) -> tuple[object, dict]:
-    """Load an accepted bundle; a checksum mismatch fails closed."""
+    """Load an accepted bundle; any checksum mismatch fails closed."""
     folder = root / "accepted" / version
     metadata = json.loads((folder / "metadata.json").read_text())
-    if sha256(folder / "model.joblib") != metadata["model_sha256"]:
+    actual = sha256(folder / "model.joblib")
+    if actual != metadata["model_sha256"]:
         raise ValueError(f"accepted {version}: model checksum mismatch")
+    if actual != recorded_sha256(version):
+        raise ValueError(
+            f"accepted {version}: model {actual[:12]}... differs from its committed "
+            "record; the bundle was replaced"
+        )
     # Only trusted files written by this pipeline are loaded.
     return joblib.load(folder / "model.joblib"), metadata
 
@@ -392,6 +417,7 @@ def cmd_status(args) -> int:
     if not current:
         print("no accepted model yet: run `python -m bike_demand.pipeline bootstrap`")
         return 1
+    usable = True
     for label in ("version", "previous"):
         version = current.get(label)
         if version:
@@ -400,9 +426,11 @@ def cmd_status(args) -> int:
                 state = "bytes verified"
             except (OSError, ValueError, KeyError) as error:
                 state = f"NOT usable: {error}"
+                usable = False
             print(f"{label:<8} {version}  ({state})")
     print(f"switched {current['switched_at']}  reason: {current['reason']}")
-    return 0
+    # Non-zero when a retained version cannot be served, so CI and the runbook see it.
+    return 0 if usable else 1
 
 
 def cmd_restore(args) -> int:
