@@ -1,0 +1,32 @@
+{
+  "label": "baseline",
+  "window_utc": [
+    "2026-11-10T15:18:08.039+00:00",
+    "2026-11-10T15:18:14.173+00:00"
+  ],
+  "sent": 50,
+  "logged": 50,
+  "missing": 0,
+  "eligible": 40,
+  "good": 40,
+  "success_rate": 1.0,
+  "eligible_statuses": {
+    "200": 40
+  },
+  "intentional_rejections_422": 10,
+  "invalid_accepted": 0,
+  "latency_ms_good": {
+    "p50": 10.7,
+    "p95": 14.6,
+    "max": 21.4
+  },
+  "identities": {
+    "6e97194e384aeb579c159b5ea0f1310734f1d0a4 / baseline-6e8f651c585f": 50
+  },
+  "duplicate_lines": 0,
+  "unreadable_lines": 0,
+  "client_statuses": {
+    "200": 40,
+    "422": 10
+  }
+}
