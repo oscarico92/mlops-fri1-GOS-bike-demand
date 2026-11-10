@@ -1,0 +1,9 @@
+{
+  "candidate_id": "20261110T143925Z-bc9a2f",
+  "outcome": "reject",
+  "reasons": [
+    "quality.vs_incumbent: fail (candidate MAE <= accepted model baseline MAE - margin; observed {'candidate_mae': 86.1118611900858, 'reference_mae': 86.84685685591091, 'margin': 1.0})"
+  ]
+}
+decision record: decisions/20261110T143925Z-bc9a2f.json
+exit=2

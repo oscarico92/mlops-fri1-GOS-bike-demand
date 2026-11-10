@@ -1,9 +1,0 @@
-{
-  "candidate_id": "20261109T182707Z-f3eaf0",
-  "outcome": "blocked",
-  "reasons": [
-    "no committed gate policy"
-  ]
-}
-decision record: decisions/20261109T182707Z-f3eaf0.json
-exit=3

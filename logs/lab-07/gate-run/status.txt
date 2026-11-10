@@ -1,0 +1,2 @@
+version  baseline  (bytes verified)
+switched 2026-11-10T14:39:22+00:00  reason: Lab 2 baseline, reviewed in PR #4
