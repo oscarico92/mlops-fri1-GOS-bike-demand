@@ -1,8 +1,12 @@
 # Runbook: bike demand prediction service
 
-For whoever is on call for the `gos-bike-demand` Cloud Run service (project `mlops-ece-group2-and-group3`,
-region `europe-west1`). It says what normal looks like, how to find what changed, how to go back to a retained
+For whoever is on call for the `gos-bike-demand` Cloud Run service (project `mlops-ece-group2`, shared with
+other teams, region `europe-west1`). It says what normal looks like, how to find what changed, how to go back to a retained
 version, and what to record. Every command below already exists in this repository; nothing here retrains.
+
+**Access needed.** To diagnose: `roles/run.viewer` and `roles/logging.viewer` on the project. To roll back
+(`update-traffic`): a role that can update the service, such as `roles/run.developer`. Without them the runbook stops
+at section 2: ask someone who has them (see `docs/cloud-run-setup.md`) instead of working around it.
 
 ## 1. What "working" means
 
@@ -24,7 +28,8 @@ gcloud run services describe gos-bike-demand --region europe-west1 \
   --format='value(status.traffic)'                                 # which revision has the traffic
 gcloud run revisions list --service gos-bike-demand --region europe-west1   # what was deployed, and when
 python3 scripts/workload.py --url "$URL" --label check --valid 40 --invalid 10 --out logs/lab-08/check-sent.jsonl
-# wait about a minute (Cloud Logging is not instant), then:
+# Cloud Logging is not instant (lines still arrived after 90 s in our baseline): read, then read again with a
+# timestamp window covering the workload before calling any request missing.
 gcloud logging read 'resource.type="cloud_run_revision" AND resource.labels.service_name="gos-bike-demand"' \
   --freshness=1h --format=json | python3 scripts/signals.py --label check --sent logs/lab-08/check-sent.jsonl
 ```
@@ -85,6 +90,9 @@ the traffic where it is, guard or fix forward through a reviewed pull request.
 Keep one timeline (UTC) with: who did what, each observation and its raw file, each hypothesis and its result, the
 rollback, the recovery check. Commit the raw outputs under `logs/lab-08/` and the incident record under `reports/`,
 through a reviewed pull request.
+
+Before committing a Cloud Logging export, remove personal data: `httpRequest.remoteIp` (the client's IP address) is in
+every exported entry. Replace its value with `redacted` and say so in the file; change nothing else.
 
 ## 7. Never
 
