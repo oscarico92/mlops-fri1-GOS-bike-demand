@@ -1,0 +1,643 @@
+[
+  {
+    "insertId": "i291uwd8xd4",
+    "logName": "projects/mlops-ece-group2/logs/cloudaudit.googleapis.com%2Factivity",
+    "protoPayload": {
+      "@type": "type.googleapis.com/google.cloud.audit.AuditLog",
+      "authenticationInfo": {
+        "oauthInfo": {
+          "oauthClientId": "618104708054-9r9s1c4alg36erliucho9t52n32n6dgq.apps.googleusercontent.com"
+        },
+        "principalEmail": "redacted (team member)",
+        "principalSubject": "user:redacted (team member)"
+      },
+      "authorizationInfo": [
+        {
+          "granted": true,
+          "permission": "run.services.update",
+          "permissionType": "ADMIN_WRITE",
+          "resource": "namespaces/mlops-ece-group2/services/gos-bike-demand",
+          "resourceAttributes": {}
+        },
+        {
+          "granted": true,
+          "permission": "run.services.update",
+          "permissionType": "ADMIN_WRITE",
+          "resource": "namespaces/mlops-ece-group2/services/gos-bike-demand",
+          "resourceAttributes": {
+            "name": "namespaces/mlops-ece-group2/services/gos-bike-demand",
+            "service": "run.googleapis.com/",
+            "type": "run.googleapis.com/Service"
+          }
+        }
+      ],
+      "methodName": "google.cloud.run.v1.Services.ReplaceService",
+      "request": {
+        "@type": "type.googleapis.com/google.cloud.run.v1.ReplaceServiceRequest",
+        "name": "namespaces/mlops-ece-group2/services/gos-bike-demand",
+        "service": {
+          "apiVersion": "serving.knative.dev/v1",
+          "kind": "Service",
+          "metadata": {
+            "annotations": {
+              "run.googleapis.com/client-name": "gcloud",
+              "run.googleapis.com/client-version": "592.0.0",
+              "run.googleapis.com/ingress": "all",
+              "run.googleapis.com/ingress-status": "all",
+              "run.googleapis.com/maxScale": "3",
+              "run.googleapis.com/operation-id": "87e07b38-d90b-444d-bcde-9b818047324d",
+              "run.googleapis.com/urls": "[\"https://gos-bike-demand-1087566946792.europe-west1.run.app\",\"https://gos-bike-demand-jdc2acx6uq-ew.a.run.app\"]",
+              "serving.knative.dev/creator": "repo:oscarico92@131778029/mlops-fri1-GOS-bike-demand@1411479247:ref:refs/heads/main (projects/1087566946792/locations/global/workloadIdentityPools/gos-github)",
+              "serving.knative.dev/lastModifier": "redacted (team member)"
+            },
+            "creationTimestamp": "2026-11-09T22:44:08.068033Z",
+            "generation": 20,
+            "labels": {
+              "cloud.googleapis.com/location": "europe-west1"
+            },
+            "name": "gos-bike-demand",
+            "namespace": "1087566946792",
+            "resourceVersion": "AAZf8X7fbFw",
+            "selfLink": "/apis/serving.knative.dev/v1/namespaces/1087566946792/services/gos-bike-demand",
+            "uid": "9ed79db6-bb78-4b97-bf5a-5244d362213f"
+          },
+          "spec": {
+            "template": {
+              "metadata": {
+                "annotations": {
+                  "autoscaling.knative.dev/maxScale": "1",
+                  "run.googleapis.com/client-name": "gcloud",
+                  "run.googleapis.com/client-version": "592.0.0",
+                  "run.googleapis.com/startup-cpu-boost": "true"
+                },
+                "labels": {
+                  "client.knative.dev/nonce": "xhykqcnvno",
+                  "run.googleapis.com/startupProbeType": "Default"
+                }
+              },
+              "spec": {
+                "containerConcurrency": 80,
+                "containers": [
+                  {
+                    "image": "europe-west1-docker.pkg.dev/mlops-ece-group2/gos-bike-demand/bike-demand@sha256:134e43894e3c76aba3a7ad5082225015f75f7f079ae5849ea1fe94886484ac64",
+                    "resources": {
+                      "limits": {
+                        "cpu": "1000m",
+                        "memory": "512Mi"
+                      }
+                    }
+                  }
+                ],
+                "serviceAccountName": "1087566946792-compute@developer.gserviceaccount.com",
+                "timeoutSeconds": 300
+              }
+            },
+            "traffic": [
+              {
+                "percent": 100,
+                "revisionName": "gos-bike-demand-00010-m4d"
+              }
+            ]
+          },
+          "status": {
+            "conditions": [
+              {
+                "lastTransitionTime": "2026-11-10T19:58:00.592476Z",
+                "status": "True",
+                "type": "Ready"
+              },
+              {
+                "lastTransitionTime": "2026-11-10T19:57:59.228994Z",
+                "status": "True",
+                "type": "ConfigurationsReady"
+              },
+              {
+                "lastTransitionTime": "2026-11-10T19:58:00.557723Z",
+                "status": "True",
+                "type": "RoutesReady"
+              }
+            ],
+            "latestCreatedRevisionName": "gos-bike-demand-00011-z46",
+            "latestReadyRevisionName": "gos-bike-demand-00011-z46",
+            "observedGeneration": 20,
+            "traffic": [
+              {
+                "percent": 100,
+                "revisionName": "gos-bike-demand-00011-z46"
+              }
+            ],
+            "url": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app"
+          }
+        }
+      },
+      "requestMetadata": {
+        "callerSuppliedUserAgent": "google-cloud-sdk gcloud/592.0.0 command/gcloud.run.services.update-traffic invocation-id/fe5e98bba00d4d24ac0739e6eee449ad environment/devshell environment-version/None client-os/LINUX client-os-ver/6.18.55 client-pltf-arch/x86_64 interactive/False from-script/False python/3.14.9 term/tmux-256color  (Linux 6.18.55+),gzip(gfe)",
+        "destinationAttributes": {},
+        "requestAttributes": {
+          "auth": {},
+          "time": "2026-11-10T20:17:47.560007Z"
+        }
+      },
+      "resourceLocation": {
+        "currentLocations": [
+          "europe-west1"
+        ]
+      },
+      "resourceName": "namespaces/mlops-ece-group2/services/gos-bike-demand",
+      "serviceName": "run.googleapis.com",
+      "status": {}
+    },
+    "receiveTimestamp": "2026-11-10T20:17:47.682248032Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "NOTICE",
+    "timestamp": "2026-11-10T20:17:47.312295Z"
+  },
+  {
+    "insertId": "1m12zfwd51tn",
+    "logName": "projects/mlops-ece-group2/logs/cloudaudit.googleapis.com%2Factivity",
+    "protoPayload": {
+      "@type": "type.googleapis.com/google.cloud.audit.AuditLog",
+      "authenticationInfo": {
+        "oauthInfo": {
+          "oauthClientId": "32555940559.apps.googleusercontent.com"
+        },
+        "principalEmail": "redacted (team member)",
+        "principalSubject": "user:redacted (team member)"
+      },
+      "authorizationInfo": [
+        {
+          "granted": false,
+          "permission": "run.services.update",
+          "permissionType": "ADMIN_WRITE",
+          "resource": "namespaces/mlops-ece-group2/services/gos-bike-demand",
+          "resourceAttributes": {}
+        }
+      ],
+      "methodName": "google.cloud.run.v1.Services.ReplaceService",
+      "request": {
+        "@type": "type.googleapis.com/google.cloud.run.v1.ReplaceServiceRequest",
+        "name": "namespaces/mlops-ece-group2/services/gos-bike-demand",
+        "service": {
+          "apiVersion": "serving.knative.dev/v1",
+          "kind": "Service",
+          "metadata": {
+            "annotations": {
+              "run.googleapis.com/client-name": "gcloud",
+              "run.googleapis.com/client-version": "592.0.0",
+              "run.googleapis.com/ingress": "all",
+              "run.googleapis.com/ingress-status": "all",
+              "run.googleapis.com/maxScale": "3",
+              "run.googleapis.com/operation-id": "87e07b38-d90b-444d-bcde-9b818047324d",
+              "run.googleapis.com/urls": "[\"https://gos-bike-demand-1087566946792.europe-west1.run.app\",\"https://gos-bike-demand-jdc2acx6uq-ew.a.run.app\"]",
+              "serving.knative.dev/creator": "repo:oscarico92@131778029/mlops-fri1-GOS-bike-demand@1411479247:ref:refs/heads/main (projects/1087566946792/locations/global/workloadIdentityPools/gos-github)",
+              "serving.knative.dev/lastModifier": "redacted (team member)"
+            },
+            "creationTimestamp": "2026-11-09T22:44:08.068033Z",
+            "generation": 20,
+            "labels": {
+              "cloud.googleapis.com/location": "europe-west1"
+            },
+            "name": "gos-bike-demand",
+            "namespace": "1087566946792",
+            "resourceVersion": "AAZf8X7fbFw",
+            "selfLink": "/apis/serving.knative.dev/v1/namespaces/1087566946792/services/gos-bike-demand",
+            "uid": "9ed79db6-bb78-4b97-bf5a-5244d362213f"
+          },
+          "spec": {
+            "template": {
+              "metadata": {
+                "annotations": {
+                  "autoscaling.knative.dev/maxScale": "1",
+                  "run.googleapis.com/client-name": "gcloud",
+                  "run.googleapis.com/client-version": "592.0.0",
+                  "run.googleapis.com/startup-cpu-boost": "true"
+                },
+                "labels": {
+                  "client.knative.dev/nonce": "xhykqcnvno",
+                  "run.googleapis.com/startupProbeType": "Default"
+                }
+              },
+              "spec": {
+                "containerConcurrency": 80,
+                "containers": [
+                  {
+                    "image": "europe-west1-docker.pkg.dev/mlops-ece-group2/gos-bike-demand/bike-demand@sha256:134e43894e3c76aba3a7ad5082225015f75f7f079ae5849ea1fe94886484ac64",
+                    "resources": {
+                      "limits": {
+                        "cpu": "1000m",
+                        "memory": "512Mi"
+                      }
+                    }
+                  }
+                ],
+                "serviceAccountName": "1087566946792-compute@developer.gserviceaccount.com",
+                "timeoutSeconds": 300
+              }
+            },
+            "traffic": [
+              {
+                "percent": 100,
+                "revisionName": "gos-bike-demand-00010-m4d"
+              }
+            ]
+          },
+          "status": {
+            "conditions": [
+              {
+                "lastTransitionTime": "2026-11-10T19:58:00.592476Z",
+                "status": "True",
+                "type": "Ready"
+              },
+              {
+                "lastTransitionTime": "2026-11-10T19:57:59.228994Z",
+                "status": "True",
+                "type": "ConfigurationsReady"
+              },
+              {
+                "lastTransitionTime": "2026-11-10T19:58:00.557723Z",
+                "status": "True",
+                "type": "RoutesReady"
+              }
+            ],
+            "latestCreatedRevisionName": "gos-bike-demand-00011-z46",
+            "latestReadyRevisionName": "gos-bike-demand-00011-z46",
+            "observedGeneration": 20,
+            "traffic": [
+              {
+                "percent": 100,
+                "revisionName": "gos-bike-demand-00011-z46"
+              }
+            ],
+            "url": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app"
+          }
+        }
+      },
+      "requestMetadata": {
+        "callerSuppliedUserAgent": "google-cloud-sdk gcloud/592.0.0 agent-name/antigravity command/gcloud.run.services.update-traffic invocation-id/5d1a1d2381c5409cacb6ad18606a34e9 environment/None environment-version/None client-os/MACOSX client-os-ver/27.2.0 client-pltf-arch/arm interactive/True from-script/False python/3.14.10 term/dumb  (Macintosh; Intel Mac OS X 27.2.0),gzip(gfe)",
+        "destinationAttributes": {},
+        "requestAttributes": {
+          "auth": {},
+          "time": "2026-11-10T20:11:40.889285Z"
+        }
+      },
+      "resourceLocation": {
+        "currentLocations": [
+          "europe-west1"
+        ]
+      },
+      "resourceName": "namespaces/mlops-ece-group2/services/gos-bike-demand",
+      "serviceName": "run.googleapis.com",
+      "status": {
+        "code": 7,
+        "message": "Permission 'run.services.update' denied on resource 'namespaces/mlops-ece-group2/services/gos-bike-demand' (or resource may not exist)."
+      }
+    },
+    "receiveTimestamp": "2026-11-10T20:11:41.336407338Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "ERROR",
+    "timestamp": "2026-11-10T20:11:40.725961Z"
+  },
+  {
+    "insertId": "19k09rjdc3tk",
+    "logName": "projects/mlops-ece-group2/logs/cloudaudit.googleapis.com%2Factivity",
+    "protoPayload": {
+      "@type": "type.googleapis.com/google.cloud.audit.AuditLog",
+      "authenticationInfo": {
+        "oauthInfo": {
+          "oauthClientId": "618104708054-9r9s1c4alg36erliucho9t52n32n6dgq.apps.googleusercontent.com"
+        },
+        "principalEmail": "redacted (team member)",
+        "principalSubject": "user:redacted (team member)"
+      },
+      "authorizationInfo": [
+        {
+          "granted": true,
+          "permission": "run.services.update",
+          "permissionType": "ADMIN_WRITE",
+          "resource": "namespaces/mlops-ece-group2/services/gos-bike-demand",
+          "resourceAttributes": {}
+        },
+        {
+          "granted": true,
+          "permission": "run.services.update",
+          "permissionType": "ADMIN_WRITE",
+          "resource": "namespaces/mlops-ece-group2/services/gos-bike-demand",
+          "resourceAttributes": {
+            "name": "namespaces/mlops-ece-group2/services/gos-bike-demand",
+            "service": "run.googleapis.com/",
+            "type": "run.googleapis.com/Service"
+          }
+        }
+      ],
+      "methodName": "google.cloud.run.v1.Services.ReplaceService",
+      "request": {
+        "@type": "type.googleapis.com/google.cloud.run.v1.ReplaceServiceRequest",
+        "name": "namespaces/mlops-ece-group2/services/gos-bike-demand",
+        "service": {
+          "apiVersion": "serving.knative.dev/v1",
+          "kind": "Service",
+          "metadata": {
+            "annotations": {
+              "run.googleapis.com/client-name": "gcloud",
+              "run.googleapis.com/client-version": "592.0.0",
+              "run.googleapis.com/ingress": "all",
+              "run.googleapis.com/ingress-status": "all",
+              "run.googleapis.com/maxScale": "3",
+              "run.googleapis.com/operation-id": "84c7f530-b358-416d-be6c-3ae8a6969daf",
+              "run.googleapis.com/urls": "[\"https://gos-bike-demand-1087566946792.europe-west1.run.app\",\"https://gos-bike-demand-jdc2acx6uq-ew.a.run.app\"]",
+              "serving.knative.dev/creator": "repo:oscarico92@131778029/mlops-fri1-GOS-bike-demand@1411479247:ref:refs/heads/main (projects/1087566946792/locations/global/workloadIdentityPools/gos-github)",
+              "serving.knative.dev/lastModifier": "redacted (team member)"
+            },
+            "creationTimestamp": "2026-11-09T22:44:08.068033Z",
+            "generation": 19,
+            "labels": {
+              "cloud.googleapis.com/location": "europe-west1"
+            },
+            "name": "gos-bike-demand",
+            "namespace": "1087566946792",
+            "resourceVersion": "AAZf8X4HLeM",
+            "selfLink": "/apis/serving.knative.dev/v1/namespaces/1087566946792/services/gos-bike-demand",
+            "uid": "9ed79db6-bb78-4b97-bf5a-5244d362213f"
+          },
+          "spec": {
+            "template": {
+              "metadata": {
+                "annotations": {
+                  "autoscaling.knative.dev/maxScale": "1",
+                  "run.googleapis.com/client-name": "gcloud",
+                  "run.googleapis.com/client-version": "592.0.0",
+                  "run.googleapis.com/startup-cpu-boost": "true"
+                },
+                "labels": {
+                  "client.knative.dev/nonce": "xhykqcnvno",
+                  "run.googleapis.com/startupProbeType": "Default"
+                }
+              },
+              "spec": {
+                "containerConcurrency": 80,
+                "containers": [
+                  {
+                    "image": "europe-west1-docker.pkg.dev/mlops-ece-group2/gos-bike-demand/bike-demand@sha256:134e43894e3c76aba3a7ad5082225015f75f7f079ae5849ea1fe94886484ac64",
+                    "resources": {
+                      "limits": {
+                        "cpu": "1000m",
+                        "memory": "512Mi"
+                      }
+                    }
+                  }
+                ],
+                "serviceAccountName": "1087566946792-compute@developer.gserviceaccount.com",
+                "timeoutSeconds": 300
+              }
+            },
+            "traffic": [
+              {
+                "percent": 100,
+                "revisionName": "gos-bike-demand-00011-z46"
+              }
+            ]
+          },
+          "status": {
+            "conditions": [
+              {
+                "lastTransitionTime": "2026-11-10T19:57:46.298076Z",
+                "status": "True",
+                "type": "Ready"
+              },
+              {
+                "lastTransitionTime": "2026-11-10T19:57:46.384128Z",
+                "reason": "Retired",
+                "status": "True",
+                "type": "ConfigurationsReady"
+              },
+              {
+                "lastTransitionTime": "2026-11-10T17:45:48.272355Z",
+                "status": "True",
+                "type": "RoutesReady"
+              }
+            ],
+            "latestCreatedRevisionName": "gos-bike-demand-00011-z46",
+            "latestReadyRevisionName": "gos-bike-demand-00010-m4d",
+            "observedGeneration": 19,
+            "traffic": [
+              {
+                "percent": 100,
+                "revisionName": "gos-bike-demand-00010-m4d"
+              }
+            ],
+            "url": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app"
+          }
+        }
+      },
+      "requestMetadata": {
+        "callerSuppliedUserAgent": "google-cloud-sdk gcloud/592.0.0 command/gcloud.run.services.update-traffic invocation-id/abe50128c96b491bbada377d021bd86a environment/devshell environment-version/None client-os/LINUX client-os-ver/6.18.55 client-pltf-arch/x86_64 interactive/False from-script/False python/3.14.9 term/tmux-256color  (Linux 6.18.55+),gzip(gfe)",
+        "destinationAttributes": {},
+        "requestAttributes": {
+          "auth": {},
+          "time": "2026-11-10T19:57:51.064940Z"
+        }
+      },
+      "resourceLocation": {
+        "currentLocations": [
+          "europe-west1"
+        ]
+      },
+      "resourceName": "namespaces/mlops-ece-group2/services/gos-bike-demand",
+      "serviceName": "run.googleapis.com",
+      "status": {}
+    },
+    "receiveTimestamp": "2026-11-10T19:57:51.591729608Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "NOTICE",
+    "timestamp": "2026-11-10T19:57:50.853071Z"
+  },
+  {
+    "insertId": "jpnm18d4nw0",
+    "logName": "projects/mlops-ece-group2/logs/cloudaudit.googleapis.com%2Factivity",
+    "protoPayload": {
+      "@type": "type.googleapis.com/google.cloud.audit.AuditLog",
+      "authenticationInfo": {
+        "oauthInfo": {
+          "oauthClientId": "618104708054-9r9s1c4alg36erliucho9t52n32n6dgq.apps.googleusercontent.com"
+        },
+        "principalEmail": "redacted (team member)",
+        "principalSubject": "user:redacted (team member)"
+      },
+      "authorizationInfo": [
+        {
+          "granted": true,
+          "permission": "run.services.update",
+          "permissionType": "ADMIN_WRITE",
+          "resource": "namespaces/mlops-ece-group2/services/gos-bike-demand",
+          "resourceAttributes": {}
+        },
+        {
+          "granted": true,
+          "permission": "run.services.update",
+          "permissionType": "ADMIN_WRITE",
+          "resource": "namespaces/mlops-ece-group2/services/gos-bike-demand",
+          "resourceAttributes": {
+            "name": "namespaces/mlops-ece-group2/services/gos-bike-demand",
+            "service": "run.googleapis.com/",
+            "type": "run.googleapis.com/Service"
+          }
+        }
+      ],
+      "methodName": "google.cloud.run.v1.Services.ReplaceService",
+      "request": {
+        "@type": "type.googleapis.com/google.cloud.run.v1.ReplaceServiceRequest",
+        "name": "namespaces/mlops-ece-group2/services/gos-bike-demand",
+        "service": {
+          "apiVersion": "serving.knative.dev/v1",
+          "kind": "Service",
+          "metadata": {
+            "annotations": {
+              "run.googleapis.com/client-name": "gcloud",
+              "run.googleapis.com/client-version": "592.0.0",
+              "run.googleapis.com/ingress": "all",
+              "run.googleapis.com/ingress-status": "all",
+              "run.googleapis.com/maxScale": "3",
+              "run.googleapis.com/operation-id": "2091cba6-9216-4f4a-9ee1-a422db5b0554",
+              "run.googleapis.com/urls": "[\"https://gos-bike-demand-1087566946792.europe-west1.run.app\",\"https://gos-bike-demand-jdc2acx6uq-ew.a.run.app\"]",
+              "serving.knative.dev/creator": "repo:oscarico92@131778029/mlops-fri1-GOS-bike-demand@1411479247:ref:refs/heads/main (projects/1087566946792/locations/global/workloadIdentityPools/gos-github)",
+              "serving.knative.dev/lastModifier": "repo:oscarico92@131778029/mlops-fri1-GOS-bike-demand@1411479247:ref:refs/heads/main (projects/1087566946792/locations/global/workloadIdentityPools/gos-github)"
+            },
+            "creationTimestamp": "2026-11-09T22:44:08.068033Z",
+            "generation": 18,
+            "labels": {
+              "cloud.googleapis.com/location": "europe-west1"
+            },
+            "name": "gos-bike-demand",
+            "namespace": "1087566946792",
+            "resourceVersion": "AAZf76YSa5Y",
+            "selfLink": "/apis/serving.knative.dev/v1/namespaces/1087566946792/services/gos-bike-demand",
+            "uid": "9ed79db6-bb78-4b97-bf5a-5244d362213f"
+          },
+          "spec": {
+            "template": {
+              "metadata": {
+                "annotations": {
+                  "autoscaling.knative.dev/maxScale": "1",
+                  "run.googleapis.com/client-name": "gcloud",
+                  "run.googleapis.com/client-version": "592.0.0",
+                  "run.googleapis.com/startup-cpu-boost": "true"
+                },
+                "labels": {
+                  "client.knative.dev/nonce": "xhykqcnvno",
+                  "run.googleapis.com/startupProbeType": "Default"
+                }
+              },
+              "spec": {
+                "containerConcurrency": 80,
+                "containers": [
+                  {
+                    "image": "europe-west1-docker.pkg.dev/mlops-ece-group2/gos-bike-demand/bike-demand@sha256:134e43894e3c76aba3a7ad5082225015f75f7f079ae5849ea1fe94886484ac64",
+                    "resources": {
+                      "limits": {
+                        "cpu": "1000m",
+                        "memory": "512Mi"
+                      }
+                    }
+                  }
+                ],
+                "serviceAccountName": "1087566946792-compute@developer.gserviceaccount.com",
+                "timeoutSeconds": 300
+              }
+            },
+            "traffic": [
+              {
+                "percent": 100,
+                "revisionName": "gos-bike-demand-00010-m4d"
+              }
+            ]
+          },
+          "status": {
+            "conditions": [
+              {
+                "lastTransitionTime": "2026-11-10T17:45:48.311446Z",
+                "status": "True",
+                "type": "Ready"
+              },
+              {
+                "lastTransitionTime": "2026-11-10T17:45:46.966473Z",
+                "status": "True",
+                "type": "ConfigurationsReady"
+              },
+              {
+                "lastTransitionTime": "2026-11-10T17:45:48.272355Z",
+                "status": "True",
+                "type": "RoutesReady"
+              }
+            ],
+            "latestCreatedRevisionName": "gos-bike-demand-00010-m4d",
+            "latestReadyRevisionName": "gos-bike-demand-00010-m4d",
+            "observedGeneration": 18,
+            "traffic": [
+              {
+                "percent": 100,
+                "revisionName": "gos-bike-demand-00010-m4d"
+              }
+            ],
+            "url": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app"
+          }
+        }
+      },
+      "requestMetadata": {
+        "callerSuppliedUserAgent": "google-cloud-sdk gcloud/592.0.0 command/gcloud.run.services.update invocation-id/b6119f8236ae4b599f4963367bb10f7a environment/devshell environment-version/None client-os/LINUX client-os-ver/6.18.55 client-pltf-arch/x86_64 interactive/False from-script/False python/3.14.9 term/tmux-256color  (Linux 6.18.55+),gzip(gfe)",
+        "destinationAttributes": {},
+        "requestAttributes": {
+          "auth": {},
+          "time": "2026-11-10T19:57:45.141517Z"
+        }
+      },
+      "resourceLocation": {
+        "currentLocations": [
+          "europe-west1"
+        ]
+      },
+      "resourceName": "namespaces/mlops-ece-group2/services/gos-bike-demand",
+      "serviceName": "run.googleapis.com",
+      "status": {}
+    },
+    "receiveTimestamp": "2026-11-10T19:57:45.230432887Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "",
+        "location": "europe-west1",
+        "project_id": "mlops-ece-group2",
+        "revision_name": "",
+        "service_name": "gos-bike-demand"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "NOTICE",
+    "timestamp": "2026-11-10T19:57:44.508167Z"
+  }
+]
