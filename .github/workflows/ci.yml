@@ -28,6 +28,8 @@ jobs:
       - run: uv run --locked python -m bike_demand.preflight
       - run: uv run --locked ruff check .
       - run: uv run --locked ruff format --check .
+      - name: Gate policy tests (Lab 7)
+        run: uv run --locked pytest -q -m gate
       - run: uv run --locked pytest -q -m infra
       - run: uv run --locked pytest -q -m lab1
       - run: uv run --locked pytest -q -m api
