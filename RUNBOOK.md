@@ -91,8 +91,24 @@ Keep one timeline (UTC) with: who did what, each observation and its raw file, e
 rollback, the recovery check. Commit the raw outputs under `logs/lab-08/` and the incident record under `reports/`,
 through a reviewed pull request.
 
-Before committing a Cloud Logging export, remove personal data: `httpRequest.remoteIp` (the client's IP address) is in
-every exported entry. Replace its value with `redacted` and say so in the file; change nothing else.
+Before committing a Cloud Logging export, remove personal data, then say so in the file and change nothing else:
+
+- request logs: `httpRequest.remoteIp` (the client's IP address) is in every entry; replace it with `redacted`;
+- audit logs (`gcloud logging read` on `cloudaudit.googleapis.com`): `protoPayload.authenticationInfo.principalEmail`
+  and `principalSubject` (who ran the command) and `protoPayload.requestMetadata.callerIp`; replace a team member's e-mail with
+  `redacted (team member)` and a person's IP with `redacted`. Addresses of GitHub Actions runners and of the
+  service account are not personal data and may stay.
+
+Check before committing: `grep -rE '"(remoteIp|callerIp|principalEmail|principalSubject)"' logs/lab-08/` must show only redacted
+values or runner and service-account addresses.
+
+Save the outputs of the first checks too (`curl` of section 2): a check that is not in a file
+cannot be quoted as the first signal later.
+
+**Detection is not covered yet.** Nothing watches the service: in the 10 November drill the operator looked only
+because the drill was announced, so the real detection time is unknown (`reports/lab-08-incident.md`). Until a
+scheduled `workload.py` + `signals.py` run or a Cloud Monitoring alert on the 5xx rate exists, this runbook starts
+when someone notices.
 
 ## 7. Never
 
