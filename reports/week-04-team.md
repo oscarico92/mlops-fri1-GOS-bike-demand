@@ -11,7 +11,7 @@ State as of 10 November 2026, 22:10 UTC (`main` at `8c0cc62`; the incident recor
 | Area | Owner | PR | Reviewer | Main finding and response |
 | --- | --- | --- | --- | --- |
 | Gate policy and decision function, committed before any candidate is decided | Gautier | #25 | Simon | Ran it merged with #23: 140 passed, shallow-forest rejected. Found that the pipeline marked the tree dirty because of its own decision records (fixed in #23, `43f3fa6`). Merged `140d47d`. |
-| Pipeline entry point (`bootstrap`, `run`, `promote`, `status`, `restore`) and accepted-model registry | Simon | #23 | Gautier, Oscar | Gautier's challenge (C1-C4): second run blocked by the pipeline's own output (C2), a gate exception left no decision record (C4); both fixed and re-checked by Gautier. Oscar: bootstrap must register the reviewed bytes (`d24c050e…`, not the native Windows `fd98ceaf…`), evidence on a clean tree. Merged `44a5edd`. |
+| Pipeline entry point (`bootstrap`, `run`, `promote`, `status`, `restore`) and accepted-model registry | Simon | #23 | Gautier, Oscar | Gautier's challenge (C1-C4): second run blocked by the pipeline's own output (C2), a gate exception left no decision record (C4); both fixed and re-checked by Gautier. Oscar, first review: say who writes the gate, bootstrap must register the reviewed bytes (`d24c050e…`, not the native Windows `fd98ceaf…`), commit evidence (fixed in `189ef09`). Second review: merge `main` (conflicts in `ci.yml`, `pyproject.toml`, README after #22), rerun the evidence because the committed record said `working_tree_dirty: true` at `189ef09`, merge only with Container checks green (lesson of #26); done in `244a633` and the gated runs. Merged `44a5edd`. |
 | Reviewer challenge: predictions before running | Oscar | #35 | Simon | Predictions committed before the run. D (rejected bundle copied with its metadata over `accepted/baseline`) was not detected: `restore` rewrote `current.json` with the rejected SHA and the gate then accepted deep-forest. Merged `e3d0d64`. |
 | Fix for the #35 finding | Oscar | #36 | Simon | Accepted bundles are now checked against a record outside the bundle (`configs/expected-model.json` for the baseline, the committed accept decision otherwise); `status` exits 1 when a version is not usable; 3 tests. D now fails closed. Merged `339a1b8`. |
 
@@ -63,6 +63,9 @@ Oscar was the only member who could change the service; Simon (operator) had `ru
 - Rollback (Oscar, 20:17:47): 100 % on `00010-m4d`. Recovery (Simon, 20:20:05): 40/40 good.
 - Cleanup (Oscar, 20:49:37, found by the operator): `BIKE_MODEL_DIR` removed from the service template, otherwise the
   next deploy from `main` would have inherited it.
+- First deploy after the incident (#40): merge of #37 (`8c0cc62`), revision `00013-d5c` with 100 % of the traffic on
+  the pushed digest, `/health` 200 with `d24c050e…`, check passed. The cleaned template did not bring `BIKE_MODEL_DIR`
+  back, and the deploy moved the traffic off the revision pinned by the rollback (the #29 fix, on a real case).
 
 | Signal (40 valid + 10 invalid) | Baseline 2 | Incident | Recovery |
 | --- | --- | --- | --- |
@@ -72,6 +75,14 @@ Oscar was the only member who could change the service; Simon (operator) had `ru
 | identity | c2fc401 / baseline-637fa42462b2 | c2fc401 / None | c2fc401 / baseline-637fa42462b2 |
 
 ## Process deviations (recorded, not hidden)
+
+Week 3, not in `week-03-team.md` (merged before they happened):
+
+- #31 was merged by Oscar right after Simon's "Request changes" (its live-check files were missing; added in #32).
+- The `m3` tag was placed from an outdated local `main` and moved twice (`140d47d`, `2302054`, then `6e97194`), so `m3`
+  also contains #23, #25 and #30 (Labs 7-8 work).
+
+Week 4:
 
 - #33, #34, #35 and #36 were merged within one minute (17:40 UTC) while `main` was meant to stay frozen for the drill;
   the deploy redeployed the service (revision `00010-m4d`, `c2fc401`), so baseline 1 no longer described the live
@@ -89,7 +100,7 @@ Oscar was the only member who could change the service; Simon (operator) had `ru
 | Missing | Owner |
 | --- | --- |
 | Review and merge of #38 (incident record and evidence) | Gautier, then Simon |
-| Runbook followed by a member who did not write it, on a quiet service | Gautier / Oscar |
+| Runbook followed by a member who did not write it (Gautier wrote it), on a quiet service | Oscar or Simon |
 | Detection: the operator looked because the drill was announced; nothing watches the service, so the real detection time is unknown | team |
 | Tag `m4` once #38 and this record are merged | team |
 
