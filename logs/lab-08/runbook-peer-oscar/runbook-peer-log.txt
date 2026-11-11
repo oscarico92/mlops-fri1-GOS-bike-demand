@@ -1,0 +1,229 @@
+[?2004h]0;mlops-ece-group2oscar_schwartz92@cloudshell:[1;34m~/peer [1;33m(mlops-ece-group2)[00m$ k(mlops-ece-group2)\[7mdate -u +%FT%TZ[27mdate -u +%FT%TZ
+[?2004l2026-11-11T14:54:30Z
+[?2004h]0;mlops-ece-group2oscar_schwartz92@cloudshell:[1;34m~/peer [1;33m(mlops-ece-group2)[00m$ k(mlops-ece-group2)\[7mURL=$(gcloud run services describe gos-bike-demand --region europe-west1 --format='value(status.url)')[27m[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[CURL=$(gcloud run services describe gos-bike-demand --region europe-west1 --format='value(status.url)')
+[?2004l[?2004h]0;mlops-ece-group2oscar_schwartz92@cloudshell:[1;34m~/peer [1;33m(mlops-ece-group2)[00m$ k(mlops-ece-group2)\[7mcurl -s "$URL/health"[27mcurl -s "$URL/health"
+[?2004l{"status":"ok","model_version":"baseline-22987d266c0b","model_sha256":"d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07","code_revision":"9b8819034ae097e3a2f3cc2237379c74ad297b56"}[?2004h]0;mlops-ece-group2oscar_schwartz92@cloudshell:[1;34m~/peer [1;33m(mlops-ece-group2)[00m$ k(mlops-ece-group2)\[7mgcloud run services describe gos-bike-demand --region europe-west1 \[27m
+[7m  --format='value(status.traffic)'[27mM]0;mlops-ece-group2oscar_schwartz92@cloudshell:[1;34m~/peer [1;33m(mlops-ece-group2)[00m$ k(mlops-ece-group2)\gcloud run services describe gos-bike-demand --region europe-west1 \
+  --format='value(status.traffic)'
+[?2004l{'percent': 100, 'revisionName': 'gos-bike-demand-00015-7zq'}
+[?2004h]0;mlops-ece-group2oscar_schwartz92@cloudshell:[1;34m~/peer [1;33m(mlops-ece-group2)[00m$ k(mlops-ece-group2)\[7mgcloud run revisions list --service gos-bike-demand --region europe-west1[27m[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cgcloud run revisions list --service gos-bike-demand --region europe-west1
+[?2004l✔
+REVISION: gos-bike-demand-00015-7zq
+ACTIVE: yes
+SERVICE: gos-bike-demand
+DEPLOYED: 2026-11-11 14:50:05 UTC
+DEPLOYED BY: repo:oscarico92@131778029/mlops-fri1-GOS-bike-demand@1411479247:ref:refs/heads/main (projects/1087566946792/locations/global/workloadIdentityPools/gos-github)
+
+✔
+REVISION: gos-bike-demand-00014-mxt
+ACTIVE: 
+SERVICE: gos-bike-demand
+DEPLOYED: 2026-11-11 14:45:30 UTC
+DEPLOYED BY: repo:oscarico92@131778029/mlops-fri1-GOS-bike-demand@1411479247:ref:refs/heads/main (projects/1087566946792/locations/global/workloadIdentityPools/gos-github)
+
+✔
+REVISION: gos-bike-demand-00013-d5c
+ACTIVE: 
+SERVICE: gos-bike-demand
+DEPLOYED: 2026-11-10 21:12:09 UTC
+DEPLOYED BY: repo:oscarico92@131778029/mlops-fri1-GOS-bike-demand@1411479247:ref:refs/heads/main (projects/1087566946792/locations/global/workloadIdentityPools/gos-github)
+
+✔
+REVISION: gos-bike-demand-00012-zkx
+ACTIVE: 
+SERVICE: gos-bike-demand
+DEPLOYED: 2026-11-10 20:49:39 UTC
+DEPLOYED BY: redacted (team member)
+
+✔
+REVISION: gos-bike-demand-00011-z46
+ACTIVE: 
+SERVICE: gos-bike-demand
+DEPLOYED: 2026-11-10 19:57:45 UTC
+DEPLOYED BY: redacted (team member)
+
+✔
+REVISION: gos-bike-demand-00010-m4d
+ACTIVE: 
+SERVICE: gos-bike-demand
+DEPLOYED: 2026-11-10 17:44:57 UTC
+DEPLOYED BY: repo:oscarico92@131778029/mlops-fri1-GOS-bike-demand@1411479247:ref:refs/heads/main (projects/1087566946792/locations/global/workloadIdentityPools/gos-github)
+
+✔
+REVISION: gos-bike-demand-00009-xqq
+ACTIVE: 
+SERVICE: gos-bike-demand
+DEPLOYED: 2026-11-10 15:16:11 UTC
+DEPLOYED BY: repo:oscarico92@131778029/mlops-fri1-GOS-bike-demand@1411479247:ref:refs/heads/main (projects/1087566946792/locations/global/workloadIdentityPools/gos-github)
+
+✔
+REVISION: gos-bike-demand-00008-8q7
+ACTIVE: 
+SERVICE: gos-bike-demand
+DEPLOYED: 2026-11-10 15:09:34 UTC
+DEPLOYED BY: repo:oscarico92@131778029/mlops-fri1-GOS-bike-demand@1411479247:ref:refs/heads/main (projects/1087566946792/locations/global/workloadIdentityPools/gos-github)
+
+✔
+REVISION: gos-bike-demand-00007-vjt
+ACTIVE: 
+SERVICE: gos-bike-demand
+DEPLOYED: 2026-11-10 14:51:28 UTC
+DEPLOYED BY: repo:oscarico92@131778029/mlops-fri1-GOS-bike-demand@1411479247:ref:refs/heads/main (projects/1087566946792/locations/global/workloadIdentityPools/gos-github)
+
+✔
+REVISION: gos-bike-demand-00006-6ft
+ACTIVE: 
+SERVICE: gos-bike-demand
+DEPLOYED: 2026-11-10 14:47:24 UTC
+DEPLOYED BY: repo:oscarico92@131778029/mlops-fri1-GOS-bike-demand@1411479247:ref:refs/heads/main (projects/1087566946792/locations/global/workloadIdentityPools/gos-github)
+
+✔
+REVISION: gos-bike-demand-00005-559
+ACTIVE: 
+SERVICE: gos-bike-demand
+DEPLOYED: 2026-11-10 13:35:44 UTC
+DEPLOYED BY: repo:oscarico92@131778029/mlops-fri1-GOS-bike-demand@1411479247:ref:refs/heads/main (projects/1087566946792/locations/global/workloadIdentityPools/gos-github)
+
+✔
+REVISION: gos-bike-demand-00004-pb7
+ACTIVE: 
+SERVICE: gos-bike-demand
+DEPLOYED: 2026-11-09 23:55:38 UTC
+DEPLOYED BY: repo:oscarico92@131778029/mlops-fri1-GOS-bike-demand@1411479247:ref:refs/heads/main (projects/1087566946792/locations/global/workloadIdentityPools/gos-github)
+
+✔
+REVISION: gos-bike-demand-00003-762
+ACTIVE: 
+SERVICE: gos-bike-demand
+DEPLOYED: 2026-11-09 23:37:58 UTC
+DEPLOYED BY: repo:oscarico92@131778029/mlops-fri1-GOS-bike-demand@1411479247:ref:refs/heads/main (projects/1087566946792/locations/global/workloadIdentityPools/gos-github)
+
+✔
+REVISION: gos-bike-demand-00002-jhr
+ACTIVE: 
+SERVICE: gos-bike-demand
+DEPLOYED: 2026-11-09 22:57:50 UTC
+DEPLOYED BY: repo:oscarico92@131778029/mlops-fri1-GOS-bike-demand@1411479247:ref:refs/heads/main (projects/1087566946792/locations/global/workloadIdentityPools/gos-github)
+
+✔
+REVISION: gos-bike-demand-00001-lc9
+ACTIVE: 
+SERVICE: gos-bike-demand
+DEPLOYED: 2026-11-09 22:44:08 UTC
+DEPLOYED BY: repo:oscarico92@131778029/mlops-fri1-GOS-bike-demand@1411479247:ref:refs/heads/main (projects/1087566946792/locations/global/workloadIdentityPools/gos-github)
+[?2004h]0;mlops-ece-group2oscar_schwartz92@cloudshell:[1;34m~/peer [1;33m(mlops-ece-group2)[00m$ k(mlops-ece-group2)\[7mpython3 scripts/workload.py --url "$URL" --label check --valid 40 --invalid 10 --out logs/lab-08/check-sent.jsonl[27m[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cpython3 scripts/workload.py --url "$URL" --label check --valid 40 --invalid 10 --out logs/lab-08/check-sent.jsonl
+[?2004lpython3: can't open file '/home/oscar_schwartz92/peer/scripts/workload.py': [Errno 2] No such file or directory
+[?2004h]0;mlops-ece-group2oscar_schwartz92@cloudshell:[1;34m~/peer [1;33m(mlops-ece-group2)[00m$ k(mlops-ece-group2)\[K]0;mlops-ece-group2oscar_schwartz92@cloudshell:[1;34m~/peer [1;33m(mlops-ece-group2)[00m$ k(mlops-ece-group2)\[7mecho "# BLOCKED $(date -u +%FT%TZ): section 2 runs scripts/workload.py but the runbook never says to get the repository; cloning it to continue"[27m[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cecho "# BLOCKED $(date -u +%FT%TZ): section 2 runs scripts/workload.py but the runbook never says to get the repository; cloning it to continue"
+[?2004l# BLOCKED 2026-11-11T14:57:54Z: section 2 runs scripts/workload.py but the runbook never says to get the repository; cloning it to continue
+[?2004h]0;mlops-ece-group2oscar_schwartz92@cloudshell:[1;34m~/peer [1;33m(mlops-ece-group2)[00m$ k(mlops-ece-group2)\[7mecho "# NOTE: project was already set from an earlier session; the runbook has no 'gcloud config set project mlops-ece-group2', a fresh Cloud Shell would query the wrong project"[27m[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cecho "# NOTE: project was already set from an earlier session; the runbook has no 'gcloud config set project mlops-ece-group2', a fresh Cloud Shell would query the wrong project"
+[?2004l# NOTE: project was already set from an earlier session; the runbook has no 'gcloud config set project mlops-ece-group2', a fresh Cloud Shell would query the wrong project
+[?2004h]0;mlops-ece-group2oscar_schwartz92@cloudshell:[1;34m~/peer [1;33m(mlops-ece-group2)[00m$ k(mlops-ece-group2)\[7mgit clone -q https://github.com/oscarico92/mlops-fri1-GOS-bike-demand.git repo && cd repo && git log --oneline -1[27m[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cgit clone -q https://github.com/oscarico92/mlops-fri1-GOS-bike-demand.git repo && cd repo && git log --oneline -1
+[?2004l46af152 Merge pull request #39 from oscarico92/week-04-team-record
+[?2004h]0;mlops-ece-group2oscar_schwartz92@cloudshell:[1;34m~/peer/repo [1;33m(mlops-ece-group2)[00m$ k(mlops-ece-group2)\[7mmkdir -p logs/lab-08[27mmkdir -p logs/lab-08
+[?2004l[?2004h]0;mlops-ece-group2oscar_schwartz92@cloudshell:[1;34m~/peer/repo [1;33m(mlops-ece-group2)[00m$ k(mlops-ece-group2)\[7mpython3 scripts/workload.py --url "$URL" --label check --valid 40 --invalid 10 --out logs/lab-08/check-sent.jsonl[27m[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cpython3 scripts/workload.py --url "$URL" --label check --valid 40 --invalid 10 --out logs/lab-08/check-sent.jsonl
+[?2004l{"label": "check", "run": "145830502a", "url": "https://gos-bike-demand-jdc2acx6uq-ew.a.run.app", "window_utc": ["2026-11-11T14:58:30+00:00", "2026-11-11T14:58:31+00:00"], "sent": 50, "statuses": {"200": 40, "422": 10}, "model_versions": ["baseline-22987d266c0b"]}
+[?2004h]0;mlops-ece-group2oscar_schwartz92@cloudshell:[1;34m~/peer/repo [1;33m(mlops-ece-group2)[00m$ k(mlops-ece-group2)\[7mgcloud logging read 'resource.type="cloud_run_revision" AND resource.labels.service_name="gos-bike-demand"' \[27m
+[7m  --freshness=1h --format=json | python3 scripts/signals.py --label check --sent logs/lab-08/check-sent.jsonl[27mMgcloud logging read 'resource.type="cloud_run_revision" AND resource.labels.service_name="gos-bike-demand"' \
+  --freshness=1h --format=json | python3 scripts/signals.py --label check --sent logs/lab-08/check-sent.jsonl
+[?2004l{
+  "label": "check",
+  "window_utc": [
+    "2026-11-11T14:58:30.575+00:00",
+    "2026-11-11T14:58:31.902+00:00"
+  ],
+  "sent": 50,
+  "logged": 50,
+  "missing": 0,
+  "eligible": 40,
+  "good": 40,
+  "success_rate": 1.0,
+  "eligible_statuses": {
+    "200": 40
+  },
+  "intentional_rejections_422": 10,
+  "invalid_accepted": 0,
+  "latency_ms_good": {
+    "p50": 10.5,
+    "p95": 15.5,
+    "max": 19.3
+  },
+  "identities": {
+    "9b8819034ae097e3a2f3cc2237379c74ad297b56 / baseline-22987d266c0b": 50
+  },
+  "duplicate_lines": 0,
+  "unreadable_lines": 0,
+  "client_statuses": {
+    "200": 40,
+    "422": 10
+  }
+}
+[?2004h]0;mlops-ece-group2oscar_schwartz92@cloudshell:[1;34m~/peer/repo [1;33m(mlops-ece-group2)[00m$ k(mlops-ece-group2)\[7mecho "# NOTE $(date -u +%FT%TZ): deploy of 46af152 failed before the live check (no live-check.txt); service still on 00015-7zq; rollback rehearsal postponed"[27m[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cecho "# NOTE $(date -u +%FT%TZ): deploy of 46af152 failed before the live check (no live-check.txt); service still on 00015-7zq; rollback rehearsal postponed"
+[?2004l# NOTE 2026-11-11T15:00:57Z: deploy of 46af152 failed before the live check (no live-check.txt); service still on 00015-7zq; rollback rehearsal postponed
+[?2004h]0;mlops-ece-group2oscar_schwartz92@cloudshell:[1;34m~/peer/repo [1;33m(mlops-ece-group2)[00m$ k(mlops-ece-group2)\[7mgcloud run services describe gos-bike-demand --region europe-west1 --format='value(status.traffic)'[27m[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cgcloud run services describe gos-bike-demand --region europe-west1 --format='value(status.traffic)'
+[?2004l{'percent': 100, 'revisionName': 'gos-bike-demand-00015-7zq'}
+[?2004h]0;mlops-ece-group2oscar_schwartz92@cloudshell:[1;34m~/peer/repo [1;33m(mlops-ece-group2)[00m$ k(mlops-ece-group2)\[7mecho "# NOTE $(date -u +%FT%TZ): deploy of 46af152 failed at 'gcloud run deploy': 'Unable to retrieve Identity Pool subject token ... connection timeout' (transient, GitHub OIDC en[27m[7md[27m[7mpoint); image push had succeeded"[27mM]0;mlops-ece-group2oscar_schwartz92@cloudshell:[1;34m~/peer/repo [1;33m(mlops-ece-group2)[00m$ k(mlops-ece-group2)\echo "# NOTE $(date -u +%FT%TZ): deploy of 46af152 failed at 'gcloud run deploy': 'Unable to retrieve Identity Pool subject token ... connection timeout' (transient, GitHub OIDC endpoint); image push had succeeded"
+[?2004l# NOTE 2026-11-11T15:01:32Z: deploy of 46af152 failed at 'gcloud run deploy': 'Unable to retrieve Identity Pool subject token ... connection timeout' (transient, GitHub OIDC endpoint); image push had succeeded
+[?2004h]0;mlops-ece-group2oscar_schwartz92@cloudshell:[1;34m~/peer/repo [1;33m(mlops-ece-group2)[00m$ k(mlops-ece-group2)\[7mgcloud run services describe gos-bike-demand --region europe-west1 --format='value(status.traffic)'[27m[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cgcloud run services describe gos-bike-demand --region europe-west1 --format='value(status.traffic)'
+[?2004l{'percent': 100, 'revisionName': 'gos-bike-demand-00015-7zq'}
+[?2004h]0;mlops-ece-group2oscar_schwartz92@cloudshell:[1;34m~/peer/repo [1;33m(mlops-ece-group2)[00m$ k(mlops-ece-group2)\[7mgcloud run revisions list --service gos-bike-demand --region europe-west1 --limit 2[27m[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cgcloud run revisions list --service gos-bike-demand --region europe-west1 --limit 2
+[?2004l✔
+REVISION: gos-bike-demand-00015-7zq
+ACTIVE: yes
+SERVICE: gos-bike-demand
+DEPLOYED: 2026-11-11 14:50:05 UTC
+DEPLOYED BY: repo:oscarico92@131778029/mlops-fri1-GOS-bike-demand@1411479247:ref:refs/heads/main (projects/1087566946792/locations/global/workloadIdentityPools/gos-github)
+
+✔
+REVISION: gos-bike-demand-00014-mxt
+ACTIVE: 
+SERVICE: gos-bike-demand
+DEPLOYED: 2026-11-11 14:45:30 UTC
+DEPLOYED BY: repo:oscarico92@131778029/mlops-fri1-GOS-bike-demand@1411479247:ref:refs/heads/main (projects/1087566946792/locations/global/workloadIdentityPools/gos-github)
+[?2004h]0;mlops-ece-group2oscar_schwartz92@cloudshell:[1;34m~/peer/repo [1;33m(mlops-ece-group2)[00m$ k(mlops-ece-group2)\[7mecho "# NOTE $(date -u +%FT%TZ): deploy of 46af152 re-run (failed jobs) and green"[27m[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cecho "# NOTE $(date -u +%FT%TZ): deploy of 46af152 re-run (failed jobs) and green"
+[?2004l# NOTE 2026-11-11T15:05:27Z: deploy of 46af152 re-run (failed jobs) and green
+[?2004h]0;mlops-ece-group2oscar_schwartz92@cloudshell:[1;34m~/peer/repo [1;33m(mlops-ece-group2)[00m$ k(mlops-ece-group2)\[7mgcloud run services describe gos-bike-demand --region europe-west1 --format='value(status.traffic)'[27m[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cgcloud run services describe gos-bike-demand --region europe-west1 --format='value(status.traffic)'
+[?2004l{'percent': 100, 'revisionName': 'gos-bike-demand-00016-rwx'}
+[?2004h]0;mlops-ece-group2oscar_schwartz92@cloudshell:[1;34m~/peer/repo [1;33m(mlops-ece-group2)[00m$ k(mlops-ece-group2)\[7mcurl -s "$URL/health"; echo[27mcurl -s "$URL/health"; echo
+[?2004l{"status":"ok","model_version":"baseline-c07b8f465fe5","model_sha256":"d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07","code_revision":"46af1525cbc0fca511a3932c2e29d02e74a9bf5c"}
+[?2004h]0;mlops-ece-group2oscar_schwartz92@cloudshell:[1;34m~/peer/repo [1;33m(mlops-ece-group2)[00m$ k(mlops-ece-group2)\[7mREV=$(gcloud run services describe gos-bike-demand --region europe-west1 --format='value(status.traffic[0].revisionName)')[27m[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[CREV=$(gcloud run services describe gos-bike-demand --region europe-west1 --format='value(status.traffic[0].revisionName)')
+[?2004l[?2004h]0;mlops-ece-group2oscar_schwartz92@cloudshell:[1;34m~/peer/repo [1;33m(mlops-ece-group2)[00m$ k(mlops-ece-group2)\[7mgcloud run revisions describe "$REV" --region europe-west1 --format='yaml(spec.containers[0].image,spec.containers[0].env,status.imageDigest)'[27m[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cgcloud run revisions describe "$REV" --region europe-west1 --format='yaml(spec.containers[0].image,spec.containers[0].env,status.imageDigest)'
+[?2004lspec:
+  containers:
+  - image: europe-west1-docker.pkg.dev/mlops-ece-group2/gos-bike-demand/bike-demand@sha256:55194ac03ed71e6c3aba4cdda7956d152ddd3c577b0375e6cdf4ea09e36a9af5
+status:
+  imageDigest: europe-west1-docker.pkg.dev/mlops-ece-group2/gos-bike-demand/bike-demand@sha256:55194ac03ed71e6c3aba4cdda7956d152ddd3c577b0375e6cdf4ea09e36a9af5
+[?2004h]0;mlops-ece-group2oscar_schwartz92@cloudshell:[1;34m~/peer/repo [1;33m(mlops-ece-group2)[00m$ k(mlops-ece-group2)\[7mecho "# BLOCKED $(date -u +%FT%TZ): section 3 compares the digest with the deploy run's live-check-*.txt; it is a GitHub Actions artifact, not a file in the repo, and the runbook d[27m[7mo[27m[7mes not say where to get it (serving digest 55194ac0..., no env vars)"[27mMecho "# BLOCKED $(date -u +%FT%TZ): section 3 compares the digest with the deploy run's live-check-*.txt; it is a GitHub Actions artifact, not a file in the repo, and the runbook does not say where to get it (serving digest 55194ac0..., no env vars)"
+[?2004l# BLOCKED 2026-11-11T15:07:02Z: section 3 compares the digest with the deploy run's live-check-*.txt; it is a GitHub Actions artifact, not a file in the repo, and the runbook does not say where to get it (serving digest 55194ac0..., no env vars)
+[?2004h]0;mlops-ece-group2oscar_schwartz92@cloudshell:[1;34m~/peer/repo [1;33m(mlops-ece-group2)[00m$ k(mlops-ece-group2)\[7mecho "# REHEARSAL $(date -u +%FT%TZ): rollback to the previous revision 00015-7zq, then back"[27m[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cecho "# REHEARSAL $(date -u +%FT%TZ): rollback to the previous revision 00015-7zq, then back"
+[?2004l# REHEARSAL 2026-11-11T15:07:40Z: rollback to the previous revision 00015-7zq, then back
+[?2004h]0;mlops-ece-group2oscar_schwartz92@cloudshell:[1;34m~/peer/repo [1;33m(mlops-ece-group2)[00m$ k(mlops-ece-group2)\[7mgcloud run services update-traffic gos-bike-demand --region europe-west1 --to-revisions gos-bike-demand-00015-7zq=100[27m[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cgcloud run services update-traffic gos-bike-demand --region europe-west1 --to-revisions gos-bike-demand-00015-7zq=100
+[?2004lUpdating traffic...
+Routing traffic........................................done
+Done.
+URL: https://gos-bike-demand-jdc2acx6uq-ew.a.run.app
+Traffic:
+  100% [1mgos-bike-demand-00015-7zq[m
+[?2004h]0;mlops-ece-group2oscar_schwartz92@cloudshell:[1;34m~/peer/repo [1;33m(mlops-ece-group2)[00m$ k(mlops-ece-group2)\[7mcurl -s "$URL/health"; echo[27mcurl -s "$URL/health"; echo
+[?2004l{"status":"ok","model_version":"baseline-22987d266c0b","model_sha256":"d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07","code_revision":"9b8819034ae097e3a2f3cc2237379c74ad297b56"}
+[?2004h]0;mlops-ece-group2oscar_schwartz92@cloudshell:[1;34m~/peer/repo [1;33m(mlops-ece-group2)[00m$ k(mlops-ece-group2)\[7mpython3 scripts/check_deployment.py --url "$URL" --expected-revision 9b8819034ae097e3a2f3cc2237379c74ad297b56[27m[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cpython3 scripts/check_deployment.py --url "$URL" --expected-revision 9b8819034ae097e3a2f3cc2237379c74ad297b56
+[?2004lservice https://gos-bike-demand-jdc2acx6uq-ew.a.run.app
+ready (/health)           ok    expected 200  observed 200
+model_sha256              ok    expected d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07  observed d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07
+code_revision             ok    expected 9b8819034ae097e3a2f3cc2237379c74ad297b56  observed 9b8819034ae097e3a2f3cc2237379c74ad297b56
+valid /predict            ok    expected 200, finite >= 0  observed 200, 519.4906075228514
+same model_version        ok    expected baseline-22987d266c0b  observed baseline-22987d266c0b
+invalid /predict (hr=24)  ok    expected 422  observed 422
+check passed
+[?2004h]0;mlops-ece-group2oscar_schwartz92@cloudshell:[1;34m~/peer/repo [1;33m(mlops-ece-group2)[00m$ k(mlops-ece-group2)\[7mgcloud run services update-traffic gos-bike-demand --region europe-west1 --to-latest[27m[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cgcloud run services update-traffic gos-bike-demand --region europe-west1 --to-latest
+[?2004lUpdating traffic...
+Routing traffic.......................................done
+Done.
+URL: https://gos-bike-demand-jdc2acx6uq-ew.a.run.app
+Traffic:
+  100% [1mLATEST (currently gos-bike-demand-00016-rwx)[m
+[?2004h]0;mlops-ece-group2oscar_schwartz92@cloudshell:[1;34m~/peer/repo [1;33m(mlops-ece-group2)[00m$ k(mlops-ece-group2)\[7mcurl -s "$URL/health"; echo[27mcurl -s "$URL/health"; echo
+[?2004l{"status":"ok","model_version":"baseline-c07b8f465fe5","model_sha256":"d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07","code_revision":"46af1525cbc0fca511a3932c2e29d02e74a9bf5c"}
+[?2004h]0;mlops-ece-group2oscar_schwartz92@cloudshell:[1;34m~/peer/repo [1;33m(mlops-ece-group2)[00m$ k(mlops-ece-group2)\[7mecho "# END $(date -u +%FT%TZ)"[27mecho "# END $(date -u +%FT%TZ)"
+[?2004l# END 2026-11-11T15:08:39Z
+[?2004h]0;mlops-ece-group2oscar_schwartz92@cloudshell:[1;34m~/peer/repo [1;33m(mlops-ece-group2)[00m$ k(mlops-ece-group2)\[7mexit[27mexit
+[?2004llogout
