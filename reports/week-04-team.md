@@ -79,8 +79,9 @@ Oscar was the only member who could change the service; Simon (operator) had `ru
 - #35 and #36 were approved by Simon at 17:37-17:38 and merged two to three minutes later, together with #33, whose
   title said "do not merge until the drill is over".
 - #37 asked to be merged together with the incident record; it was merged at 21:08, before #38 was reviewed.
-- Personal data: the first Cloud exports of #38 still contained e-mail addresses and `callerIp` values; the branch was
-  rewritten before review so they never reached `main`, but `callerIp` values of #33 remain in the history of `main`.
+- Personal data: the first Cloud exports of #38 still contained e-mail addresses; the branch was rewritten before
+  review so they never reached `main`. The `callerIp` values in the #33 exports are GitHub runner addresses, not
+  personal data, so those merged files were left unchanged.
 - Simon's rollback attempt at 20:11:40 was made through an AI coding agent; IAM refused it.
 
 ## Missing evidence and next actions
@@ -89,7 +90,7 @@ Oscar was the only member who could change the service; Simon (operator) had `ru
 | --- | --- |
 | Review and merge of #38 (incident record and evidence) | Gautier, then Simon |
 | Runbook followed by a member who did not write it, on a quiet service | Gautier / Oscar |
-| Detection: nothing watches the service between workload runs (13 minutes to the first signal) | team |
+| Detection: the operator looked because the drill was announced; nothing watches the service, so the real detection time is unknown | team |
 | Tag `m4` once #38 and this record are merged | team |
 
 ## Assistance
