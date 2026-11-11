@@ -1,0 +1,32 @@
+{
+  "label": "recovery",
+  "window_utc": [
+    "2026-11-10T20:20:05.084+00:00",
+    "2026-11-10T20:20:09.583+00:00"
+  ],
+  "sent": 50,
+  "logged": 50,
+  "missing": 0,
+  "eligible": 40,
+  "good": 40,
+  "success_rate": 1.0,
+  "eligible_statuses": {
+    "200": 40
+  },
+  "intentional_rejections_422": 10,
+  "invalid_accepted": 0,
+  "latency_ms_good": {
+    "p50": 9.0,
+    "p95": 13.1,
+    "max": 16.2
+  },
+  "identities": {
+    "c2fc401d7768ba27de3dcebf5e5dbaaf2acd9ab7 / baseline-637fa42462b2": 50
+  },
+  "duplicate_lines": 0,
+  "unreadable_lines": 0,
+  "client_statuses": {
+    "200": 40,
+    "422": 10
+  }
+}

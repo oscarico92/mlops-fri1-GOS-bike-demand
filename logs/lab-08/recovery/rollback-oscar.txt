@@ -1,0 +1,2 @@
+Message from Oscar (rollback), copied as received:
+Done at 20:17:53 UTC: traffic 100 % on gos-bike-demand-00010-m4d, /health 200 (c2fc401..., d24c050e..., baseline-637fa42462b2). Over to you for the recovery check.
