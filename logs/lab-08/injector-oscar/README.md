@@ -42,3 +42,11 @@ so the next merge on `main` would have redeployed the fault. Found by the operat
 - gcloud's messages "revision … is serving 100 / 0 percent of traffic" name the wrong revision when traffic is
   pinned; the `Traffic:` lines and `status.traffic` are the reliable source.
 - Main was frozen during the drill (GitHub issue), so no deploy interfered.
+
+## First deploy after the incident
+
+[`live-check-8c0cc62.txt`](live-check-8c0cc62.txt), copied unchanged from the "Deploy to Cloud Run" artifact of the
+merge of #37 (`8c0cc62`), the first deploy from `main` after the cleanup: new revision `gos-bike-demand-00013-d5c`
+with 100 % of the traffic, running the pushed digest `sha256:f1f97875…`, `/health` 200 with `d24c050e…`, check
+passed. The cleaned service template did not bring `BIKE_MODEL_DIR` back, and the deploy routed the traffic away from
+the revision pinned by the rollback (as fixed in #29).
