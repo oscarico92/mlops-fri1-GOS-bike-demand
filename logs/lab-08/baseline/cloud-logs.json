@@ -4255,6 +4255,7 @@
         }
       },
       "requestMetadata": {
+        "callerIp": "172.208.154.0",
         "callerSuppliedUserAgent": "google-cloud-sdk gcloud/591.0.0 command/gcloud.run.services.update-traffic invocation-id/2251efbdc3b94921929e3a35ffb2b666 environment/github-actions-setup-gcloud environment-version/3.0.1 client-os/LINUX client-os-ver/7.0.0 client-pltf-arch/x86_64 interactive/False from-script/False python/3.14.9 term/  (Linux 7.0.0-1017-azure),gzip(gfe)",
         "destinationAttributes": {},
         "requestAttributes": {
@@ -4558,6 +4559,7 @@
         }
       },
       "requestMetadata": {
+        "callerIp": "172.208.154.0",
         "callerSuppliedUserAgent": "google-cloud-sdk gcloud/591.0.0 command/gcloud.run.deploy invocation-id/62e9ea12702249419b98da7a79093604 environment/github-actions-setup-gcloud environment-version/3.0.1 client-os/LINUX client-os-ver/7.0.0 client-pltf-arch/x86_64 interactive/False from-script/False python/3.14.9 term/  (Linux 7.0.0-1017-azure),gzip(gfe)",
         "destinationAttributes": {},
         "requestAttributes": {
@@ -5414,6 +5416,7 @@
         }
       },
       "requestMetadata": {
+        "callerIp": "52.165.101.199",
         "callerSuppliedUserAgent": "google-cloud-sdk gcloud/591.0.0 command/gcloud.run.services.update-traffic invocation-id/d9a51cad26ff4c30aebd2c0bf9c6f08b environment/github-actions-setup-gcloud environment-version/3.0.1 client-os/LINUX client-os-ver/7.0.0 client-pltf-arch/x86_64 interactive/False from-script/False python/3.14.9 term/  (Linux 7.0.0-1017-azure),gzip(gfe)",
         "destinationAttributes": {},
         "requestAttributes": {
@@ -5717,6 +5720,7 @@
         }
       },
       "requestMetadata": {
+        "callerIp": "52.165.101.199",
         "callerSuppliedUserAgent": "google-cloud-sdk gcloud/591.0.0 command/gcloud.run.deploy invocation-id/2079213e194f404eb32262d7d746c05f environment/github-actions-setup-gcloud environment-version/3.0.1 client-os/LINUX client-os-ver/7.0.0 client-pltf-arch/x86_64 interactive/False from-script/False python/3.14.9 term/  (Linux 7.0.0-1017-azure),gzip(gfe)",
         "destinationAttributes": {},
         "requestAttributes": {
@@ -6733,6 +6737,7 @@
         }
       },
       "requestMetadata": {
+        "callerIp": "134.138.53.72",
         "callerSuppliedUserAgent": "google-cloud-sdk gcloud/591.0.0 command/gcloud.run.services.update-traffic invocation-id/9bc390892a1b4338ba1315d4601dca26 environment/github-actions-setup-gcloud environment-version/3.0.1 client-os/LINUX client-os-ver/7.0.0 client-pltf-arch/x86_64 interactive/False from-script/False python/3.14.9 term/  (Linux 7.0.0-1017-azure),gzip(gfe)",
         "destinationAttributes": {},
         "requestAttributes": {
@@ -7036,6 +7041,7 @@
         }
       },
       "requestMetadata": {
+        "callerIp": "134.138.53.72",
         "callerSuppliedUserAgent": "google-cloud-sdk gcloud/591.0.0 command/gcloud.run.deploy invocation-id/b53e3c20ceb442338ec29e2123ba124e environment/github-actions-setup-gcloud environment-version/3.0.1 client-os/LINUX client-os-ver/7.0.0 client-pltf-arch/x86_64 interactive/False from-script/False python/3.14.9 term/  (Linux 7.0.0-1017-azure),gzip(gfe)",
         "destinationAttributes": {},
         "requestAttributes": {

@@ -14,8 +14,10 @@ Traffic went back to `00010-m4d` at 20:17:47; recovery was measured at 20:20:05 
 baseline). At 20:49:37 the variable was removed from the service template so that the next deployment cannot
 inherit it.
 
-Impact: about 20 minutes (traffic on 00011-z46 from 19:57:50-19:58:04 to 20:17:47-20:17:53) during which no valid prediction could succeed. Detection took
-13 minutes, because nothing watches the service between workload runs.
+Impact: about 20 minutes (traffic on 00011-z46 from 19:57:50-19:58:04 to 20:17:47-20:17:53) during which no valid prediction could succeed. The operator was told by
+the injector that the drill had started and looked 13 minutes after the fault; that is the time to look once told,
+not a detection time. Nothing watches the service, so without the drill message the fault would have stayed unnoticed
+until someone used the service: the real detection time is unknown.
 
 ## Timeline
 
@@ -28,6 +30,7 @@ Impact: about 20 minutes (traffic on 00011-z46 from 19:57:50-19:58:04 to 20:17:4
 | 19:57:50 | Oscar (injection) | `gcloud run services update-traffic`: 100 % to 00011-z46 (audit time of the request; the command returned at 19:58:04) | `incident/audit.json`, `injector-oscar/injector-log.txt` (#37) |
 | 19:57:59 | 00011-z46 | `ERROR model not available: [Errno 2] No such file or directory: '/app/artifacts/v2/model-metadata.json'` | `incident/startup-and-errors.json` |
 | 19:58:04 | Oscar | `GET /health` → 503 (curl), "model not available" | `incident/startup-and-errors.json`, `injector-oscar/injector-log.txt` |
+| after 19:58:04 (exact time not recorded) | Oscar | message "The drill has started" sent to the operator, without the cause | Oscar's review of #38, `injector-oscar/README.md` |
 | **20:10:31** | Simon | **first signal**: `GET /health` → 503 and `POST /predict` → 503 on 00011-z46 | `incident/startup-and-errors.json` |
 | 20:11:27-20:11:31 | Simon | incident workload, run 2011271286: 40 × 503, 10 × 422 | `incident/sent.jsonl`, `incident/signals.txt` |
 | 20:11:40 | Simon | rollback attempt (`update-traffic` to 00010-m4d) refused: `run.services.update` denied (operator has `run.viewer`) | `incident/audit.json` |
@@ -97,8 +100,9 @@ one measured on the incident revision.
    `deploy.yml` would inherit it; its live check would fail and undo, but the deploy would fail.
 2. Manual `gcloud run services update` on the shared service only through the runbook, with the change written in the
    team channel first; a configuration change goes through a reviewed pull request like code.
-3. Detection: 13 minutes went by with nobody looking. A scheduled run of `scripts/workload.py` + `signals.py`, or a
-   Cloud Monitoring alert on the 5xx rate of the service, would have caught it within minutes.
+3. Detection: the operator only looked because the injector announced the drill; nothing would have noticed the
+   fault on its own, so the real detection time is unknown. A scheduled run of `scripts/workload.py` + `signals.py`,
+   or a Cloud Monitoring alert on the 5xx rate of the service, would detect it within minutes without being told.
 4. The rollback depended on one person: a second team member with a role that can run `update-traffic` would remove
    that wait (here about 6 minutes between the refused attempt and the rollback; the injector's log also shows one mistyped
    command at 20:15:59 that executed nothing).
@@ -117,6 +121,7 @@ one measured on the incident revision.
   (when the command returned); both are given.
 - Personal data: e-mail addresses, `remoteIp` and `callerIp` were replaced or removed in every Cloud export
   (wider than runbook section 6, which only names `remoteIp`); nothing else was changed, and the signals computed
-  before and after the redaction are identical. Earlier `callerIp` values remain in the history of main (#33).
+  before and after the redaction are identical. The exports of baseline 1 (#33) are left as merged: their
+  `callerIp` values are GitHub runner addresses (checked in Oscar's review of #33), not personal data.
 - The rollback attempt at 20:11:40 was made through the operator's AI coding agent; it was refused by IAM, as it
   should be.
