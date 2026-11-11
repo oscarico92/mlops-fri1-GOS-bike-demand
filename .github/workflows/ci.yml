@@ -40,3 +40,4 @@ jobs:
       - name: Each regression test still fails for its defect (throwaway copies, repo unchanged)
         run: uv run --locked python scripts/regression_can_fail.py
       - run: uv run --locked pytest -q -m pipeline
+      - run: uv run --locked pytest -q -m final

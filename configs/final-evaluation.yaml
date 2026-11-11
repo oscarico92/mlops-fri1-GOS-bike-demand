@@ -1,0 +1,41 @@
+# Week 5 final held-test evaluation plan.
+# Reviewed and merged on main BEFORE the single run; read by bike_demand.final_evaluation.
+# Nothing in this file may change after the run (the record stores this file's SHA-256).
+
+release_candidate:
+  # The only accepted version: both Lab 7 candidates were rejected by the gate
+  # (decisions/20261110T143923Z-775fcb.json, decisions/20261110T143925Z-bc9a2f.json).
+  version: baseline
+  model_sha256: d24c050e3631d5b4c2feb8cb571bef6382d8c975c42a5c11edd28de78a0b8c07
+
+data:
+  path: data/raw/hour.csv
+  sha256: e03de4ee4ef4dc376ac6e04bf829673c6269e8eba5c60fa121640fa2f829504f
+  test:
+    rows: 4376
+    date_min: "2012-07-01"
+    date_max: "2012-12-31"
+
+# Checked before any test label is read; a mismatch stops the run with nothing evaluated.
+checks_before_test:
+  validation_rows: 4358
+  validation_mae: 86.84685685591091
+  tolerance: 1.0e-9
+
+metric:
+  primary: "test MAE, rentals per hour, 4,376 rows Jul-Dec 2012"
+  also_reported:
+    - "naive train-mean MAE on the same test rows (mean of the 2011 training labels only)"
+    - "predictions finite and non-negative on every test row"
+
+expectation: >-
+  Written before the run, not a criterion: the test MAE will likely be higher than the
+  validation MAE (86.85), because demand in Jul-Dec 2012 is higher than in the training year
+  and the model was fit on 2011 only.
+
+rules:
+  - "One run. The record is logs/week-05/final-evaluation.json; the script refuses to run if it exists."
+  - "No threshold: the result is reported, never used to choose. v1.0.0 ships this model whatever the number."
+  - "After the run, no model, feature, setting or data change for v1.0.0, and no second evaluation on these rows."
+  - "If the script stops before writing the record, nothing about the test labels was printed: fix the cause through a reviewed PR, then run once."
+  - "Run from a clean checkout of main that contains this plan; the record stores the commit."
