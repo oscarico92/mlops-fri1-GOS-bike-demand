@@ -593,6 +593,37 @@ Measured locally (container from `46ff046`, Linux, before these definitions were
 20 valid + 5 invalid requests, 20/20 good, p50 5.2 ms, p95 8.7 ms, one identity. The Cloud Run
 baseline is recorded before the Lab 8 incident, on the same revision as the incident.
 
+## Final held-test evaluation (Week 5)
+
+The test rows (2012-07-01 to 2012-12-31, 4,376 rows) are evaluated **once**, for the release
+candidate only, and the result goes into Release v1.0.0 whatever it is.
+
+- Plan: [`configs/final-evaluation.yaml`](configs/final-evaluation.yaml), merged before the run:
+  release candidate (`baseline`, `d24c050e…`, the only accepted version), data, metric (test MAE,
+  plus the naive train-mean MAE and the finite / non-negative check), rules, and the expectation
+  written in advance.
+- Script: `bike_demand.final_evaluation`. It refuses if the record already exists, if the tree or
+  the plan is not committed, or if the accepted model, the data or the version differ from the
+  plan; it recomputes the validation MAE and stops **before using the test rows** if it does
+  not reproduce `86.84685685591091`; then it evaluates once and writes
+  `logs/week-05/final-evaluation.json` with an exclusive create.
+- Tests (`pytest -m final`) use a synthetic frame; they never read the real test labels.
+
+Who and when: Simon runs it once on macOS, from a clean, fetched checkout of `main`, and commits the
+record through a PR the same day. The script also refuses if `HEAD` is not on `origin/main` or if the
+record is already on `origin/main` (so a second clone cannot run it again). On Windows, run the same
+commands inside the project image instead (as for the Lab 7 challenge): bootstrap reproduces
+`d24c050e…` there, not natively.
+
+```bash
+git checkout main && git pull && git status    # clean, up to date
+export BIKE_REGISTRY=/tmp/final-registry
+uv run --locked python -m bike_demand.pipeline bootstrap
+uv run --locked python -m bike_demand.final_evaluation
+```
+
+Then commit the record through a reviewed PR; no model, feature or setting changes after it.
+
 
 ---
 
