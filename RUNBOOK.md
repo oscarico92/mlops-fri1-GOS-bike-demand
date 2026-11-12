@@ -153,6 +153,16 @@ Before committing a Cloud Logging export, remove personal data, then say so in t
 Check before committing: `grep -rE '"(remoteIp|callerIp|principalEmail|principalSubject)"' logs/lab-08/` must show only redacted
 values or runner and service-account addresses.
 
+That check looks for field names only; an e-mail can also sit in other fields (`serving.knative.dev/lastModifier`
+in `service.json`, the "DEPLOYED BY" column of `gcloud run revisions list`, audit request bodies). So also look for
+the values, which must return nothing:
+
+```bash
+grep -rnoE '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[a-z]{2,}' logs/ | grep -vE 'gserviceaccount\.com|users\.noreply\.github\.com'
+```
+
+Service accounts (`…@…gserviceaccount.com`) and GitHub no-reply addresses are not personal data.
+
 Save the outputs of the first checks too (`curl` of section 2): a check that is not in a file
 cannot be quoted as the first signal later.
 
