@@ -109,7 +109,7 @@ def test_evaluation_reports_the_declared_numbers():
 
 def test_a_validation_mismatch_stops_before_the_test_rows():
     frame, model = synthetic_frame(), Constant()
-    with pytest.raises(ValueError, match="stopped before reading the test rows"):
+    with pytest.raises(ValueError, match="stopped before using the test rows"):
         fe.evaluate(frame, model, synthetic_plan(frame, model_mae=1.0))
     assert len(model.calls) == 1  # validation only, never the test rows
 
@@ -162,3 +162,21 @@ def test_plan_matches_the_committed_references():
     assert len(parts["test"]) == p["data"]["test"]["rows"]
     assert str(parts["test"]["dteday"].min().date()) == p["data"]["test"]["date_min"]
     assert str(parts["test"]["dteday"].max().date()) == p["data"]["test"]["date_max"]
+
+
+def test_preconditions_read_origin_main(monkeypatch):
+    """A record already on origin/main, or a HEAD outside main, is refused."""
+
+    def fake_git(*args):
+        if args[0] == "cat-file":
+            return ""  # the record exists on origin/main
+        if args[0] == "merge-base":
+            return "unavailable"  # HEAD is not an ancestor of origin/main
+        return "tracked"
+
+    monkeypatch.setattr(pipeline, "git", fake_git)
+    monkeypatch.setattr(pipeline, "code_tree_dirty", lambda: False)
+    monkeypatch.setattr(pipeline, "read_current", lambda root: {"version": "baseline"})
+    problems = fe.preconditions(plan())
+    assert any("already on origin/main" in p for p in problems)
+    assert any("not on origin/main" in p for p in problems)

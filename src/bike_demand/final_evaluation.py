@@ -6,8 +6,8 @@
 The plan (configs/final-evaluation.yaml) is merged before the run. The script:
 1. refuses if the record already exists, if the code tree or the plan is not committed, or if
    the accepted model, the data or the plan's release candidate do not match;
-2. recomputes the validation MAE and stops if it differs from the plan, before any test label
-   is read;
+2. recomputes the validation MAE and stops if it differs from the plan, before any test row is
+   used (load_data reads the whole CSV; the test labels are only used after this check);
 3. evaluates the test rows once and writes the record with an exclusive create, then prints it.
 
 Nothing is printed about the test rows unless the record was written. Exit 0 done, 1 refused.
@@ -53,7 +53,7 @@ def evaluate(frame: pd.DataFrame, model, plan: dict) -> dict:
     if abs(validation_mae - checks["validation_mae"]) > checks["tolerance"]:
         raise ValueError(
             f"validation MAE {validation_mae!r} does not reproduce the plan's "
-            f"{checks['validation_mae']!r}: stopped before reading the test rows"
+            f"{checks['validation_mae']!r}: stopped before using the test rows"
         )
     expected_test = plan["data"]["test"]
     if summary["test"] != {
@@ -89,6 +89,15 @@ def preconditions(plan: dict) -> list[str]:
     for path in COMMITTED:
         if pipeline.git("ls-files", "--", str(path)) in ("", "unavailable"):
             problems.append(f"{path} is not committed")
+    # "Once" across clones and "from main": both read origin/main (run `git fetch` first).
+    if pipeline.git("cat-file", "-e", f"origin/main:{RECORD.as_posix()}") == "":
+        problems.append(
+            f"{RECORD} is already on origin/main: the final evaluation already ran"
+        )
+    if pipeline.git("merge-base", "--is-ancestor", "HEAD", "origin/main") != "":
+        problems.append(
+            "HEAD is not on origin/main (or origin/main is unknown): run from main"
+        )
     current = pipeline.read_current(pipeline.registry_root())
     candidate = plan["release_candidate"]
     if not current or current.get("version") != candidate["version"]:

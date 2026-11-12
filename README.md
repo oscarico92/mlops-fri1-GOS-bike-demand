@@ -604,15 +604,19 @@ candidate only, and the result goes into Release v1.0.0 whatever it is.
   written in advance.
 - Script: `bike_demand.final_evaluation`. It refuses if the record already exists, if the tree or
   the plan is not committed, or if the accepted model, the data or the version differ from the
-  plan; it recomputes the validation MAE and stops **before reading the test labels** if it does
+  plan; it recomputes the validation MAE and stops **before using the test rows** if it does
   not reproduce `86.84685685591091`; then it evaluates once and writes
   `logs/week-05/final-evaluation.json` with an exclusive create.
 - Tests (`pytest -m final`) use a synthetic frame; they never read the real test labels.
 
-Run once, from a clean checkout of `main` that contains the plan (macOS or Linux, where bootstrap
-reproduces `d24c050e…`):
+Who and when: Simon runs it once on macOS, from a clean, fetched checkout of `main`, and commits the
+record through a PR the same day. The script also refuses if `HEAD` is not on `origin/main` or if the
+record is already on `origin/main` (so a second clone cannot run it again). On Windows, run the same
+commands inside the project image instead (as for the Lab 7 challenge): bootstrap reproduces
+`d24c050e…` there, not natively.
 
 ```bash
+git checkout main && git pull && git status    # clean, up to date
 export BIKE_REGISTRY=/tmp/final-registry
 uv run --locked python -m bike_demand.pipeline bootstrap
 uv run --locked python -m bike_demand.final_evaluation

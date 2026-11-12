@@ -16,7 +16,7 @@ data:
     date_min: "2012-07-01"
     date_max: "2012-12-31"
 
-# Checked before any test label is read; a mismatch stops the run with nothing evaluated.
+# Checked before any test row is used (the CSV is read whole); a mismatch stops the run with nothing evaluated.
 checks_before_test:
   validation_rows: 4358
   validation_mae: 86.84685685591091
