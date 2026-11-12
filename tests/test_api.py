@@ -251,3 +251,31 @@ def test_unhandled_error_is_logged_as_500(
         assert client_no_raise.post("/predict", json=VALID).status_code == 500
     line = json.loads(access_lines[-1])
     assert (line["status"], line["outcome"]) == (500, "server_error")
+
+
+def test_version_reports_the_identity(tmp_path, client_for, monkeypatch):
+    monkeypatch.setenv(api.CODE_REVISION_ENV, "abc1234")
+    directory = write_model(tmp_path / "model", "baseline-ver0001")
+    with client_for(directory) as client:
+        response = client.get("/version")
+    assert response.status_code == 200
+    body = response.json()
+    assert body == {
+        "code_revision": "abc1234",
+        "model_loaded": True,
+        "model_version": "baseline-ver0001",
+        "model_sha256": sha256(directory / "model.joblib"),
+    }
+
+
+def test_version_answers_without_a_model(tmp_path, client_for, monkeypatch):
+    monkeypatch.setenv(api.CODE_REVISION_ENV, "abc1234")
+    with client_for(tmp_path / "empty") as client:
+        response = client.get("/version")
+    assert response.status_code == 200
+    assert response.json() == {
+        "code_revision": "abc1234",
+        "model_loaded": False,
+        "model_version": None,
+        "model_sha256": None,
+    }

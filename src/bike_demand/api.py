@@ -229,6 +229,18 @@ def health():
     }
 
 
+@app.get("/version")
+def version():
+    """Identity of what runs, always 200: /health says whether it is ready, this says what it is."""
+    loaded = state["loaded"]
+    return {
+        "code_revision": os.environ.get(CODE_REVISION_ENV, "unknown"),
+        "model_loaded": loaded is not None,
+        "model_version": loaded["model_version"] if loaded else None,
+        "model_sha256": loaded["model_sha256"] if loaded else None,
+    }
+
+
 @app.post("/predict")
 def predict(request: PredictRequest) -> PredictResponse:
     loaded = require_model()
