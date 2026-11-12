@@ -17,6 +17,9 @@ final merge and deploy, from the runs named next to them.
 | Cloud Run | service `gos-bike-demand`, region `europe-west1`, revision TO FILL, 100 % of the traffic | same file |
 
 The model SHA-256 is the identity; `model_version` changes with every image build (same bytes).
+`code_revision` in `/version` and `/health` comes from the `GIT_COMMIT` environment variable, which `docker run -e` or a
+Cloud Run variable can change; the image digest and its `org.opencontainers.image.revision` label identify the commit,
+`/version` only reports it (RUNBOOK section 3).
 
 ## Final evaluation (held test, run once)
 
