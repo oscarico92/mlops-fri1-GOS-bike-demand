@@ -125,6 +125,7 @@ result in one model-availability state shared by both endpoints.
 | Endpoint | Answer |
 | --- | --- |
 | `GET /health` | `200` with `status`, `model_version`, `model_sha256` when a usable model is loaded; otherwise `503` with the reason |
+| `GET /version` | always `200`: `code_revision`, `model_loaded`, `model_version`, `model_sha256` (`null` without a model). Identity of what runs; readiness stays on `/health` (Week 5 release) |
 | `POST /predict` | `200` with `prediction` (finite, non-negative rentals/hour) and `model_version`; `422` for invalid input; `503` for valid input without a model |
 
 `model_version` is read from `model-metadata.json`, never hard-coded.
